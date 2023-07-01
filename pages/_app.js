@@ -10,6 +10,9 @@ import NextNprogress from 'nextjs-progressbar';
 import "@fontsource/karla"
 import "@fontsource/acme"
 import {Playback} from "../components/Playback/Playback";
+import {ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.min.css';
+
 
 
 function MyApp({Component, pageProps: {session , ...pageProps}}) {
@@ -31,10 +34,10 @@ function MyApp({Component, pageProps: {session , ...pageProps}}) {
 
                     <ChakraProvider theme={customTheme}>
                         <ColorModeProvider options={{initialColorMode: "dark", useSystemColorMode: false}}>
-                            <Layout>
-                                <Component {...pageProps} />
-                                {router.pathname !== "/login_signup" && router.pathname !== "/pickFavouriteArtists" && <Playback/>}
-                            </Layout>
+                                <Layout>
+                                    <Component {...pageProps} />
+                                    {router.pathname !== "/auth" && router.pathname !== "/login_signup" && router.pathname !== "/pickFavouriteArtists" && <Playback/>}
+                                </Layout>
                         </ColorModeProvider>
                     </ChakraProvider>
                 </main>

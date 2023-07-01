@@ -11,7 +11,7 @@ export const Main = ({ user }) => {
       <VStack spacing={{sm : 10 , md : 5}}>
         <SelectGenre />
         <NewReleasesAlbums />
-        <FavouriteArtists user={user} />
+        {/*<FavouriteArtists user={user} />*/}
         <Suggested />
       </VStack>
     </Box>

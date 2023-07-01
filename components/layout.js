@@ -4,6 +4,7 @@ import {useRecoilValue} from "recoil";
 import {SELECT_GENRE} from "../atoms/atoms";
 import Image from "next/image";
 import {motion} from "framer-motion";
+import {ToastContainer} from "react-toastify";
 
 const genreWall = {
 
@@ -76,6 +77,7 @@ export default function Layout({children}) {
 
                 <Flex w={"full"} zIndex={2}>
                     <Box flex={10}>
+                        <ToastContainer position="top-center" closeButton={true}/>
                         {children}
                     </Box>
                 </Flex>

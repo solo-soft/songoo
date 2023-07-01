@@ -24,25 +24,23 @@ import {useUser} from "@supabase/auth-helpers-react";
 export default function Home({fallback, user, SSR_GET_SUBSCRIBED_LIST, FAVOURITE_ARTISTS}) {
 
 
-    console.log(user)
-
     const router = useRouter()
 
     const [favouriteList,] = useState(_.size(FAVOURITE_ARTISTS?.[0]?.list))
+    //
+    //
+    // if (favouriteList < 10) {
+    //     return (
+    //
+    //         <VStack w={"full"} h={"100vh"} justifyContent={"center"} alignItems={"center"}>
+    //             <Button size={"lg"} onClick={() => router.push("/pickFavouriteArtists")}>Please pickup some artists
+    //                 first </Button>
+    //         </VStack>
+    //
+    //     )
+    // }
 
-
-    if (favouriteList < 10) {
-        return (
-
-            <VStack w={"full"} h={"100vh"} justifyContent={"center"} alignItems={"center"}>
-                <Button size={"lg"} onClick={() => router.push("/pickFavouriteArtists")}>Please pickup some artists
-                    first </Button>
-            </VStack>
-
-        )
-    }
-
-    if (favouriteList >= 10) {
+    // if (favouriteList >= 10) {
         return (
             <>
                 <Head>
@@ -88,28 +86,28 @@ export default function Home({fallback, user, SSR_GET_SUBSCRIBED_LIST, FAVOURITE
                 </ApolloProvider>
             </>
         )
-    }
+    // }
 }
 
 
 export const getServerSideProps = async ({req, res}) => {
 
-    const supabaseServerClient = createServerSupabaseClient({req, res}, {
-        supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL,
-        supabaseKey: process.env.NEXT_PUBLIC_SUPABASE_KEY
-    })
-
-    // const {data: {user}} = await supabaseServerClient.auth.getUser()
-
-    const {data: { session : {user} }} = await supabaseServerClient.auth.getSession()
-
-    if (!user)
-        return {
-            redirect: {
-                destination: '/login_signup',
-                permanent: false,
-            },
-        }
+    // const supabaseServerClient = createServerSupabaseClient({req, res}, {
+    //     supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL,
+    //     supabaseKey: process.env.NEXT_PUBLIC_SUPABASE_KEY
+    // })
+    //
+    // // const {data: {user}} = await supabaseServerClient.auth.getUser()
+    //
+    // const {data: { session : {user} }} = await supabaseServerClient.auth.getSession()
+    //
+    // if (!user)
+    //     return {
+    //         redirect: {
+    //             destination: '/login_signup',
+    //             permanent: false,
+    //         },
+    //     }
 
 
     const GET_RECENTLY_PLAYED_TRACK = await getRandomPlayed()
@@ -120,28 +118,28 @@ export const getServerSideProps = async ({req, res}) => {
 
     const GET_SEARCH_CATEGORIES = await getSeveralCategories()
 
-    const GET_FAVORITE_ARTISTS = await getFavouriteArtists(user.id)
+    // const GET_FAVORITE_ARTISTS = await getFavouriteArtists(user.id)
+    //
+    // const {data: {GET_SUBSCRIBED_LIST}} = await DataBaseClient.query({
+    //     query: getSubscribeQuery,
+    //     variables: {userId: user.id},
+    // })
 
-    const {data: {GET_SUBSCRIBED_LIST}} = await DataBaseClient.query({
-        query: getSubscribeQuery,
-        variables: {userId: user.id},
-    })
-
-    let {data: FAVOURITE_ARTISTS, error} = await supabase
-        .from('FAVOURITE_ARTISTS')
-        .select('list').eq("id", user.id)
+    // let {data: FAVOURITE_ARTISTS, error} = await supabase
+    //     .from('FAVOURITE_ARTISTS')
+    //     .select('list').eq("id", user.id)
 
     return {
         props: {
-            user,
-            SSR_GET_SUBSCRIBED_LIST: GET_SUBSCRIBED_LIST,
-            FAVOURITE_ARTISTS,
+            // user,
+            // SSR_GET_SUBSCRIBED_LIST: GET_SUBSCRIBED_LIST,
+            // FAVOURITE_ARTISTS,
             fallback: {
                 "GET_RANDOM_PLAYED": GET_RECENTLY_PLAYED_TRACK,
                 "GET_SEARCH_CATEGORIES": GET_SEARCH_CATEGORIES,
                 [unstable_serialize(['api', 'GET_NEW_RELEASES', 'pop', 0])]: GET_NEW_RELEASES,
                 [unstable_serialize(["api", "GET_RANDOM_ARTISTS", 0, "a"])]: GET_RANDOM_ARTISTS_LIST,
-                [unstable_serialize(['api', 'GET_FAVORITE_ARTISTS', user.id])]: GET_FAVORITE_ARTISTS,
+                // [unstable_serialize(['api', 'GET_FAVORITE_ARTISTS', user.id])]: GET_FAVORITE_ARTISTS,
             },
         },
     }
