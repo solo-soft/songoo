@@ -5,7 +5,7 @@ import {useAnimate} from "framer-motion";
 import {z} from "zod"
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import notification from "../utils/notification";
+import notification from "../lib/notification";
 import {toast} from "react-toastify";
 import Login from "../components/Auth/Login";
 

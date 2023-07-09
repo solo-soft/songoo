@@ -1,12 +1,12 @@
 /** @type {import('next').NextConfig} */
 
-const withPWA = require('next-pwa')({
-    dest: 'public',
-    disable: process.env.NODE_ENV === 'development',
-    scope: "/"
-})
+// const withPWA = require('next-pwa')({
+//     dest: 'public',
+//     disable: process.env.NODE_ENV === 'development',
+//     scope: "/"
+// })
 
-module.exports = withPWA({
+module.exports = {
     reactStrictMode: true,
     swcMinify: true,
     images: {
@@ -15,4 +15,4 @@ module.exports = withPWA({
     eslint: {
         ignoreDuringBuilds: true
     }
-})
+}

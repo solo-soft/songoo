@@ -1,8 +1,6 @@
 import {gql} from "@apollo/client";
 import {client} from "../../client/client";
 
-import _ from 'lodash'
-
 
 export const getRandomArtists = async (currentPage , alphabet ) =>
 {

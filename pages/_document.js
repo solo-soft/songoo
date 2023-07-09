@@ -23,8 +23,6 @@ export default function Document() {
                 <link rel="icon" type="image/png" sizes="16x16" href="/icon-192x192.png" />
 
                 <link rel="manifest" href="/manifest.json" />
-
-                <title>Solo Area</title>
             </Head>
             <body>
             <Main />

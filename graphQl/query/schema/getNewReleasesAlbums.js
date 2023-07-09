@@ -1,8 +1,8 @@
 import {gql} from "@apollo/client";
-import {client} from "../../client/client";
 
 
-export const getNewReleasesAlbums =  async (genre = 'pop' , currentPage = 0) =>
+
+export const getNewReleasesAlbums =  async (genre = 'pop' , currentPage = 0 , client) =>
 {
     const apolloClient = await client;
 

@@ -15,10 +15,8 @@ export const getSeveralCategories = async () =>
                    }
                }
            }
-       }  
-    
+       }
     `
-
 
     const apolloClient = await client
 

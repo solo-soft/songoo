@@ -5,7 +5,7 @@ import {z} from "zod";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {toast} from "react-toastify";
-import notification from "../../utils/notification";
+import notification from "../../lib/notification";
 import {useRouter} from "next/router";
 
 

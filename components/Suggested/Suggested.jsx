@@ -1,7 +1,7 @@
 import useSWR from "swr";
 import {Flex, Stack, Grid} from "@chakra-ui/react";
 import {useRouter} from "next/router";
-import {getRandomPlayed} from "../../graphQl/query/api/getRandomPlayed";
+import {getRandomPlayed} from "../../graphQl/query/schema/getRandomPlayed";
 import {ScrollContainer} from "react-indiana-drag-scroll";
 import Title from "./Title";
 import Songs from "./Songs";

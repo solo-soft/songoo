@@ -1,7 +1,7 @@
 import {slide as Menu} from "react-burger-menu";
 import {Sidebar} from "../Sidebar/Sidebar";
 import {useRecoilState, useRecoilValue} from "recoil";
-import {HAMBURGER_MENU} from "../../atoms/atoms";
+import {HAMBURGER_MENU} from "../../recoil/atoms/atoms";
 import {style} from "./style";
 
 

@@ -3,7 +3,7 @@ import {IconButton, HStack, Text} from "@chakra-ui/react";
 import {Searchbar} from "../Searchbar/Searchbar";
 import {Account} from "./Account";
 import Greetings from "./Greetings";
-import {HAMBURGER_MENU} from "../../atoms/atoms";
+import {HAMBURGER_MENU} from "../../recoil/atoms/atoms";
 import {useSetRecoilState} from "recoil";
 import {FiMenu} from "react-icons/fi"
 

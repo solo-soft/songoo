@@ -5,14 +5,14 @@ import _ from "lodash";
 import {useSupabaseClient, useUser} from "@supabase/auth-helpers-react";
 import {useRouter} from "next/router";
 import useSWR from "swr";
-import {getSeveralArtistsForPickup} from "../graphQl/query/api/getSeveralArtistsForPickup";
+import {getSeveralArtistsForPickup} from "../graphQl/query/schema/getSeveralArtistsForPickup";
 import {Swiper, SwiperSlide} from "swiper/react";
 import {EffectCards} from "swiper";
 import "swiper/css";
 import "swiper/css/effect-cards";
 import {BsHeart, BsHeartFill} from "react-icons/bs";
 import {useRecoilState} from "recoil";
-import {PICK_ARTISTS} from "../atoms/atoms";
+import {PICK_ARTISTS} from "../recoil/atoms/atoms";
 
 
 export const PickFavouriteArtists = () => {

@@ -1,9 +1,8 @@
 export const FETCH_ACCESS_TOKEN = async () =>
 {
-    //?GET ACCESS TOKEN BY REFRESH TOKEN (WHEN EXPIRED ACCESS TOKEN)
-    const refresh_token = process.env.NEXT_PUBLIC_SPOTIFY_REFRESH_TOKEN
 
     try {
+
         const response = await fetch("https://accounts.spotify.com/api/token", {
             method: "POST",
             headers: {
@@ -13,16 +12,17 @@ export const FETCH_ACCESS_TOKEN = async () =>
                 "Content-Type": "application/x-www-form-urlencoded",
             },
             body: new URLSearchParams({
-                grant_type: "refresh_token",
-                refresh_token,
+                grant_type: "client_credentials",
             }),
         })
 
-        const data = await response.json();
-        return data.access_token;
+        const data : {access_token : string} = await response.json()
+
+
+        return {token : data.access_token }
     }
     catch (e) {
-        console.log('access token error')
+        console.log("token / fetch access token is failed!")
     }
 
 }

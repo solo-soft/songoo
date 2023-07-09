@@ -2,7 +2,7 @@ import {AbsoluteCenter, Box, HStack, Icon, Text, VStack} from "@chakra-ui/react"
 import Image from "next/image";
 import prettyMilliseconds from "pretty-ms";
 import {useSetRecoilState} from "recoil";
-import {SPOTIFY_TRACKS_ID_ATOM} from "../../atoms/atoms";
+import {SPOTIFY_TRACKS_ID_ATOM} from "../../recoil/atoms/atoms";
 import {CgPlayButtonO} from "react-icons/cg";
 
 const Popular = ({getArtistTopTracks}) => {

@@ -3,7 +3,7 @@ import {Button, Flex, HStack, Text , Stack} from "@chakra-ui/react";
 import {RiHome6Line, RiMusicFill} from "react-icons/ri";
 import {useRouter} from "next/router";
 import {useSetRecoilState} from "recoil";
-import {HAMBURGER_MENU} from "../../atoms/atoms";
+import {HAMBURGER_MENU} from "../../recoil/atoms/atoms";
 
 
 

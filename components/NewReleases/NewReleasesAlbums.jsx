@@ -4,11 +4,11 @@ import {
     Grid,
     Stack,
 } from "@chakra-ui/react";
-import {SELECT_GENRE} from "../../atoms/atoms";
+import {SELECT_GENRE} from "../../recoil/atoms/atoms";
 import {useRecoilValue} from "recoil";
 import {useState} from "react";
 import {motion} from "framer-motion";
-import {getNewReleasesAlbums} from "../../graphQl/query/api/getNewReleasesAlbums";
+import {getNewReleasesAlbums} from "../../graphQl/query/schema/getNewReleasesAlbums";
 import {ScrollContainer} from "react-indiana-drag-scroll";
 import useSWR from "swr";
 import Pagination from "./pagination";
@@ -21,6 +21,7 @@ export const NewReleasesAlbums = () => {
 
     const getGenre = useRecoilValue(SELECT_GENRE);
     const [currentPage, setCurrentPage] = useState(0);
+
     const {data: {newReleases: {albums: {items: newReleaseLists} = []} = {}} = {}} = useSWR(["api", "GET_NEW_RELEASES", getGenre, currentPage],
         async (key, ip, getGenre, currentPage) =>
             await getNewReleasesAlbums(getGenre, currentPage),

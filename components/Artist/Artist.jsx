@@ -2,7 +2,7 @@ import {Box} from "@chakra-ui/react";
 import {useEffect, useState} from "react";
 import {useRouter} from "next/router";
 import useSWR from "swr";
-import {getArtistInformation} from "../../graphQl/query/api/getArtistInformation";
+import {getArtistInformation} from "../../graphQl/query/schema/getArtistInformation";
 import Header from "./Header";
 import Popular from "./Popular";
 import MoreAlbums from "./MoreAlbums";

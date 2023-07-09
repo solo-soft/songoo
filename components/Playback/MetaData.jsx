@@ -1,7 +1,7 @@
 import {Skeleton, SkeletonText, Stack, Text, VStack} from "@chakra-ui/react";
 import Image from "next/image";
 import {useRecoilValue} from "recoil";
-import {SPOTIFY_TRACKS_ID_ATOM} from "../../atoms/atoms";
+import {SPOTIFY_TRACKS_ID_ATOM} from "../../recoil/atoms/atoms";
 
 const MetaData = () => {
     const trackInfo = useRecoilValue(SPOTIFY_TRACKS_ID_ATOM);

@@ -1,5 +1,5 @@
 import {PickFavouriteArtists} from "../components/PickFavouriteArtists";
-import {getSeveralArtistsForPickup} from "../graphQl/query/api/getSeveralArtistsForPickup";
+import {getSeveralArtistsForPickup} from "../graphQl/query/schema/getSeveralArtistsForPickup";
 import {SWRConfig} from "swr";
 import {Box, Text} from "@chakra-ui/react";
 import Image from "next/image";

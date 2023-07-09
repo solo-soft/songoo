@@ -3,7 +3,7 @@ import {Box} from "@chakra-ui/react";
 import {useRouter} from "next/router";
 import Image from "next/image";
 import {useSetRecoilState} from "recoil";
-import {HAMBURGER_MENU} from "../../../atoms/atoms";
+import {HAMBURGER_MENU} from "../../../recoil/atoms/atoms";
 
 const ItemsImages = ({artists}) => {
 

@@ -12,7 +12,7 @@ export const Main = ({ user }) => {
         <SelectGenre />
         <NewReleasesAlbums />
         {/*<FavouriteArtists user={user} />*/}
-        <Suggested />
+        {/*<Suggested />*/}
       </VStack>
     </Box>
   );

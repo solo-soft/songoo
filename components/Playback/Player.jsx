@@ -7,7 +7,7 @@ import {BiVolume, BiVolumeFull} from "react-icons/bi";
 import {TbRepeat, TbRepeatOff} from "react-icons/tb";
 import {RiDownload2Fill, RiHeart3Line} from "react-icons/ri";
 import {useRecoilValue} from "recoil";
-import {SPOTIFY_TRACKS_ID_ATOM} from "../../atoms/atoms";
+import {SPOTIFY_TRACKS_ID_ATOM} from "../../recoil/atoms/atoms";
 
 const Player = () => {
 

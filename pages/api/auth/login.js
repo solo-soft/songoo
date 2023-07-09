@@ -25,6 +25,8 @@ export default async function handler(req, res) {
             password
         })
 
+        console.log(data)
+
         if (error) {
             return res.status(400).json({message : "Email or Password is wrong"})
         }

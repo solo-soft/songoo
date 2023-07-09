@@ -74,10 +74,4 @@ export const getArtistInformation = async (artistId) =>
     {
         console.log(error)
     }
-
-
-    // return apolloClient.query({query , variables : {artistId}})
-    //     .then(async (res) => await res.data)
-    //     .catch(error => console.log(error))
-
 }
