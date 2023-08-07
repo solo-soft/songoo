@@ -48,11 +48,11 @@ const Directions = () => {
             <Button
                 justifyContent={"flex-start"}
                 onClick={() => {
-                    router.push("/pickFavouriteArtists")
+                    router.push("/singers")
                     setOpenHamburger(prev => !prev);
                 }}
                 leftIcon={<RiMusicFill color={"#989898"} />}
-                variant={router.pathname === "/pickFavouriteArtists" ? "solid" : "outline"}
+                variant={router.pathname === "/singers" ? "solid" : "outline"}
                 rounded={0}
                 colorScheme={"gray"}
                 size={"sm"}

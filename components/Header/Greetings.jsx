@@ -18,7 +18,7 @@ function Greetings() {
                 greetingText = 'Good evening';
                 break;
             default:
-                greetingText = 'good night';
+                greetingText = 'Good night';
         }
         setGreeting(greetingText);
 

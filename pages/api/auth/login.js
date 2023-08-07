@@ -1,6 +1,6 @@
 import {supabase} from "../../../supabase/createClient";
 import {sign} from "jsonwebtoken"
-import {serialize} from "cookie"
+import {serialize , parse} from "cookie"
 
 
 
@@ -20,29 +20,32 @@ export default async function handler(req, res) {
     if (!email && !password) return res.status(400).json({message: "email or password issue!"})
 
     try {
+
         let {data, error} = await supabase.auth.signInWithPassword({
             email,
             password
         })
 
-        console.log(data)
 
         if (error) {
             return res.status(400).json({message : "Email or Password is wrong"})
         }
 
+
         try {
-            const token = sign({email : data.user.email} , process.env.SECRET_KEY , {expiresIn : 10800000})
+            const token = sign({email : data.user.email , id : data.user.id } , process.env.SECRET_KEY , {expiresIn : 10800000})
 
             const cookie = serialize("appToken" , token , {
                 maxAge : 10800000, // 3 hours
                 httpOnly : true,
-                path : "/"
+                path : "/",
+                static : true
             })
             res.setHeader("Set-Cookie" , cookie)
         }
         catch (e) {
             console.log(e)
+            return res.status(400).json({message : "Login process have some issue!"})
         }
 
         return res.status(200).json({message : `Welcome back ${data.user.email}`})
@@ -51,6 +54,4 @@ export default async function handler(req, res) {
         console.log(e)
         return res.status(400).json({message : "Login process have some issue!"})
     }
-
-
 }

@@ -118,8 +118,12 @@ export const singersUS = [
     "Norah Jones"
 ];
 
-const shuffledSingersUS: string[] = _.shuffle(singersUS);
+const sortedSingersUS: string[] = _.sortBy(singersUS);
+
+const shuffledSingersUS: string[] = _.shuffle(sortedSingersUS);
 export const randomSingerUS : String | undefined = _.sample(shuffledSingersUS);
+
+console.log(randomSingerUS)
 
 export const singersIR = [
     "Googoosh",

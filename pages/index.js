@@ -1,32 +1,57 @@
 import {SWRConfig, unstable_serialize} from "swr";
-import {ApolloClient, ApolloLink, ApolloProvider, InMemoryCache} from "@apollo/client";
+import {ApolloProvider} from "@apollo/client";
 import {DataBaseClient} from "../graphQl/client/client";
 import Head from "next/head";
-import {redirect} from "next/navigation";
 import getIdArtistByName from "../graphQl/query/schema/getIdArtistByName";
-import {apolloClient} from "../utils/apolloClients";
-import Parent from "../components/Parent";
-import {NextResponse} from "next/server";
-import {getArtistInformation} from "../graphQl/query/schema/getArtistInformation";
+import Suggest from "../components/Suggest/Suggest";
 import getArtistInfoById from "../graphQl/query/schema/getArtistInfoById";
-import {randomSingerUS, randomSingerIR} from "../utils/randomBestArtists";
-import {Suspense} from "react";
-import {ErrorBoundary} from "next/dist/client/components/error-boundary";
-import {suggestionKey} from "../swr/keys";
+import {randomSingerIR, randomSingerUS} from "../utils/randomBestArtists";
+import Feeling from "../components/Feeling/Feeling";
+import Video from "../components/Video/Video";
+import {useEffect} from "react";
+import {YOUTUBE_SINGER} from "../recoil/atoms/atoms";
+import {useSetRecoilState} from "recoil";
+import {useSession} from "@supabase/auth-helpers-react";
+import {supabase} from "../supabase/createClient";
+import {useAsync} from "react-use";
+import {verify} from "jsonwebtoken";
+import fetchUserSession from "../utils/fetchUserSession";
+import {Button} from "@chakra-ui/react";
+import {useRouter} from "next/router";
+import {Main} from "../components/main";
 
-export default function Home({fallback}) {
+
+
+
+export default function Home({fallback , ActionErrors , randomSingerUS}) {
+
+    const setDefaultSinger = useSetRecoilState(YOUTUBE_SINGER)
+
+    const router = useRouter()
+
+    useEffect(() => {
+        setDefaultSinger(randomSingerUS)
+    } , [])
+
+    if (ActionErrors)
+    {
+        return <div>
+            {ActionErrors.message}
+
+            <Button onClick={() => router.push("/")}>Refresh</Button>
+        </div>
+    }
 
 
     return (
         <>
             <Head>
-                <title>Home</title>
+                <title>Songoo</title>
             </Head>
 
             <ApolloProvider client={DataBaseClient}>
                 <SWRConfig value={{fallback}}>
-
-                    <Parent/>
+                 <Main randomSingerUS={randomSingerUS}/>
                 </SWRConfig>
             </ApolloProvider>
         </>
@@ -35,12 +60,17 @@ export default function Home({fallback}) {
 }
 
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async ({req}) => {
+
+    const t = true
+
+    const render = t ? randomSingerUS : randomSingerIR
+
 
     try {
 
+        const findArtistsId = await getIdArtistByName(render)
 
-        const findArtistsId = await getIdArtistByName(randomSingerUS)
 
         if (!findArtistsId) throw new Error("find id have issue")
 
@@ -49,36 +79,45 @@ export const getStaticProps = async () => {
         const artistId = items[0].id
 
 
+
         const getArtist = await getArtistInfoById(artistId)
-
-        console.log(getArtist)
-
         if (!getArtist) throw new Error("find artists have issue")
+
+
+
+        //GET USER SESSION
+        const session =  fetchUserSession(req)
+
+        console.log(session)
+
+
+
 
 
         return {
             props: {
                 fallback: {
-                    "/query/artists/findId": findArtistsId,
+                    "/api/getUserSession" : session ,
                     [unstable_serialize(["query", "/query/artists/getArtist", undefined])]: getArtist
                 },
+                randomSingerUS,
             },
-            revalidate: 60
         }
-    } catch (e) {
+    }
+
+
+
+    catch (e) {
 
         console.log("GET ID BY NAME ARTIST QUERY HAVE ISSUE!" + e)
 
         return {
             props: {
-                fallback: {},
+                ActionErrors : {message : "Internet maybe have errors!"}
             },
-            revalidate: 60
         }
 
     }
-
-
 }
 
 

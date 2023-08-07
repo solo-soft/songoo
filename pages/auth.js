@@ -8,14 +8,18 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import notification from "../lib/notification";
 import {toast} from "react-toastify";
 import Login from "../components/Auth/Login";
+import {NextRequest} from "next/server";
+import {verify} from "jsonwebtoken";
 
 
-const Auth = () => {
+
+const Auth = ({userInfo}) => {
 
     const [error, setError] = useState(false)
     const [login, setLogin] = useState(false)
     const [status, setStatus] = useState(false)
 
+    console.log(userInfo)
 
     const zodSignup = z.object({
         email: z.string()
@@ -54,7 +58,6 @@ const Auth = () => {
 
     const setUserInfo = async (data) => {
 
-
         const signupToast = toast.loading("Please wait...")
         setStatus(true)
 
@@ -82,7 +85,6 @@ const Auth = () => {
             notification(signupToast, e, "error")
             console.log(e)
         }
-
 
     }
 
@@ -221,12 +223,6 @@ const Auth = () => {
 
             <Login login={login}/>
 
-
-
-
-
-
-
             <motion.div
                 initial={{x: login ? "-100%" : "100%"}}
                 animate={{x: login ? "-100%" : "0%"}}
@@ -258,3 +254,5 @@ const Auth = () => {
 };
 
 export default Auth;
+
+
