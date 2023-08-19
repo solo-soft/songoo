@@ -3,7 +3,7 @@ import {Button, Flex, HStack, Text , Stack} from "@chakra-ui/react";
 import {RiHome6Line, RiMusicFill} from "react-icons/ri";
 import {useRouter} from "next/router";
 import {useSetRecoilState} from "recoil";
-import {HAMBURGER_MENU} from "../../atoms/atoms";
+import {HAMBURGER_MENU} from "../../recoil/atoms/atoms";
 
 
 
@@ -48,11 +48,11 @@ const Directions = () => {
             <Button
                 justifyContent={"flex-start"}
                 onClick={() => {
-                    router.push("/pickFavouriteArtists")
+                    router.push("/singers")
                     setOpenHamburger(prev => !prev);
                 }}
                 leftIcon={<RiMusicFill color={"#989898"} />}
-                variant={router.pathname === "/pickFavouriteArtists" ? "solid" : "outline"}
+                variant={router.pathname === "/singers" ? "solid" : "outline"}
                 rounded={0}
                 colorScheme={"gray"}
                 size={"sm"}

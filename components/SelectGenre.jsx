@@ -1,6 +1,6 @@
 import {Button, HStack} from "@chakra-ui/react";
 import {useRecoilState} from "recoil";
-import {SELECT_GENRE} from "../atoms/atoms";
+import {SELECT_GENRE} from "../recoil/atoms/atoms";
 
 const genresList = [
   {

@@ -3,7 +3,7 @@ import Image from "next/image";
 import {CgPlayButtonO} from "react-icons/cg";
 import prettyMilliseconds from "pretty-ms";
 import {useSetRecoilState} from "recoil";
-import {SPOTIFY_TRACKS_ID_ATOM} from "../../atoms/atoms";
+import {SPOTIFY_TRACKS_ID_ATOM} from "../../recoil/atoms/atoms";
 
 
 const TopTenMusic = ({trackInfo : {duration_ms, name, id , preview_url , album: { artists, images }}}) => {

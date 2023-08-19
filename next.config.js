@@ -1,18 +1,22 @@
 /** @type {import('next').NextConfig} */
 
-const withPWA = require('next-pwa')({
-    dest: 'public',
-    disable: process.env.NODE_ENV === 'development',
-    scope: "/"
-})
-
-module.exports = withPWA({
+module.exports = {
     reactStrictMode: true,
     swcMinify: true,
     images: {
-        domains: ['i.scdn.co', 't.scdn.co', 'user-images.githubusercontent.com']
+        domains: [
+            "i.scdn.co",
+            "t.scdn.co",
+            "mosaic.scdn.co",
+            "thisis-images.scdn.co",
+            "images-ak.spotifycdn.com",
+            "user-images.githubusercontent.com",
+            "seed-mix-image.spotifycdn.com",
+            "daily-mix.scdn.co",
+            "i.ytimg.com",
+        ]
     },
     eslint: {
         ignoreDuringBuilds: true
     }
-})
+}

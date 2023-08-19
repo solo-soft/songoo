@@ -8,7 +8,7 @@ import Header from "./Header";
 import Empty from "./Empty";
 import DontHaveSubscribed from "../DontHaveSubscribed";
 import {useSetRecoilState} from "recoil";
-import {HAMBURGER_MENU} from "../../../atoms/atoms";
+import {HAMBURGER_MENU} from "../../../recoil/atoms/atoms";
 
 
 const Subscriptions = ({SSR_GET_SUBSCRIBED_LIST}) => {

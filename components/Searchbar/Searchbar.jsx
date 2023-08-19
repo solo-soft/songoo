@@ -16,7 +16,7 @@ import Songs from './Songs';
 import BrowseAll from './BrowseAll';
 import Loading from './Loading';
 import Header from "./Header";
-import {GetSearchResult} from "../../graphQl/query/api/getSearchResult";
+import {GetSearchResult} from "../../graphQl/query/schema/getSearchResult";
 import {RiSearchLine} from 'react-icons/ri';
 import {useDebounce} from 'react-use';
 

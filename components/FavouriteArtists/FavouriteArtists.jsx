@@ -1,7 +1,7 @@
 import {Grid, Stack, Flex} from "@chakra-ui/react";
 import {useEffect, useState} from "react";
 import {getFavouriteArtists} from "../../graphQl/query/database/getFavouriteArtists";
-import {getArtistInformation} from "../../graphQl/query/api/getArtistInformation";
+import {getArtistInformation} from "../../graphQl/query/schema/getArtistInformation";
 import {motion} from "framer-motion";
 import {ScrollContainer} from "react-indiana-drag-scroll";
 import useSWR from "swr";

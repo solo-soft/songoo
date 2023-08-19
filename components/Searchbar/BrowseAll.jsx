@@ -2,7 +2,7 @@ import React from "react";
 import { Grid, Stack, Text, VStack } from "@chakra-ui/react";
 import Image from "next/image";
 import useSWR from "swr";
-import { getSeveralCategories } from "../../graphQl/query/api/getSeveralCategories";
+import { getSeveralCategories } from "../../graphQl/query/schema/getSeveralCategories";
 
 const BrowseAll = () => {
 

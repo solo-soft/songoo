@@ -1,7 +1,7 @@
 import _ from "lodash";
 import {VStack} from "@chakra-ui/react";
 import useSWR from "swr";
-import {getRandomArtists} from "../../../graphQl/query/api/getRandomArtists";
+import {getRandomArtists} from "../../../graphQl/query/schema/getRandomArtists";
 import {useEffect, useState} from "react";
 import Pagination from "./Pagination";
 import Header from "./Header";
@@ -10,8 +10,9 @@ import Items from "./Items";
 
 const Suggestion = () => {
 
-    //* set random word for get random artists from spotify api
+    //* set random word for get random artists from spotify schema
     const [randomWord, setRandomWord] = useState("a")
+
     useEffect(() => {
         const alphabet = _.sampleSize("abcdefghijklmnopqrstuvwxyz", 1).join('');
         setRandomWord(alphabet)
@@ -25,7 +26,7 @@ const Suggestion = () => {
     };
     //*
 
-    //* get random artists from spotify api
+    //* get random artists from spotify schema
     const {
         data: {
             randomArtists: {
