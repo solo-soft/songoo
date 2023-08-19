@@ -1,12 +1,12 @@
 import {supabase} from "../createClient";
 
-export default async function deleteUserSubscriptions(subscribed) : Promise<any> {
+export default async function deleteUserSubscriptions(Tabel , Ids) : Promise<any> {
 
     try {
         const {data , error} = await supabase
-            .from('UserSubscriptions')
+            .from(Tabel)
             .delete()
-            .eq('id', subscribed.id)
+            .eq('id', Ids)
 
 
         if (error) throw new Error()

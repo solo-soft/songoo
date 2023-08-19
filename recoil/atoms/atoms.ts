@@ -1,6 +1,7 @@
 import {atom, RecoilState} from "recoil";
 import getIdArtistByName from "../../graphQl/query/schema/getIdArtistByName";
 import {randomSingerUS} from "../../utils/randomBestArtists"
+import {TCurrentSinger} from "./Type";
 
 
 export const SPOTIFY_TRACKS_ID_ATOM = atom({
@@ -67,13 +68,22 @@ export const YOUTUBE_SAVE_LIST: RecoilState<[] | saveList> = atom<[] | saveList>
 })
 
 
-export const CONTROL_PLAYBACK = atom({
+
+//?For the user panel of the subscription section
+
+export const CURRENT_SINGER : RecoilState<TCurrentSinger | {}> = atom({
     key : Math.random().toString(),
-    default : {
-        index : 0,
-        list : []
-    }
+    default : {}
 })
+
+//?Send the selected data to the create playlist modal
+export const SELECTED_THE_SONG_BY_USER = atom({
+    key : Math.random().toString(),
+    default : {}
+})
+
+
+
 
 export const IS_PLAYING = atom({
     key : Math.random().toString(),
@@ -90,10 +100,40 @@ export const PLAYBACK_REF = atom({
     default : undefined
 })
 
-export const CURRENT_SELECTED_MUSIC_ID = atom({
+
+
+export const PLAYBACK_INFORMATION = atom({
     key : Math.random().toString(),
-    default : undefined
+    default : {
+        indexOfSong : 0,
+        bunchOfSongs : []
+    }
 })
+
+export const PLAYBACK_INFORMATION_NEW = atom({
+    key : Math.random().toString(),
+    default : {
+        arrayOfSongs : [{}],
+        indexOfSongs : 0,
+        idsOfSongs : undefined,
+        elapsedTime : 0,
+        isPlaying : false,
+        audioRef : undefined
+    }
+})
+
+export const PLAYBACK_DYNAMIC_INDEX = atom({
+    key : Math.random().toString(),
+    default : 0
+})
+
+
+
+export const IS_OPEN_MODAL_CREATE_PLAYLIST = atom({
+    key : Math.random().toString(),
+    default : false
+})
+
 
 
 

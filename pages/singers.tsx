@@ -1,7 +1,7 @@
 import {Singers} from "../components/Singers";
 import {getSeveralArtistsForPickup} from "../graphQl/query/schema/getSeveralArtists";
 import {SWRConfig} from "swr";
-import fetchUserSession from "../utils/fetchUserSession";
+import verifyToken from "../utils/verifyToken";
 
 export default function singers({fallback}) {
     return (
@@ -13,7 +13,7 @@ export default function singers({fallback}) {
 
 export const getServerSideProps = async ({req}) => {
 
-    const session =  fetchUserSession(req)
+    const session =  verifyToken(req)
 
 
     const GET_SEVERAL_ARTISTS_FOR_PICKUP = await getSeveralArtistsForPickup()

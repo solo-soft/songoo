@@ -12,40 +12,49 @@ import {
   useUser,
 } from "@supabase/auth-helpers-react";
 
-import { useRouter } from "next/router";
+import {NextRouter, useRouter} from "next/router";
 import {RiSunFill} from "react-icons/ri"
 import {supabase} from "../../supabase/createClient";
+import useSWR from "swr";
 
 export const Account = () => {
 
   const {icons : {color : {sun}}} = useTheme()
 
-  const router = useRouter();
-  // const supabase = useSupabaseClient();
-  const user = useUser();
+    const {data : {user : session}} = useSWR("/api/getUserSession")
 
-  const singOut = async () => {
+  const router  = useRouter();
 
-    const { error } = await supabase.auth.signOut()
+  console.log(session)
 
-    if (error) {
 
-      console.log("Error signing out:", error.message);
+    const handelSignOut = async () => {
+      const res = await fetch("/api/auth/signout", {
+        method: "POST"
+      })
 
-    } else {
+      const data = await res.json()
 
-      console.log("Signed out successfully");
-      router.push("/auth");
+      console.log(data)
+
+      router.push("/")
     }
-  };
 
 
-  return (
+
+
+    return (
       <HStack spacing={3}>
         <VStack p={2} rounded={50} bg={"#252525"}>
           <Icon as={RiSunFill} color={sun} fontSize={25}/>
         </VStack>
-        <Avatar onClick={singOut} name={user?.email} size={{sm : "sm" , md : "md"}} />
+        {
+          session ?
+              <Button onClick={handelSignOut}>Sign out</Button>
+              :
+              <Button onClick={() => router.push("/auth")}>Login</Button>
+        }
+        <Avatar name={session?.email} size={{sm : "sm" , md : "md"}} />
       </HStack>
   );
 };

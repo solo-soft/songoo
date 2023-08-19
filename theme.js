@@ -123,7 +123,7 @@ export const customTheme = extendTheme({
                 secondary : "#252525"
             },
             two : {
-                primary: "#252525",
+                primary: "#000000",
                 secondary : "#D9D9D9"
             },
             three : {

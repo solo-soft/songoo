@@ -12,11 +12,9 @@ import {STATUS} from "../../recoil/atoms/atoms";
 import notification from "../../lib/notification";
 import {toast} from "react-toastify";
 import {useTheme} from "@chakra-ui/react";
-import fetchUserSession from "../../utils/fetchUserSession";
+import verifyToken from "../../utils/verifyToken";
 
 const Suggest = () => {
-
-    const {background: {section: {one: {primary}}}} = useTheme()
 
     const singerName = useRecoilValue<undefined | string>(ARTISTS_NAME);
 
@@ -63,7 +61,7 @@ const Suggest = () => {
 
 
     return (
-        <VStack bg={primary} justify="center" align="center" width="full" height="100vh">
+        <VStack justify="center" align="center" width="full" height="100vh">
             <HStack spacing={5}>
                 <Related related={related}/>
                 <Artist artist={artist}/>

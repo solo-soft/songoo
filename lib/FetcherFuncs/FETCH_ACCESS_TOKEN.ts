@@ -1,6 +1,5 @@
 export const FETCH_ACCESS_TOKEN = async () =>
 {
-
     try {
 
         const response = await fetch("https://accounts.spotify.com/api/token", {
@@ -24,5 +23,4 @@ export const FETCH_ACCESS_TOKEN = async () =>
     catch (e) {
         console.log("token / fetch access token is failed!")
     }
-
 }

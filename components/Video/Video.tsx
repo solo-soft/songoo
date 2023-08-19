@@ -1,17 +1,16 @@
 import React, {useState} from 'react';
 import {Grid, HStack, Icon, Image, Stack, Text, useTheme, VStack} from "@chakra-ui/react";
 import useSWR from "swr";
-import {useRecoilState, useRecoilValue} from "recoil";
-import {ARTISTS_NAME, YOUTUBE_SAVE_LIST} from "../../recoil/atoms/atoms";
+import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
+import {ARTISTS_NAME, YOUTUBE_SAVE_LIST, YOUTUBE_SINGER} from "../../recoil/atoms/atoms";
 import {toast} from "react-toastify";
 import getVideoByName from "../../graphQl/query/schema/getVideoByName";
 import {AiOutlineSave} from "react-icons/ai"
-import setUserVideoSaved from "../../supabase/inserts/setUserVideoSaved";
-import getUserVideoSaved from "../../supabase/reads/getUserVideoSaved";
-// Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/effect-cards';
+import getUserDataOnSupabase from "../../supabase/reads/getUserDataOnSupabase";
+import setUserDataOnSupabase from "../../supabase/inserts/setUserDataOnSupabase";
 
 
 type saveList = Array<{
@@ -32,8 +31,11 @@ interface IVideoInfo {
 }
 
 
-const Video = ({randomSingerUS}: { randomSingerUS: string }) => {
+const Video = () => {
 
+    const defaultSinger = useRecoilValue(YOUTUBE_SINGER);
+
+    console.log(defaultSinger)
 
     const {background: {section: {three: {primary}}}} = useTheme()
 
@@ -47,7 +49,7 @@ const Video = ({randomSingerUS}: { randomSingerUS: string }) => {
 
 
     const {data: youtubeMusicVideo} = useSWR(
-        ["/query/schema/getVideoByName", randomSingerUS, singerName],
+        ["/query/schema/getVideoByName", defaultSinger , singerName],
         ([_, randomSingerUS, singerName]) => getVideoByName(randomSingerUS, singerName),
         {
             refreshInterval: undefined,
@@ -70,7 +72,7 @@ const Video = ({randomSingerUS}: { randomSingerUS: string }) => {
 
     const {data, error, mutate}: { data: any, error: any, mutate: any } = useSWR(
         "/supabase/reads/getUserVideoSaved",
-        () => getUserVideoSaved(session))
+        () => getUserDataOnSupabase("UserVideoSaved", session))
 
 
     const handelOnClick = async (value: IVideoInfo) => {
@@ -86,7 +88,7 @@ const Video = ({randomSingerUS}: { randomSingerUS: string }) => {
         }
 
         try {
-            await mutate(setUserVideoSaved(videoInfo), {
+            await mutate(setUserDataOnSupabase("UserVideoSaved" , videoInfo), {
                 optimisticData: [...data, videoInfo],
                 rollbackOnError: true,
                 populateCache: false,
@@ -104,7 +106,7 @@ const Video = ({randomSingerUS}: { randomSingerUS: string }) => {
     return (
         <VStack p={5} h={"100vh"} m={"auto"} bg={"#410202"}>
             <Text fontSize={"4xl"} fontWeight={"bold"} w={"full"}>Watch some video
-                from {singerName || randomSingerUS}</Text>
+                from {defaultSinger}</Text>
             <HStack>
                 <Grid flex={saveVideoList.length ? 4 : "auto"} gap={5} h={"34rem"} templateColumns={"repeat(3,1fr)"}
                       maxW={"5xl"} m={"auto"} overflow={"auto"}>
