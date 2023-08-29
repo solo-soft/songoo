@@ -113,7 +113,7 @@ export const PLAYBACK_INFORMATION = atom({
 export const PLAYBACK_INFORMATION_NEW = atom({
     key : Math.random().toString(),
     default : {
-        arrayOfSongs : [{}],
+        arrayOfSongs : [],
         indexOfSongs : 0,
         idsOfSongs : undefined,
         elapsedTime : 0,

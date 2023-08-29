@@ -5,7 +5,7 @@ import {PaletteTree} from "./palette";
 const ComponentPreviews = () => {
     return (
       <Previews palette={<PaletteTree />}>
-        <ComponentPreview path="/Index">
+        <ComponentPreview path="/UserDashboard">
           <Dashboard />
         </ComponentPreview>
       </Previews>

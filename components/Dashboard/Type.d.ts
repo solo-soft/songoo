@@ -6,7 +6,7 @@ type TCommonTypes = {
 
 
 export type TRecentlyPlayed = TCommonTypes &{
-    recently_played : Array<{
+    song_info : Array<{
         id : string
         name : string
         preview_url : string | null

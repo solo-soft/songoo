@@ -4,35 +4,64 @@ import {ToastContainer} from "react-toastify";
 import Header from "./Header/Header";
 import {Playback} from "./Playback/Playback";
 import CreatePlaylist from "./CreatePlaylist/CreatePlaylist";
-import {RecentlyPlayedContext} from "./Dashboard";
+import _ from "lodash";
+import {useEffect, useState} from "react";
+import {produce} from "immer";
+
+import "react-toastify/dist/ReactToastify.min.css";
 
 export default function Layout({children}) {
 
     const router = useRouter();
 
-    const {background: {section: {one: {primary : bgSuggest} , two : {primary : bgDashboard}}}} = useTheme()
+    const [bgColors , setBgColors] = useState("one")
 
-    let bgColors;
-
-    switch (router.pathname) {
-        case "/" :
-            bgColors = bgSuggest
-            break
-        case "/dashboard" :
-            bgColors = bgDashboard
-            break
-        default :
-            bgColors = bgSuggest
-    }
+    const {background} = useTheme()
 
 
 
+    const theme = useTheme()
 
 
+    useEffect(()=> {
+
+        switch (router.asPath) {
+            case "/" :
+                setBgColors("one")
+                break
+            case "/dashboard" :
+                setBgColors("two")
+                break
+            case '/collection/likes':
+                setBgColors("likes")
+                break
+            case '/collection/recently-played':
+                setBgColors("recently")
+                break
+            case '/collection/playlists/list':
+                setBgColors("playlists")
+                break
+            default :
+                if (!router.asPath.includes("/list")) {
+                    setBgColors("playlists")
+                }
+                if (router.asPath.includes("/artist")) {
+                    setBgColors("artist")
+                }
+                if (router.asPath.includes("/album")) {
+                    setBgColors("album")
+                }
+                break;
+        }
+
+    } , [router.asPath])
+
+
+    const { primary } = _.get(background, `section.${bgColors}`);
 
     return (
-        <Box bg={bgColors}>
-            <Box position={"relative"} maxW={1450} h={"100vh"} m={"auto"}>
+        <Box bg={primary}>
+            <Box position={"relative"} overflow={"hidden"} maxW={1920} px={5} h={"100vh"} m={"auto"}>
                 <ToastContainer
                     position={"top-center"}
                     autoClose={1000}

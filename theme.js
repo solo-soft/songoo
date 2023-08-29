@@ -1,88 +1,4 @@
 import {extendTheme} from '@chakra-ui/react'
-import { menuAnatomy } from '@chakra-ui/anatomy'
-import { createMultiStyleConfigHelpers, defineStyle } from '@chakra-ui/react'
-
-const { definePartsStyle, defineMultiStyleConfig } = createMultiStyleConfigHelpers(menuAnatomy.keys)
-
-
-const baseStyle = definePartsStyle({
-    list: {
-        // this will style the MenuList component
-        p: '2',
-        borderRadius: '15px',
-        border: 'none',
-    },
-    item: {
-        // this will style the MenuItem and MenuItemOption components
-        bg : "none",
-        borderRadius: '5px',
-        my : "4px",
-
-    },
-    groupTitle: {
-        // this will style the text defined by the title prop
-        // in the MenuGroup and MenuOptionGroup components
-        textTransform: 'uppercase',
-        color: 'white',
-        textAlign: 'center',
-        letterSpacing: 'wider',
-        opacity: '0.7',
-    },
-    command: {
-        // this will style the text defined by the command
-        // prop in the MenuItem and MenuItemOption components
-        opacity: '0.8',
-        fontFamily: 'mono',
-        fontSize: 'sm',
-        letterSpacing: 'tighter',
-        pl: '4',
-    },
-    divider: {
-        // this will style the MenuDivider component
-        my: '1',
-        borderBottom: '1px ',
-
-    },
-})
-
-const xs = defineStyle({
-    fontSize: 'xs',
-    my: '.5',
-})
-
-const sm = defineStyle({
-    fontSize: 'sm',
-    my: '.5',
-})
-
-const md = defineStyle({
-    fontSize: 'md',
-    my: '1',
-})
-
-const lg = defineStyle({
-    fontSize: 'lg',
-    my: '1',
-})
-
-const xl = defineStyle({
-    fontSize: 'lg',
-    px: '4',
-    py: '2',
-})
-
-const sizes = {
-    // apply custom styles to parts
-    xl: definePartsStyle({ button: xl, item: xl, groupTitle: lg, command: xl }),
-    lg: definePartsStyle({ button: lg, item: lg, groupTitle: md, command: lg }),
-    md: definePartsStyle({ button: md, item: md, groupTitle: sm, command: md }),
-    sm: definePartsStyle({ button: sm, item: sm, groupTitle: xs, command: sm }),
-    xs: definePartsStyle({ button: xs, item: xs, groupTitle: xs, command: xs }),
-}
-
-export const menuTheme = defineMultiStyleConfig({ baseStyle , sizes })
-
-
 
 
 export const customTheme = extendTheme({
@@ -108,10 +24,6 @@ export const customTheme = extendTheme({
         },
     },
 
-    components: {
-        Menu: menuTheme,
-    },
-
     default : {
         color : "#7886FF"
     },
@@ -129,9 +41,68 @@ export const customTheme = extendTheme({
             three : {
                 primary : "#6B1C39",
                 secondary : "#410202"
+            },
+
+            likes : {
+                primary : "#281414"
+            },
+            recently: {
+                primary : "#131F0F"
+            },
+            playlists: {
+                primary : "#181A33"
+            },
+            artist : {
+                primary : "#000000",
+                secondary : "#252525"
+            },
+            album : {
+                primary : "#181616",
+                secondary : "#252525"
+            }
+        },
+    },
+
+
+    font : {
+        color : {
+            section: {
+                likes : {
+                    primary : "#FFFFFF",
+                    secondary : "#CC6868",
+                    tertiary: "#6e6e6e",
+                },
+                recently : {
+                    primary : "#FFFFFF",
+                    secondary : "#629E4D",
+                    tertiary: "#6e6e6e",
+                },
+                playlists : {
+                    primary : "#FFFFFF",
+                    secondary : "#7886FF",
+                    tertiary: "#6e6e6e",
+                    title : "#181616"
+                },
+                "playlist-songs" : {
+                    primary : "#FFFFFF",
+                    secondary : "#7886FF",
+                    tertiary: "#6e6e6e",
+                    title : "#181616"
+                },
+                artist : {
+                    primary : "#FFFFFF",
+                    secondary : "#7886FF",
+                    tertiary: "#6e6e6e",
+                    contrast : "#e7e7e7"
+                },
+
             }
         }
     },
+
+
+
+
     icons : {
         color : {
             heart : "#B72828",
