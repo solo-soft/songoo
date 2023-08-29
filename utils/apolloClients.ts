@@ -24,7 +24,7 @@ async function initializeClient () {
         return {client}
     }
     catch (e) {
-        console.log("apollo / cannot receive access token from spotify ! maybe current ip is access denied! ")
+        console.log("apollo / cannot receive collection token from spotify ! maybe current ip is collection denied! ")
     }
 }
 

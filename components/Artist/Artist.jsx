@@ -1,56 +1,33 @@
-import {Box} from "@chakra-ui/react";
-import {useEffect, useState} from "react";
-import {useRouter} from "next/router";
+import {Stack} from "@chakra-ui/react";
 import useSWR from "swr";
-import {getArtistInformation} from "../../graphQl/query/schema/getArtistInformation";
-import Header from "./Header";
-import Popular from "./Popular";
-import MoreAlbums from "./MoreAlbums";
-import Fans from "./Fans";
-import ShowAll from "./ShowAll";
+import Tracks from "./Tracks/Tracks";
+import Albums from "./Albums/Albums";
+import Related from "./Related";
+
+import HeroHeader from "./HeroHeader";
+import Videos from "./Videos/Videos";
 
 export const Artist = () => {
-    const {
-        query: {artist: artistId},
-    } = useRouter();
 
-    const {
-        data: {
-            getArtistInfo,
-            getAlbumsOfArtist,
-            getArtistTopTracks,
-            getRelatedArtist,
-        },
-    } = useSWR(
-        ["api", "GET_ARTISTS_INFO", artistId],
-        async (key, id, artistId) => await getArtistInformation(artistId)
-    );
+    const {data : {artist , songs , albums , related}} = useSWR("/graphQl/query/schema/getArtistInfoById");
 
-    const [open, setOpen] = useState(false);
+    const props = {artist , songs , albums , related}
+
 
     return (
-        <Box>
+        <Stack >
 
-            <Header getArtistInfo={getArtistInfo}/>
+            <HeroHeader {...props}/>
 
-            <Popular getArtistTopTracks={getArtistTopTracks}/>
+            <Tracks {...props} />
 
-            <MoreAlbums
-                getArtistInfo={getArtistInfo}
-                getAlbumsOfArtist={getAlbumsOfArtist}
-                setOpen={setOpen}
-            />
+            <Albums {...props}/>
 
-            <Fans getRelatedArtist={getRelatedArtist}/>
+            <Videos {...props}/>
+
+            <Related {...props}/>
 
 
-            {/** modal for show all albums for artist **/}
-            <ShowAll
-                getAlbumsOfArtist={getAlbumsOfArtist}
-                getArtistInfo={getArtistInfo}
-                open={open}
-                setOpen={setOpen}
-            />
-        </Box>
+        </Stack>
     );
 };

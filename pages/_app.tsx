@@ -4,13 +4,9 @@ import Layout from "../components/layout";
 import { useRouter } from "next/router";
 import { customTheme } from "../theme";
 import NextNprogress from "nextjs-progressbar";
-import "react-toastify/dist/ReactToastify.min.css";
 import { ParallaxProvider } from "react-scroll-parallax";
 import { DevSupport } from "@react-buddy/ide-toolbox-next";
 import { ComponentPreviews, useInitial } from "../components/dev";
-import {TRecentlyPlayed} from "../components/Dashboard/Type";
-import useSWR from "swr";
-import getUserDataOnSupabase from "../supabase/reads/getUserDataOnSupabase";
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
 
@@ -32,9 +28,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
                 >
                   <Component {...pageProps} />
                 </DevSupport>
-                {router.pathname !== "/" &&
-                  router.pathname !== "/auth" &&
-                  router.pathname !== "/singers"}
+                {router.pathname !== "/" && router.pathname !== "/auth" && router.pathname !== "/singers"}
               </Layout>
             </ParallaxProvider>
           </ColorModeProvider>

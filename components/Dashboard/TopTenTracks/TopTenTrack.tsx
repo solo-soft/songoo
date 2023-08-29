@@ -33,16 +33,13 @@ const TopTenTrack = () => {
   );
 
 
-    const { data: session } = useSWR("/api/getUserSession");
-
-
     return (
     <>
       <Title />
       <Divider/>
       <Stack spacing={0} overflow={"auto"}>
         {singerInfo?.songs?.tracks.map((singerSong, songIndex) => {
-          const props = { singerInfo, singerSong, songIndex };
+          const props = { singerInfo, singerSong, songIndex};
           return <Tracks key={singerInfo.id} {...props} />;
         })}
       </Stack>

@@ -13,9 +13,10 @@ const Name = ({value}) => {
     const check = playbackInformation.isPlaying && value.id === playbackInformation.idsOfSongs
 
     return (
-        <Stack flex={5}>
+        <Stack flex={5} spacing={1}>
             <Text noOfLines={1} fontSize={"sm"} fontWeight={"bold"}
                   color={check ? "#7886FF" : "white"}>{value.name}</Text>
+            <Text noOfLines={1} fontSize={"2xs"}>{value.artists?.[0]?.name}</Text>
         </Stack>
     );
 };

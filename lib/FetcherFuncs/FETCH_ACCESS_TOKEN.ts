@@ -21,6 +21,6 @@ export const FETCH_ACCESS_TOKEN = async () =>
         return {token : data.access_token }
     }
     catch (e) {
-        console.log("token / fetch access token is failed!")
+        console.log("token / fetch collection token is failed!")
     }
 }

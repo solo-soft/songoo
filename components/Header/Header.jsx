@@ -9,7 +9,7 @@ import useSWR from "swr";
 import verifyToken from "../../utils/verifyToken";
 import { useRouter } from "next/router";
 
-const Header = () => {
+const Header = ({position = undefined}) => {
   const {
     icons: {
       color: { heart, history, saved },
@@ -25,14 +25,14 @@ const Header = () => {
     data: { user: session },
   } = useSWR("/api/getUserSession");
 
-  const check = router.pathname === "/dashboard";
 
 
+  const check = router.pathname === "/dashboard" || router.pathname.includes("/artist");
 
   return (
     <HStack
+      position={position || "absolute"}
       w={"full"}
-      position={check ? "relative" : "absolute"}
       justify={"space-between"}
       py={5}
     >
@@ -49,8 +49,10 @@ const Header = () => {
 
       <HStack flex={1} justify={"center"}>
         <VStack
+          onClick={() => router.push("/collection/likes")}
           opacity={session ? "100%" : "30%"}
           pointerEvents={session ? "auto" : "none"}
+          cursor={"pointer"}
           p={2}
           bg={"#252525"}
           rounded={5}
@@ -58,8 +60,10 @@ const Header = () => {
           <Icon as={AiFillHeart} fontSize={25} color={heart} />
         </VStack>
         <VStack
+          onClick={() => router.push("/collection/recently-played")}
           opacity={session ? "100%" : "30%"}
           pointerEvents={session ? "auto" : "none"}
+          cursor={"pointer"}
           p={2}
           bg={"#252525"}
           rounded={5}
@@ -67,15 +71,22 @@ const Header = () => {
           <Icon as={AiOutlineHistory} fontSize={25} color={history} />
         </VStack>
         <VStack
+          onClick={() => router.push("/collection/playlists/list")}
           opacity={session ? "100%" : "30%"}
           pointerEvents={session ? "auto" : "none"}
+          cursor={"pointer"}
           p={2}
           bg={"#252525"}
           rounded={5}
         >
           <Icon as={AiFillSave} fontSize={25} color={saved} />
         </VStack>
-        <Button onClick={()=> router.push(check ? "/" : "dashboard")} isDisabled={!session}>{check ? "Home" : "Dashboard"}</Button>
+        <Button
+          onClick={() => router.push(check ? "/" : "/dashboard")}
+          isDisabled={!session}
+        >
+          {check ? "Home" : "Dashboard"}
+        </Button>
       </HStack>
 
       <HStack flex={1} justify={"end"}>

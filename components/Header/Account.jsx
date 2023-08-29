@@ -1,20 +1,7 @@
-import {
-  IconButton,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  Avatar,
-  Button, Text, HStack, Box, Icon, useTheme, VStack,
-} from "@chakra-ui/react";
-import {
-  useSupabaseClient,
-  useUser,
-} from "@supabase/auth-helpers-react";
+import {Avatar, Button, HStack, Icon, useTheme, VStack,} from "@chakra-ui/react";
 
-import {NextRouter, useRouter} from "next/router";
+import {useRouter} from "next/router";
 import {RiSunFill} from "react-icons/ri"
-import {supabase} from "../../supabase/createClient";
 import useSWR from "swr";
 
 export const Account = () => {
@@ -25,8 +12,6 @@ export const Account = () => {
 
   const router  = useRouter();
 
-  console.log(session)
-
 
     const handelSignOut = async () => {
       const res = await fetch("/api/auth/signout", {
@@ -34,13 +19,8 @@ export const Account = () => {
       })
 
       const data = await res.json()
-
-      console.log(data)
-
       router.push("/")
     }
-
-
 
 
     return (

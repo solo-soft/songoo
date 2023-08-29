@@ -50,6 +50,7 @@ const Suggest = () => {
         }
     );
 
+    console.log(artist)
 
     const artistPickId = information?.artists?.items[0]?.id;
 

@@ -27,7 +27,7 @@ const Playlists = () => {
             <Button size={"xs"}>see more</Button>
         </HStack>
       <Grid gap={2} templateColumns={`repeat(3 , 1fr)`}>
-        {_.sortBy(userPlaylists , "created_at")?.slice(0 ,3).map((playlist) => {
+        {_.sortBy(userPlaylists , "created_at")?.slice(0 ,6).map((playlist) => {
           const check = playlist.song_info.length < 4;
           return (
             <Box position={"relative"} rounded={10} overflow={"hidden"}>

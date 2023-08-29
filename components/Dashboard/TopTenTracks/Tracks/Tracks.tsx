@@ -1,6 +1,6 @@
 import { HStack } from "@chakra-ui/react";
 import Images from "./Images";
-import Options from "./Options";
+import DotsMenu from "./DotsMenu";
 import Albums from "./Albums";
 import Likes from "./Likes";
 import Directions from "./Directions";
@@ -16,10 +16,6 @@ const Tracks = ({ singerSong, songIndex, singerInfo }) => {
     PLAYBACK_INFORMATION_NEW
   );
   const listOfSongsInfo = singerInfo?.songs?.tracks;
-
-  const { addToRecentlyPlayed } = useRecently();
-
-
 
   return (
     <HStack
@@ -39,7 +35,7 @@ const Tracks = ({ singerSong, songIndex, singerInfo }) => {
 
       <Images picture={singerSong.album.images[0].url} />
 
-      <Name value={singerSong} />
+      <Name value={singerSong}/>
 
       <Albums name={singerSong.album.name} />
 
@@ -48,7 +44,7 @@ const Tracks = ({ singerSong, songIndex, singerInfo }) => {
 
         <Directions duration={singerSong.duration_ms} />
 
-        <Options singerSongs={singerSong} />
+        <DotsMenu songs={singerSong} />
       </HStack>
     </HStack>
   );

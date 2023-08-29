@@ -6,9 +6,6 @@ import useSWR from "swr";
 import getUserDataOnSupabase from "../../../supabase/reads/getUserDataOnSupabase";
 import Pictures from "./Pictures";
 import Name from "./Name";
-import {useRecoilState} from "recoil";
-import {CURRENT_SINGER_ID} from "../../../recoil/atoms/atoms";
-
 const Subscription = () => {
 
     const {data: session} = useSWR("/api/getUserSession")
@@ -25,7 +22,7 @@ const Subscription = () => {
             pagination={false}
             freeMode={true}
             modules={[FreeMode]}
-            style={{width: "100%" , height : "300px"}}
+            style={{width: "100%"}}
         >
             {
                 subscriptions?.map((value) => {

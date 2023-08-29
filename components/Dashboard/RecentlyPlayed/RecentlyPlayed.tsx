@@ -6,12 +6,11 @@ import {
   Divider,
   Grid,
   HStack,
-  Icon,
+  Icon, Stack,
   Text,
 } from "@chakra-ui/react";
 import Image from "next/image";
-import {RecentlyPlayedContext} from "../../RecentlyProvider";
-import { BsFillPlayFill } from "react-icons/bs";
+import {RecentlyPlayedContext} from "../../../provider/RecentlyProvider";
 import { useRecoilValue } from "recoil";
 import _ from "lodash";
 import { ScaleLoader } from "react-spinners";
@@ -26,15 +25,12 @@ const RecentlyPlayed = () => {
 
   const recentlyPlayed = useContext(RecentlyPlayedContext);
 
-  const sortedData = _.sortBy(
-    recentlyPlayed,
-    (items) => -new Date(items.created_at)
-  );
+  const sortedData = _.sortBy(recentlyPlayed, (items) => -new Date(items.created_at));
 
   const listOfSongs = _.flatMap(sortedData, "recently_played");
 
   return (
-    <>
+    <Stack>
       <HStack justify={"space-between"}>
         <Text fontWeight={"light"} fontSize={25}>
           Recently Played
@@ -42,11 +38,11 @@ const RecentlyPlayed = () => {
         <Button size={"xs"}>see more</Button>
       </HStack>
       <Divider />
-      <Grid gap={1} templateColumns={"repeat(3 , 1fr)"}>
+      <Grid  gap={1} templateColumns={"repeat(3 , 1fr)"}>
         {sortedData?.slice(0, 6).map((value, index, array) => {
-          const { id, recently_played } = value;
+          const { id, song_info } = value;
 
-          const check = playbackInformation.idsOfSongs === recently_played.id;
+          const check = playbackInformation.idsOfSongs === song_info.id;
 
           return (
             <HStack
@@ -61,14 +57,14 @@ const RecentlyPlayed = () => {
                     opacity:
                       check && playbackInformation.isPlaying ? "30%" : "100%",
                   }}
-                  src={recently_played.album.images[0].url}
+                  src={song_info.album?.images[0].url}
                   layout={"fill"}
                   objectFit={"cover"}
                 />
                 <AbsoluteCenter>
                   <Controller
                     toRecently={false}
-                    idsOfSongs={recently_played.id}
+                    idsOfSongs={song_info.id}
                     indexOfSongs={index}
                     arrayOfSongs={listOfSongs}
                     flex={1.4}
@@ -76,13 +72,13 @@ const RecentlyPlayed = () => {
                 </AbsoluteCenter>
               </Box>
               <Text noOfLines={1} fontWeight={"bold"} fontSize={"x-small"}>
-                {recently_played.name}
+                {song_info.name}
               </Text>
             </HStack>
           );
         })}
       </Grid>
-    </>
+    </Stack>
   );
 };
 

@@ -27,13 +27,13 @@ const GET_VIDEO = gql`
 
 
 
-export default async function getVideoByName(randomSingerUS : string | undefined , singerName : string | undefined) {
+export default async function getVideoByName(singerName : string | undefined) {
 
     console.log(singerName)
 
     try {
 
-        const {data , error} = await youtubeApolloClient.query({query : GET_VIDEO, variables: {name: singerName || randomSingerUS}})
+        const {data , error} = await youtubeApolloClient.query({query : GET_VIDEO, variables: {name: singerName}})
         return data
 
     }
