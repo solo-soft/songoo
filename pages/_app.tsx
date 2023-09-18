@@ -15,6 +15,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   return (
     <RecoilRoot>
       <main>
+
         <NextNprogress color={"#7886FF"} height={5} />
         <ChakraProvider theme={customTheme}>
           <ColorModeProvider

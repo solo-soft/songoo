@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import Slider from "../Sliders/Slider";
 import _ from "lodash";
 import { SwiperSlide } from "swiper/react";
-import { HStack, Icon, Text, VStack, Img, useTheme } from "@chakra-ui/react";
+import {HStack, Icon, Text, VStack, Img, useTheme, Stack} from "@chakra-ui/react";
 import { AiOutlineSave } from "react-icons/ai";
 import { useState } from "react";
 import { useRecoilState } from "recoil";
@@ -12,6 +12,7 @@ import { YOUTUBE_SAVE_LIST } from "../../../recoil/atoms/atoms";
 import Title from "../Common/Title";
 import Images from "./Images";
 import Name from "./Name";
+import {swiperMusicVideoSliderBreakPoint} from "../../../utils/swiperResponsive";
 
 const Videos = ({ artist }) => {
   const [thumbnails, setThumbnails] = useState<string | null>(null);
@@ -32,12 +33,12 @@ const Videos = ({ artist }) => {
   const {secondary} = _.get(theme, "background.section.artist");
 
   return (
-    <>
-      <Title cause={"Video Music"} />
-      <Slider preview={4} height={250}>
-        {_.filter(youtubeMusicVideo?.information?.contents, {
+    <Stack py={[1 , 1 , 5]}>
+      <Title cause={"Music Video"} />
+      <Slider preview={4} height={"auto"} breakpoint={swiperMusicVideoSliderBreakPoint}>
+        {_.filter(youtubeMusicVideo?.information, {
           type: "video",
-        }).map(({ video }) => {
+        }).map((video) => {
           return (
             <SwiperSlide>
               <VStack
@@ -54,7 +55,7 @@ const Videos = ({ artist }) => {
           );
         })}
       </Slider>
-    </>
+    </Stack>
   );
 };
 

@@ -24,15 +24,13 @@ export const customTheme = extendTheme({
         },
     },
 
-    default : {
-        color : "#7886FF"
-    },
 
     background : {
         section : {
-            one : {
+            suggest : {
                 primary : "#181616",
-                secondary : "#252525"
+                secondary : "#7886FF",
+                tertiary : "#252525"
             },
             two : {
                 primary: "#000000",
@@ -100,14 +98,13 @@ export const customTheme = extendTheme({
         }
     },
 
-
-
-
     icons : {
         color : {
             heart : "#B72828",
             history : "#629E4D",
-            saved : "#7886FF",
+            home : "#7886FF",
+            dashboard : "#ff2f8f",
+            playlists : "#548ba1",
             sun : "#FF993C",
         }
     },
@@ -121,12 +118,4 @@ export const customTheme = extendTheme({
     },
 
 
-    breakpoints: {
-        sm: "10em", //160px
-        md: "53em", //848px
-        lg: "67em", //1072px
-        xl: "85em",//1360
-        "2xl": "95em", //1520
-        "3xl": "118em", //1880px
-    },
 })

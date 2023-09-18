@@ -19,13 +19,13 @@ const HeroHeader = ({ artist }) => {
 
   return (
     <>
-      <HStack spacing={5}>
+      <Stack direction={["column" , "column" , "row"]} w={"full"} justify={"center"} align={"center"} h={320}  spacing={[2 , 2 , 5]}>
         <Stack
-          w={550}
-          h={320}
+          w={[210 , 210 , 280]}
+          h={[210 , 210 , 280]}
           position={"relative"}
           overflow={"hidden"}
-          rounded={15}
+          rounded={[25 , 25 , "full"]}
           opacity={"65%"}
         >
           <Image
@@ -38,20 +38,25 @@ const HeroHeader = ({ artist }) => {
           />
         </Stack>
 
-        <Text
-          noOfLines={1}
-          bgGradient={
-            dynamicColor
-              ? `linear-gradient(to-r, ${dynamicColor?.rgba} ,  ${dynamicColor?.rgba} , #ffff )`
-              : "linear-gradient(to-r, #ffff , #ffff )"
-          }
-          bgClip={"text"}
-          fontSize={"8xl"}
-          fontWeight={"bold"}
-        >
-          {artist.name}
-        </Text>
-      </HStack>
+        <Stack>
+          <Text
+              noOfLines={1}
+              bgGradient={
+                dynamicColor
+                    ? `linear-gradient(to-r, ${dynamicColor?.rgba} ,  ${dynamicColor?.rgba} , #ffff )`
+                    : "linear-gradient(to-r, #ffff , #ffff )"
+              }
+              bgClip={"text"}
+              fontSize={["3xl" , "3xl" , "8xl"]}
+              fontWeight={"bold"}
+          >
+            {artist.name}
+          </Text>
+          <Button>Subscribe</Button>
+        </Stack>
+
+
+      </Stack>
     </>
   );
 };

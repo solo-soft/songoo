@@ -1,27 +1,28 @@
-import { createContext } from "react";
-import { TRecentlyPlayed } from "../components/Dashboard/Type";
+import {createContext, ReactNode} from "react";
+import { TRecentlyPlayed } from "../components/Dashboard/TDashboard";
 import useSWR from "swr";
+import useFetchSwr from "../hooks/useFetchSwr";
 import getUserDataOnSupabase from "../supabase/reads/getUserDataOnSupabase";
-import { TSession } from "../components/Type";
+import { TSession } from "../components/TSession";
 
 export const RecentlyPlayedContext = createContext<
-  Array<TRecentlyPlayed> | undefined
+  Array<TRecentlyPlayed> | undefined | null
 >(undefined);
 
-const RecentlyProvider = ({ children }) => {
+const RecentlyProvider = ({ children } : {children  : ReactNode}) => {
 
-  const { data: session }: { data: TSession | undefined } = useSWR(
+  const { data: session } = useSWR(
     "/api/getUserSession"
   );
 
+  const {swrFetcher} = useFetchSwr()
 
-  const {
-    data: recentlyPlayed,
-    error: recentlyPlayedError,
-  }: { data: Array<TRecentlyPlayed> | undefined; error: string | undefined } =
-    useSWR(
-      "/supabase/reads/UserRecentlyPlayed",
-      async () => await getUserDataOnSupabase("UserRecentlyPlayed", session)
+
+  const {data: recentlyPlayed } : {data : TRecentlyPlayed[] | undefined | null} = swrFetcher<TRecentlyPlayed[] | undefined | null>(
+      "/supabase/reads/UserRecentlyPlayed", () => getUserDataOnSupabase("UserRecentlyPlayed", session),
+          {
+            keepPreviousData : true
+          }
     );
 
 

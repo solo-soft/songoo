@@ -6,9 +6,12 @@ const Tracks = () => {
 
     const {data , error} = useSWR("query/schema/getAlbumsInfoById" , null)
 
+    //?Push image in this array
+    const controllerData = data.albums.tracks.items.map(value => ({...value , album : { ...value.album , images : data.albums.images }}))
+
     return (
-        <Stack py={5}>
-            {data.albums.tracks.items.map((track , index) => <Items key={track.id}  track={track} trackIndex={index}/>)}
+        <Stack spacing={8}>
+            {controllerData.map((track , index) => <Items key={track.id}  track={track} trackIndex={index}/>)}
         </Stack>
     );
 };

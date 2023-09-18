@@ -4,11 +4,13 @@ import Header from "../Header/Header";
 import HeroHeader from "./HeroHeader/HeroHeader";
 import Tracks from "./Tracks/Tracks";
 import Topics from "./Topics/Topics";
+import DotsMenu from "../#General/DotsMenu/DotsMenu";
 
 const Album = () => {
 
 
     const {data , error} = useSWR("query/schema/getAlbumsInfoById" , null)
+
 
     return (
         <Box h={"full"} overflow={"auto"}>

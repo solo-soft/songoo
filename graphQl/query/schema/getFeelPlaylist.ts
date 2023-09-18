@@ -1,5 +1,5 @@
 import {gql} from "graphql-tag";
-import {apolloClient} from "../../../utils/apolloClients";
+import {apolloClient} from "../../client/apolloClients";
 
 
 const GET_PLAYLIST = gql`

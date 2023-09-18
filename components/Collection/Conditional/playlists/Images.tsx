@@ -4,7 +4,7 @@ import Image from "next/image";
 import React from "react";
 
 const Images = ({ collection }) => {
-  const check = collection.song_info.length < 4;
+  const check = collection?.song_info.length < 4;
 
   return (
 

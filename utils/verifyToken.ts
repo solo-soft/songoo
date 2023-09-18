@@ -1,6 +1,8 @@
 import {verify} from "jsonwebtoken";
+import {NextApiRequest} from "next";
 
-export default function verifyToken (req) {
+
+export default function verifyToken (req : NextApiRequest) {
 
     const {appToken} = req.cookies
 

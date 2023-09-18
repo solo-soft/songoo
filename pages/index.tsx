@@ -1,99 +1,93 @@
 import { SWRConfig, unstable_serialize } from "swr";
-import { ApolloProvider } from "@apollo/client";
-import { DataBaseClient } from "../graphQl/client/client";
 import Head from "next/head";
-import getIdArtistByName from "../graphQl/query/schema/getIdArtistByName";
-import getArtistInfoById from "../graphQl/query/schema/getArtistInfoById";
+import { SCHEMA_ARTISTS_ID } from "../graphQl/query/schema/getIdArtistByName";
+import { SCHEMA_ARTISTS_INFO } from "../graphQl/query/schema/getArtistInfoById";
 import { randomSingerIR, randomSingerUS } from "../utils/randomBestArtists";
-import { useEffect } from "react";
-import { YOUTUBE_SINGER } from "../recoil/atoms/atoms";
-import { useSetRecoilState } from "recoil";
+import { useLayoutEffect } from "react";
 import verifyToken from "../utils/verifyToken";
-import { Button } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { Main } from "../components/main";
 import RecentlyProvider from "../provider/RecentlyProvider";
 import PinnedProvider from "../provider/PinnedProvider";
-import {useAsync} from "react-use";
+import CreatePlaylist from "../components/CreatePlaylist/CreatePlaylist";
+import fetcherQuery from "../graphQl/query/fetcher/fetcherQuery";
+import { NextRequest, NextResponse } from "next/server";
+import {NextApiRequest, NextApiResponse} from "next";
 
-export default function Home({ fallback, ActionErrors, randomSingerUS }) {
-
-
+export default function Home({
+  fallback,
+  ActionErrors,
+}: {
+  fallback: {};
+  ActionErrors: { message: string };
+}): null | JSX.Element {
   const router = useRouter();
 
-  useEffect( () => {
+  useLayoutEffect(function (): (() => Promise<boolean>) | (() => null) | any {
     if (ActionErrors) {
-      return () => router.push("/error")
+      return () => router.push("/error");
     }
-  } , [])
+    return () => null;
+  }, []);
 
-  if (ActionErrors) return null
-
-
-
-  const setDefaultSinger = useSetRecoilState(YOUTUBE_SINGER);
-
-  useEffect(() => {
-    setDefaultSinger(randomSingerUS);
-  }, [router.pathname]);
-
-
+  if (ActionErrors) return null;
 
   return (
     <>
       <Head>
         <title>Songoo</title>
       </Head>
-      {/*<ApolloProvider client={DataBaseClient}>*/}
-        <SWRConfig value={{ fallback }}>
-          <RecentlyProvider>
-            <PinnedProvider>
-              <Main randomSingerUS={randomSingerUS} />
-            </PinnedProvider>
-          </RecentlyProvider>
-        </SWRConfig>
-      {/*</ApolloProvider>*/}
+      <SWRConfig value={{ fallback }}>
+        <RecentlyProvider>
+          <PinnedProvider>
+            <Main />
+            <CreatePlaylist />
+          </PinnedProvider>
+        </RecentlyProvider>
+      </SWRConfig>
     </>
   );
 }
 
-export const getServerSideProps = async ({ res, req }) => {
-
-
-  //GET USER SESSION
-  const session = verifyToken(req);
+export const getServerSideProps = async ({
+  res,
+  req,
+}: {
+  res: NextApiResponse;
+  req: NextApiRequest;
+}) => {
 
   try {
-    const t = true;
-    const render = t ? randomSingerUS : randomSingerIR;
-
-    const findArtistsId = await getIdArtistByName(render);
+    //?Get user valid session
+    const session = verifyToken(req);
+    const findArtistsId = await fetcherQuery(SCHEMA_ARTISTS_ID, {
+      name: randomSingerUS,
+    });
 
     if (!findArtistsId) throw new Error("find id have issue");
 
     const {
-      information: {
+      find: {
         artists: { items },
       },
     } = findArtistsId;
 
-    const artistId = items[0].id;
+    const artistsIds = items[0].id;
 
-    const getArtist = await getArtistInfoById(artistId);
+    const getArtist = await fetcherQuery(SCHEMA_ARTISTS_INFO, {
+      artistId: artistsIds,
+    });
     if (!getArtist) throw new Error("find artists have issue");
-
 
     return {
       props: {
         fallback: {
           "/api/getUserSession": session,
           [unstable_serialize([
-            "query",
-            "/query/artists/getArtist",
+            "/graphql/query/schema/getArtistById",
             undefined,
           ])]: getArtist,
         },
-        randomSingerUS,
       },
     };
   } catch (e) {

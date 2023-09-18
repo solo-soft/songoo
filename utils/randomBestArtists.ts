@@ -1,6 +1,6 @@
 import _ from "lodash"
 
-export const singersUS = [
+const worldSingerList = [
     "Taylor Swift",
     "Ed Sheeran",
     "Beyoncé",
@@ -118,14 +118,13 @@ export const singersUS = [
     "Norah Jones"
 ];
 
-const sortedSingersUS: string[] = _.sortBy(singersUS);
+export const worldSinger: string[] = _.sortBy(worldSingerList);
 
-const shuffledSingersUS: string[] = _.shuffle(sortedSingersUS);
+const shuffledSingersUS: string[] = _.shuffle(worldSingerList);
 export const randomSingerUS : String | undefined = _.sample(shuffledSingersUS);
 
-console.log(randomSingerUS)
 
-export const singersIR = [
+ const persianSingerList = [
     "Googoosh",
     "Mohsen Yeganeh",
     "Ebi",
@@ -217,7 +216,8 @@ export const singersIR = [
     "Behnam Safavi",]
 
 
-const shuffledSingersIR = _.shuffle(singersIR);
+const shuffledSingersIR = _.shuffle(persianSingerList);
 
 // انتخاب یک عنصر رندوم بدون تکرار
 export const randomSingerIR = _.sample(shuffledSingersIR);
+export const persianSinger = _.sortBy(persianSingerList)

@@ -12,7 +12,7 @@ import "swiper/css/navigation";
 import _ from "lodash";
 import Title from "./Common/Title";
 import Slider from "./Sliders/Slider";
-import {breakpoint} from "../../utils/swiperResponsive";
+import {swiperMostRelatedBreakPoint} from "../../utils/swiperResponsive";
 
 
 const Related = ({ related }) => {
@@ -24,20 +24,16 @@ const Related = ({ related }) => {
   const { primary, secondary } = _.get(theme, "background.section.artist");
 
   return (
-    <>
+    <Stack py={[1 , 1 , 5]}>
 
-      <HStack>
+
         <Title cause={"Most Related"}/>
-        <MySwiperControls
-          onPrev={() => swiperRef.current.slidePrev()}
-          onNext={() => swiperRef.current.slideNext()}
-        />
-      </HStack>
+        {/*<MySwiperControls*/}
+        {/*  onPrev={() => swiperRef.current.slidePrev()}*/}
+        {/*  onNext={() => swiperRef.current.slideNext()}*/}
+        {/*/>*/}
 
-
-
-
-      <Slider height={210} preview={7} breakpoint={breakpoint}>
+      <Slider height={"auto"}  breakpoint={swiperMostRelatedBreakPoint}>
 
         {
           related.artists.map((related) => {
@@ -48,8 +44,8 @@ const Related = ({ related }) => {
                       bg={"whiteAlpha.200"}
                       boxShadow={"dark-lg"}
                       position={"relative"}
-                      width={{sm : 180 , md : 190}}
-                      height={{sm : 180 , md : 190}}
+                      w={[150 , 150 ,  195]}
+                      h={[150 , 150 ,  195]}
                       rounded={15}
                       overflow={"hidden"}
                   >
@@ -94,7 +90,7 @@ const Related = ({ related }) => {
 
 
 
-    </>
+    </Stack>
   );
 };
 

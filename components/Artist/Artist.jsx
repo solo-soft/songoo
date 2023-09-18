@@ -27,7 +27,6 @@ export const Artist = () => {
 
             <Related {...props}/>
 
-
         </Stack>
     );
 };

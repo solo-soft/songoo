@@ -108,14 +108,15 @@ const RouteCrumb = () => {
         )}
 
         <BreadcrumbItem isCurrentPage>
-          <BreadcrumbLink fontWeight={"bold"} href="#">
+          <BreadcrumbLink fontWeight={"bold"} >
             <IconButton
-              aria-label="Call Segun"
+              aria-label="dynamic"
+              size={"sm"}
               icon={
                 <Icon
                   as={icons[property]}
                   color={fontColor?.secondary}
-                  fontSize={"2xl"}
+                  fontSize={"xl"}
                 />
               }
             />

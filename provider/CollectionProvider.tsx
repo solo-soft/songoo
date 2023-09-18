@@ -1,81 +1,91 @@
-import { TSession } from "../components/Type";
+import { TSession } from "../components/TSession";
 import useSWR from "swr";
 import getUserDataOnSupabase from "../supabase/reads/getUserDataOnSupabase";
-import { createContext, useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import { createContext, ReactNode, useEffect, useState } from "react";
+import {NextRouter, useRouter} from "next/router";
 import getUserSongsPlaylist from "../supabase/reads/getUserSongsPlaylist";
-export const CollectionContext = createContext(undefined);
+import useFetchSwr from "../hooks/useFetchSwr";
+import {TCollection} from "../components/Collection/TCollection";
 
-type TCollectionsInfo = {
-  dbTables: undefined | string;
-  property: undefined | string;
+export const CollectionContext = createContext({});
+
+type TSwitchCase = {
+  key : string
+  dbTables:string;
+  property:string;
 };
 
-const getCollectionInfo = (path: string): TCollectionsInfo => {
-  switch (path) {
+const getCollectionInfo = (query ,asPath): TSwitchCase => {
+
+  switch (asPath) {
     case "/collection/likes":
-      return { dbTables: "UserLikedSong", property: "likes" };
+      return {
+        key : "getUserLikes",
+        dbTables: "UserLikedSong",
+        property: "likes",
+      };
     case "/collection/recently-played":
-      return { dbTables: "UserRecentlyPlayed", property: "recently" };
+      return {
+        key : "getUserRecentlyPlayed",
+        dbTables: "UserRecentlyPlayed",
+        property: "recently",
+      };
     case "/collection/playlists/list":
-      return { dbTables: "UserPlaylists", property: "playlists" };
+      return {
+        key : "getUserPlaylists",
+        dbTables: "UserPlaylists",
+        property: "playlists",
+      };
+    case `/collection/playlists/${query?.slug}`:
+      return {
+        key : "getUserPlaylistItems",
+        dbTables: "UserPlaylists",
+        property: "playlist-songs",
+      };
     default:
-      if (!path.includes("/list")) {
-        return { dbTables: "UserPlaylists", property: "playlist-songs" };
-      }
-      return { dbTables: undefined, property: undefined };
+      return {
+        key : "getUserLikes",
+        dbTables: "UserLikedSong",
+        property: "likes",
+      };
   }
 };
 
-const CollectionProvider = ({ children }: { children: any }) => {
-  const { asPath, query } = useRouter();
+const CollectionProvider = ({ children }: { children: ReactNode }) => {
 
-  const [{ dbTables, property }, setCollectionsInfo] =
-    useState<TCollectionsInfo>(getCollectionInfo(asPath));
+  const { swrFetcher } = useFetchSwr();
 
-  useEffect(() => {
-    setCollectionsInfo(getCollectionInfo(asPath));
-  }, [asPath]);
 
-  const { data: session }: { data: TSession | undefined } = useSWR(
-    "/api/getUserSession"
-  );
+  const {query , asPath} : NextRouter = useRouter();
 
-  //?Get Likes and Recently played songs
-  const { data: interactionsCollections } = useSWR(
-    `/supabase/reads/${dbTables}/likes/recently-played/songs`,
-    () => {
-      if (!dbTables || property == "playlists") return null;
-      return getUserDataOnSupabase(dbTables, session);
-    }
-  );
 
-  //?Get Collection of playlists
-  const { data: playlistsCollection } = useSWR(
-    `/supabase/reads/${dbTables}`,
-    () => {
-      if (!dbTables || property != "playlists") return null;
-      return getUserDataOnSupabase(dbTables, session);
-    }
-  );
+  const { data: session }= useSWR("/api/getUserSession");
 
-  //?Get Songs of playlists
-  const { data: playlistSongs } = useSWR(
-    ["/supabase/reads/playlists/uniqueSong", dbTables, session, query],
-    ([_, dbTables, session, query]) => {
-      if (!dbTables || property != "playlist-songs") return null;
-      return getUserSongsPlaylist(dbTables, session, query?.slug);
-    }
-  );
+  const check = asPath === `/collection/playlists/${query?.slug}`
 
+  console.log(check)
+
+  const {key , property , dbTables} = getCollectionInfo(query , asPath)
+
+  const { data: interactionsCollections }: { data: TCollection[] | undefined | null } =
+    swrFetcher<TCollection[] | undefined | null>(
+      [key, query , asPath],
+      ([_ , query , asPath]) =>
+          check ?
+              getUserSongsPlaylist(dbTables, session, query?.slug) :
+              getUserDataOnSupabase(dbTables, session) ,
+      {
+        keepPreviousData: false,
+      }
+    );
+
+  console.log(interactionsCollections)
 
   return (
     <CollectionContext.Provider
       value={{
-        playlistsCollection,
         interactionsCollections,
-        playlistSongs,
-        property,
+        property
       }}
     >
       {children}

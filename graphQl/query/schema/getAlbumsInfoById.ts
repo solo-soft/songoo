@@ -1,6 +1,6 @@
 import {supabase} from "../../../supabase/createClient";
 import {gql} from "@apollo/client";
-import {apolloClient} from "../../../utils/apolloClients";
+import {apolloClient} from "../../client/apolloClients";
 
 
 const GET_ALBUMS = gql`

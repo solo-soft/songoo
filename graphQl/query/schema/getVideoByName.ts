@@ -1,26 +1,45 @@
 import {gql} from "@apollo/client";
 import {youtubeApolloClient} from "../../client/client";
-import {apolloClient} from "../../../utils/apolloClients";
+import {apolloClient} from "../../client/apolloClients";
 
 
 const GET_VIDEO = gql`
 
     query YOUTUBE_VIDEO($name : String) {
-        information(name : $name) @rest(type: "GET", path: "/search/?q={args.name}&hl=en&gl=US") {
-            contents {
-                type 
-                video {
-                    title 
-                    videoId
-                    publishedTimeText
-                    thumbnails {
-                        url
-                    }
-                    movingThumbnails {
-                        url
-                    }
-                }
-            }
+        information(name : $name) @rest(type: "GET", path: "/search/?q={args.name}") {
+            #            contents {
+            #                type 
+            #                video {
+            #                    title 
+            #                    videoId
+            #                    publishedTimeText
+            #                    thumbnails {
+            #                        url
+            #                    }
+            #                    movingThumbnails {
+            #                        url
+            #                    }
+            #                }
+            #            }
+            #        }
+
+            type
+            title
+            videoId
+            author
+            authorId
+            authorUrl
+            videoThumbnails
+            description
+            descriptionHtml
+            viewCount
+            published
+            publishedText
+            lengthSeconds
+            liveNow
+            paid
+            premium
+
         }
     }
 `

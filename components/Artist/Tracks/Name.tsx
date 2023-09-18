@@ -8,11 +8,11 @@ const Name = ({track}) => {
 
   return (
     <Box>
-      <Text fontSize={15} noOfLines={1} fontWeight={"bold"} color={contrast}>
+      <Text fontSize={["xs" , "sm" , "sm"]} noOfLines={1} fontWeight={"bold"} color={contrast}>
         {track.name}
       </Text>
 
-      <Text noOfLines={1} fontSize={"xs"} color={contrast}>
+      <Text noOfLines={1} fontSize={["2xs" , "2xs" , "xs"]} color={contrast}>
         {track.album.name}
       </Text>
     </Box>

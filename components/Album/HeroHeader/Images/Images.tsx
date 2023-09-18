@@ -6,7 +6,7 @@ const Images = () => {
   const { data } = useSWR("query/schema/getAlbumsInfoById", null);
 
   return (
-    <Box position={"relative"} p={150} rounded={35} overflow={"hidden"}>
+    <Box position={"relative"} w={[280 , 280 , 320]} h={[280 , 280 , 320]} rounded={[10 , 10 , 15]} overflow={"hidden"}>
       <Image
         src={data.albums.images[0].url}
         layout={"fill"}

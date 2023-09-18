@@ -6,8 +6,8 @@ import Title from "./Title";
 const Images = ({items}) => {
     return (
         <Box
-            w={195}
-            h={195}
+            w={[150 , 150 ,  195]}
+            h={[150 , 150 ,  195]}
             rounded={15}
             position={"relative"}
             overflow={"hidden"}

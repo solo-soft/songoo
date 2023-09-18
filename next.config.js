@@ -8,15 +8,17 @@ module.exports = {
             "i.scdn.co",
             "t.scdn.co",
             "mosaic.scdn.co",
-            "thisis-images.scdn.co",
-            "images-ak.spotifycdn.com",
-            "user-images.githubusercontent.com",
+            "thisis-Images.scdn.co",
+            "Images-ak.spotifycdn.com",
+            "user-Images.githubusercontent.com",
             "seed-mix-image.spotifycdn.com",
             "daily-mix.scdn.co",
             "i.ytimg.com",
+            "inv.bp.projectsegfau.lt"
         ]
     },
     eslint: {
         ignoreDuringBuilds: true
-    }
+    },
+
 }

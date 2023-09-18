@@ -10,17 +10,18 @@ const HeroHeader = () => {
   return (
     <HStack
       w={"full"}
-      h={350}
+      h={["auto" , "auto" , "auto"]}
+      py={5}
       rounded={15}
       overflow={"hidden"}
       justifyContent={"space-between"}
       position={"relative"}
     >
 
-      <HStack spacing={5} >
+      <Stack w={"full"} direction={["column" , "column" , "row"]} align={"center"} spacing={[ 2, 2 , 2]} >
         <Images />
         <Title />
-      </HStack>
+      </Stack>
     </HStack>
   );
 };
