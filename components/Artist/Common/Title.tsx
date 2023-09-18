@@ -1,16 +1,19 @@
-import {Text, useTheme} from "@chakra-ui/react";
+import {Divider, Stack, Text, useTheme} from "@chakra-ui/react";
 import _ from "lodash";
 
 const Title = ({cause}) => {
 
     const theme = useTheme();
-    const { primary } = _.get(theme, "font.color.section.artist");
+    const { primary , secondary } = _.get(theme, "font.color.section.artist");
 
 
     return (
-        <Text color={primary} w={"full"} fontSize={"5xl"} fontWeight={"bold"} py={2}>
-            {cause}
-        </Text>
+        <Stack>
+            <Text color={primary} w={"full"} fontSize={["xl" , "xl" , "4xl"]}   >
+                {cause}
+            </Text>
+            <Divider mb={5} borderWidth={2} rounded={50}/>
+        </Stack>
     );
 };
 

@@ -15,18 +15,18 @@ const Title = () => {
   );
 
   return (
-    <Stack>
+    <Stack justify={"center"} align={["center" , "center" , "flex-start"]} >
       <Text
         noOfLines={1}
-        fontSize={"6xl"}
-        fontWeight={"bold"}
+        fontSize={["2xl" , "2xl" , "5xl"]}
+        as={"b"}
         bgGradient={dynamicColor ? `linear(to-l, #FFFF ,${dynamicColor?.rgba})` : "linear(to-l, #FFFF , #FFFF)" }
         bgClip={"text"}
       >
         {data.albums.name}
       </Text>
 
-      <Text noOfLines={1} fontSize={"sm"} fontWeight={"bold"}>
+      <Text noOfLines={1} fontSize={["2xs" , "2xs" , "sm"]} as={"b"}>
           Contains {data.albums.total_tracks} songs from{" "}
         {data.albums.artists[0].name}
       </Text>

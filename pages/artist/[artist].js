@@ -26,19 +26,21 @@ export default function artist({ fallback }) {
   } , [router.query])
 
   return (
-    <ApolloProvider client={DataBaseClient}>
-      <Head>
-        <title>Artists</title>
-      </Head>
+    // <ApolloProvider client={DataBaseClient}>
+      <>
+        <Head>
+          <title>Artists</title>
+        </Head>
 
 
-      <SWRConfig value={{ fallback }}>
-        <Stack ref={myRef} h={"full"} overflow={"auto"}>
-          <Header position={"relative"} />
-          <Artist />
-        </Stack>
-      </SWRConfig>
-    </ApolloProvider>
+        <SWRConfig value={{ fallback }}>
+          <Stack ref={myRef} h={"full"} overflow={"auto"}>
+            <Header position={"relative"} />
+            <Artist />
+          </Stack>
+        </SWRConfig>
+      </>
+    // </ApolloProvider>
   );
 }
 

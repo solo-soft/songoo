@@ -1,15 +1,30 @@
-import {supabase} from "../createClient";
+import { supabase } from "../createClient";
+import httpStatus from "http-status";
 
-export default async function getUserDataOnSupabase (Tabel , session) {
-    try {
 
-        const {data, error} = await supabase
-            .from(Tabel)
-            .select('*').eq("userId", session.user.id)
-        if (error || data === null) throw new Error()
-        return data
+type TSession = {
+  "message": string,
+  "user": {
+    "email": string,
+    "id": string,
+    "iat": number,
+    "exp": number
+  }
+}
+export default async function getUserDataOnSupabase(Table : string, session : TSession) {
+  const { data, error, status, statusText, count } = await supabase
+    .from(Table)
+    .select("*")
+    .eq("userId", session.user.id);
 
-    } catch (error) {
-        throw new Error(`supabase reads ${Tabel} is failed ! ${error}`)
+  if (![200, 201, 204].includes(status)) {
+    throw {
+      code: error?.code,
+      reason : error?.message,
+      message: httpStatus[status],
+      status
     }
+  } else {
+    return data;
+  }
 }

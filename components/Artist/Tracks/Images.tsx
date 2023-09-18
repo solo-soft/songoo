@@ -5,7 +5,7 @@ import Image from "next/image";
 const Images = ({track}) => {
     return (
         <Stack
-            p={35}
+            p={[25 , 25 ,  35]}
             rounded={15}
             position={"relative"}
             overflow={"hidden"}

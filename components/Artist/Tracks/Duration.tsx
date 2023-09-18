@@ -12,7 +12,7 @@ const Duration = ({track}) => {
 
     return (
         <Stack flex={1} align={"flex-end"}>
-            <Text fontWeight={"bold"} fontSize={"sm"} color={contrast}>
+            <Text fontWeight={"bold"} fontSize={["xs" , "xs" , "sm"]} color={contrast}>
                 {milliseconds(track.duration_ms)}
             </Text>
         </Stack>

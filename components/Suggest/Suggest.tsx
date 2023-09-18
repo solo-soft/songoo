@@ -1,78 +1,99 @@
-import {HStack, Text, VStack} from "@chakra-ui/react";
-import {useEffect} from "react"
-import useSWR from "swr";
-import Artist from "./Artist";
-import Tracks from "./Tracks";
-import {useRecoilState, useRecoilValue} from "recoil";
-import {ARTISTS_ID, ARTISTS_NAME} from "../../recoil/atoms/atoms";
-import getIdArtistByName from "../../graphQl/query/schema/getIdArtistByName";
-import getArtistInfoById from "../../graphQl/query/schema/getArtistInfoById";
-import Related from "./Related";
-import {STATUS} from "../../recoil/atoms/atoms";
-import notification from "../../lib/notification";
-import {toast} from "react-toastify";
-import {useTheme} from "@chakra-ui/react";
-import verifyToken from "../../utils/verifyToken";
+import { Stack, VStack } from "@chakra-ui/react";
+import { useEffect } from "react";
+import Artist from "~/Artist";
+import Songs from "~/Songs";
+import { useRecoilState, useRecoilValue} from "recoil";
+import { ARTISTS_ID, ARTISTS_NAME } from "../../recoil/atoms/atoms";
+import Related from "./Related/Related";
+import { TArtistId, TArtist, TSongs, TRelated } from "../TMainData";
+import useFetchSwr from "../../hooks/useFetchSwr";
+import fetcherQuery from "../../graphQl/query/fetcher/fetcherQuery";
+import { randomSingerUS } from "../../utils/randomBestArtists";
+import { SCHEMA_ARTISTS_ID } from "../../graphQl/query/schema/getIdArtistByName";
+import { SCHEMA_ARTISTS_INFO } from "../../graphQl/query/schema/getArtistInfoById";
+import { TArtistInfo } from "../TMainData";
 
 const Suggest = () => {
 
-    const singerName = useRecoilValue<undefined | string>(ARTISTS_NAME);
+  const artistsNames = useRecoilValue<undefined | string>(ARTISTS_NAME);
+  const [artistsIds, setArtistsIds] = useRecoilState<undefined | string>(
+    ARTISTS_ID
+  );
+  const { swrFetcher } = useFetchSwr();
 
-    const [singerId, setSingerId] = useRecoilState<undefined | string>(ARTISTS_ID as any);
-
-    const [status, setStatus] = useRecoilState(STATUS)
-
-
-    const {data: {information} = {}} = useSWR(
-        ["/query/artists/FIND_ID_BY_NAME", singerName],
-        singerName ? () => getIdArtistByName(singerName) : null,
-        {
-            refreshInterval: 1000,
-            errorRetryInterval: 5000,
-            onError: (error, key) => {
-                console.log(key)
-                toast.error('Connection Lost');
-            },
+  const {
+    data: { find } = { find: undefined },
+  }: {
+    data:
+      | {
+          find:
+            | { __typename: string; artists: { items: Array<{ id: string }> } }
+            | undefined;
         }
-    );
+      | undefined;
+  } = swrFetcher<TArtistId | undefined>(
+    ["/graphql/query/schema/getArtistsByName", artistsNames],
+    artistsNames
+      ? ([_, singerName]) =>
+          fetcherQuery(SCHEMA_ARTISTS_ID, {
+            name: singerName || randomSingerUS,
+          })
+      : null,
+    {
+      keepPreviousData: false,
+      runError: true,
+    }
+  );
 
-    const {data: {artist, songs, related} = {}, error: ERROR_GET_ARTIST} = useSWR(
-        ["query", "/query/artists/getArtist", singerId],
-        singerId ? () => getArtistInfoById(singerId) : null,
-        {
-            keepPreviousData: true,
-            refreshInterval: 1000,
-            errorRetryInterval: 5000,
-            onSuccess: () => setStatus("success"),
-            onError: (error, key) => {
-                toast.error('Connection Lost');
-            },
+  const {
+    data: { artist, songs, related } = {
+      artist: undefined,
+      songs: undefined,
+      related: undefined,
+    },
+  }: {
+    data:
+      | {
+          artist: TArtist | undefined;
+          songs: TSongs | undefined;
+          related: TRelated | undefined;
         }
-    );
+      | undefined;
+  } = swrFetcher<TArtistInfo | undefined>(
+    ["/graphql/query/schema/getArtistById", artistsIds],
+    artistsIds
+      ? ([_, artistsIds]) =>
+          fetcherQuery(SCHEMA_ARTISTS_INFO, { artistId: artistsIds })
+      : null,
+    {
+      keepPreviousData: true,
+      runError: false,
+    }
+  );
 
-    console.log(artist)
+  const artistPickId = find?.artists?.items[0]?.id;
 
-    const artistPickId = information?.artists?.items[0]?.id;
+  useEffect(() => {
+    if (artistPickId) {
+      setArtistsIds(artistPickId);
+    }
+  }, [artistPickId]);
 
-    useEffect(() => {
-        if (artistPickId) {
-            setSingerId(artistPickId);
-        }
-    }, [artistPickId]);
-
-
-    return (
-        <VStack justify="center" align="center" width="full" height="100vh">
-            <HStack spacing={5}>
-                <Related related={related}/>
-                <Artist artist={artist}/>
-                <Tracks songs={songs}/>
-            </HStack>
-        </VStack>
-    );
+  return (
+    <VStack
+      justify="center"
+      align="center"
+      w={"full"}
+      h={["auto", "auto" , "auto", "100vh"]}
+      pb={[8, 8, 0]}
+    >
+      <Stack direction={["column", "column" , "column" , "row"]}>
+        <Related related={related} />
+        <Artist artist={artist} />
+        <Songs songs={songs} />
+      </Stack>
+    </VStack>
+  );
 };
 
 export default Suggest;
-
-
-

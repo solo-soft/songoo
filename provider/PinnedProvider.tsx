@@ -1,22 +1,25 @@
-import {TSession} from "../components/Type";
+import {TSession} from "../components/TSession";
 import useSWR from "swr";
 import getUserDataOnSupabase from "../supabase/reads/getUserDataOnSupabase";
-import {createContext} from "react";
+import {createContext, ReactNode} from "react";
+import useFetchSwr from "../hooks/useFetchSwr";
+import {TPinned} from "../components/Dashboard/TDashboard";
 
+export const PinnedContext = createContext<TPinned[] | undefined>(undefined);
 
-export const PinnedContext = createContext(undefined);
+const PinnedProvider = ({children} : {children : ReactNode}) => {
 
-const PinnedProvider = ({children}) => {
+    const {swrFetcher} = useFetchSwr()
 
-    const { data: session }: { data: TSession | undefined } = useSWR(
-        "/api/getUserSession"
+    const { data: session } = useSWR("/api/getUserSession");
+
+    const { data: pinnedSongs } : {data : Array<TPinned> | undefined  | null } = swrFetcher<TPinned>(
+        "/supabase/reads/UserPinned",
+        () => getUserDataOnSupabase("UserPinned", session),
+        {
+            keepPreviousData : true
+        }
     );
-
-    const { data: pinnedSongs } = useSWR("/supabase/reads/UserPinned", () =>
-        getUserDataOnSupabase("UserPinned", session)
-    );
-
-
     return (
         <PinnedContext.Provider value={pinnedSongs}>
             {children}

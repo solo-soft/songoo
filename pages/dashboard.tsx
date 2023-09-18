@@ -1,13 +1,13 @@
-import UserDashboard from "../components/Dashboard/UserDashboard";
 import verifyToken from "../utils/verifyToken";
 import { SWRConfig } from "swr";
-import Header from "../components/Header/Header";
 import { useRouter } from "next/router";
-import { VStack } from "@chakra-ui/react";
 import RecentlyProvider from "../provider/RecentlyProvider";
 import PinnedProvider from "../provider/PinnedProvider";
+import Dashboard from "../components/Dashboard/Dashboard";
+import CreatePlaylist from "../components/CreatePlaylist/CreatePlaylist";
+import { NextApiRequest, NextApiResponse } from "next";
 
-const Dashboard = ({ fallback }) => {
+const Index = ({ fallback }: { fallback: {} }) => {
   const router = useRouter();
 
   return (
@@ -16,10 +16,8 @@ const Dashboard = ({ fallback }) => {
       <SWRConfig value={{ fallback }}>
         <RecentlyProvider>
           <PinnedProvider>
-            <VStack h={"100vh"}>
-              <Header position={"relative"} />
-              <UserDashboard/>
-            </VStack>
+            <Dashboard />
+            <CreatePlaylist />
           </PinnedProvider>
         </RecentlyProvider>
       </SWRConfig>
@@ -27,9 +25,15 @@ const Dashboard = ({ fallback }) => {
   );
 };
 
-export default Dashboard;
+export default Index;
 
-export const getServerSideProps = async ({ res, req }) => {
+export const getServerSideProps = async ({
+  res,
+  req,
+}: {
+  res: NextApiResponse;
+  req: NextApiRequest;
+}) => {
   const session = verifyToken(req);
 
   if (!session?.user) {
@@ -37,7 +41,6 @@ export const getServerSideProps = async ({ res, req }) => {
     res.end();
     return { props: {} };
   }
-
   return {
     props: {
       fallback: {

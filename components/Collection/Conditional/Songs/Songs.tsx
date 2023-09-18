@@ -4,14 +4,28 @@ import Name from "./Name";
 import Images from "./Images";
 import Playback from "./Playback";
 import Menu from "./Menu";
-
-const Songs = ({ songs, songsIndex , property , interactionsCollections , playlistSongs }) => {
-  const props = { songs , songsIndex , property , interactionsCollections , playlistSongs };
+import Duration from "../../../#General/Duration";
+import Likes from "../../../#General/Likes";
+const Songs = ({
+  songs,
+  songsIndex,
+  property,
+  interactionsCollections,
+  // playlistSongs,
+}) => {
+  const props = {
+    songs,
+    songsIndex,
+    property,
+    interactionsCollections,
+    // playlistSongs,
+  };
   return (
     <HStack>
       <Name {...props} />
       <Images {...props} />
       <Playback {...props} />
+      <Duration {...props} />
       <Menu {...props} />
     </HStack>
   );

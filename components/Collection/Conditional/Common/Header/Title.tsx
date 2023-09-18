@@ -3,7 +3,7 @@ import { FC, useContext, useEffect, useState } from "react";
 import { CollectionContext } from "../../../../../provider/CollectionProvider";
 import { AiFillHeart, AiFillSave, AiOutlineHistory } from "react-icons/ai";
 import _ from "lodash";
-import { TSession } from "../../../../Type";
+import { TSession } from "../../../../TSession";
 import useSWR from "swr";
 import { IconType } from "react-icons";
 
@@ -14,10 +14,9 @@ const Title = () => {
 
   const {
     property,
-    collectionSongs,
+    interactionsCollections,
     playlistSongs
-  }: { property: TCollectionProperty } =
-    useContext(CollectionContext);
+  }: { property: TCollectionProperty } = useContext(CollectionContext);
 
   const [title, setTitle] = useState<string>("");
 
@@ -48,15 +47,18 @@ const Title = () => {
     }
   }, [property]);
 
+
+
+
   return (
-    <Stack flex={0.5} spacing={0}>
-      <HStack>
-        <Text fontSize={"5xl"} fontWeight={"bold"} color={fontColor?.primary}>
+    <Stack flex={0.5} spacing={0} align={["center" , "center" , "flex-start"]}>
+
+        <Text fontSize={["2xl" , "2xl" , "5xl"]} fontWeight={"bold"} color={fontColor?.primary}>
           {title} {playlistSongs?.[0].title}
         </Text>
-      </HStack>
+
       <Text fontSize={"xs"} color={fontColor?.primary}>
-        Include {check ? playlistSongs?.[0]?.song_info?.length : collectionSongs?.length}{" "}
+        Include {check ? playlistSongs?.[0]?.song_info?.length : interactionsCollections?.length}{" "}
         {property === "playlists" ? "playlists" : "songs"} created by{" "}
         {session?.user.email}{" "}
       </Text>

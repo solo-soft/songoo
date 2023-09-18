@@ -29,9 +29,9 @@ import setUserDataOnSupabase from "../../supabase/inserts/setUserDataOnSupabase"
 import useSWR from "swr";
 import { v4 as uuidv4 } from "uuid";
 import { useRef, useState } from "react";
-import { TSession } from "../Type";
+import { TSession } from "../TSession";
 import { mutate } from "swr";
-import { TUserPlaylists } from "../Dashboard/Type";
+import { TUserPlaylists } from "../Dashboard/TDashboard";
 import getUserDataOnSupabase from "../../supabase/reads/getUserDataOnSupabase";
 import {toast} from "react-toastify";
 

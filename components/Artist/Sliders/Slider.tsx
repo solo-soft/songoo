@@ -1,8 +1,8 @@
 import {Swiper, SwiperSlide} from "swiper/react";
 import {FreeMode} from "swiper";
 import {Box, Button, HStack} from "@chakra-ui/react";
-import Pictures from "../../Dashboard/Subscription/Pictures";
-import Name from "../../Dashboard/Subscription/Name";
+import Images from "../../Dashboard/Panels/Subscription/Items/Images/Images";
+import Name from "../../Dashboard/Panels/Subscription/Items/Name/Name";
 
 
 const Slider = ({children , height , preview , breakpoint = {}}) => {

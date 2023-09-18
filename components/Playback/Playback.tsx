@@ -11,7 +11,7 @@ import {
   BsSkipEndFill,
 } from "react-icons/bs";
 import { Range, getTrackBackground } from "react-range";
-import { PLAYBACK_INFORMATION_NEW } from "../../recoil/atoms/atoms";
+import { PLAYBACK_INFORMATION } from "../../recoil/atoms/atoms";
 import { produce } from "immer";
 import { motion } from "framer-motion";
 
@@ -20,7 +20,7 @@ export const Playback = () => {
 
   const playbackRef = useRef<any>();
   const [playbackInformation, setPlaybackInformation] = useRecoilState(
-    PLAYBACK_INFORMATION_NEW
+    PLAYBACK_INFORMATION
   );
 
   const { indexOfSongs, arrayOfSongs, isPlaying } = playbackInformation;
@@ -124,21 +124,23 @@ export const Playback = () => {
   return (
     <motion.div
       initial={{
-        width: "100%",
-        translateY: "65px",
+        translateY: "0px",
         bottom: 0,
-        position: "absolute",
+        left: 0,
+        right: 0,
+        margin: "auto",
+        position: "fixed",
         display: "flex",
         justifyContent: "center",
         alignContent: "center",
-          zIndex : 9999
+        zIndex: 9998,
       }}
       animate={{
         bottom: 0,
         translateY: isMoved ? "-10px" : "65px",
       }}
     >
-      <VStack rounded={5} overflow={"hidden"} spacing={0} >
+      <VStack position={"relative"} rounded={5} overflow={"hidden"} spacing={0}>
         <Box
           pointerEvents={!!arrayOfSongs.length ? "auto" : "none"}
           w={"full"}
@@ -147,8 +149,9 @@ export const Playback = () => {
           bg={!!arrayOfSongs.length ? "#7886FF" : "#414141"}
           onClick={handleClick}
         />
+
         <HStack
-          w={"lg"}
+          w={["xs", "xs", "lg"]}
           h={65}
           bg={"#252525"}
           align={"center"}

@@ -1,5 +1,5 @@
 import {gql} from "@apollo/client";
-import {apolloClient} from "../../../utils/apolloClients";
+import {apolloClient} from "../../client/apolloClients";
 
 
 const GET_SEVERAL_ARTISTS = gql`

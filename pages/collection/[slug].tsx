@@ -3,6 +3,7 @@ import Collection from "../../components/Collection/Collection";
 import verifyToken from "../../utils/verifyToken";
 import CollectionProvider from "../../provider/CollectionProvider";
 import PinnedProvider from "../../provider/PinnedProvider";
+import CreatePlaylist from "../../components/CreatePlaylist/CreatePlaylist";
 
 const Slug = ({ fallback }) => {
   return (
@@ -10,6 +11,7 @@ const Slug = ({ fallback }) => {
       <CollectionProvider>
         <PinnedProvider>
           <Collection />
+          <CreatePlaylist />
         </PinnedProvider>
       </CollectionProvider>
     </SWRConfig>
