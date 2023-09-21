@@ -1,9 +1,9 @@
 import { Text } from "@chakra-ui/react";
 import useMilliseconds from "../../hooks/useMilliseconds";
 import { useRouter } from "next/router";
-import {TSongs} from "../TMainData";
+import {TSongs} from "../Collection/Common/Songs/Songs";
 
-const Duration = ({ songs } : {songs : Partial<TSongs["tracks"][0]>}) => {
+const Duration = ({ songs } : TSongs) => {
   const router = useRouter();
   const { milliseconds } = useMilliseconds();
 
@@ -15,12 +15,12 @@ const Duration = ({ songs } : {songs : Partial<TSongs["tracks"][0]>}) => {
       break;
     default:
       if (router.pathname.includes("/collection")) {
-        fontSize = ["xs", "xs", "xl"];
+        fontSize = ["xs", "xs", "sm"];
       }
   }
 
   return (
-    <Text fontSize={fontSize}>
+    <Text textAlign={"center"} fontSize={fontSize} flex={[.5 , .5 , .5]}>
       {milliseconds(songs.duration_ms)}
     </Text>
   );

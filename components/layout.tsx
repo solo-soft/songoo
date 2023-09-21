@@ -76,7 +76,7 @@ export default function Layout({ children }) {
       case "/collection/recently-played":
         setBgColors("recently");
         break;
-      case "/collection/playlists/list":
+      case "/collection/Playlists/list":
         setBgColors("playlists");
         break;
       default:

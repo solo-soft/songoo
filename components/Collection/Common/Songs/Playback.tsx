@@ -1,22 +1,25 @@
 import Controller from "../../../#General/Controller";
 import {Stack, useTheme} from "@chakra-ui/react";
 import _ from "lodash";
-const Playback = ({songs , songsIndex , property , interactionsCollections }) => {
+import {TCollection, TCollectionContext} from "../../TCollection";
+import {useContext} from "react";
+import {CollectionContext} from "../../../../provider/CollectionProvider/CollectionProvider";
+import {TSongs} from "./Songs";
+const Playback = ({songs , songsIndex} : TSongs) => {
+
+    const { property, collectionInfo }: TCollectionContext = useContext(CollectionContext);
 
     const theme = useTheme()
     const fontColor =  _.get(theme, `font.color.section.${property}`);
-
-    const check = property === "playlist-songs"
-
-    const listOfSongs = _.flatMap( interactionsCollections , "song_info")
+    const listOfSongs : TCollection["song_info"] = _.flatMap( collectionInfo , "song_info")
 
     return (
 
-        <Stack flex={[.3 , .3 , .1]} role={"group"}>
+        <Stack flex={[.3 , .3 , .2]} role={"group"}>
             <Controller
                 flex={"auto"}
-                iconSize={["2xl" , "2xl" , "8xl"]}
-                symbolSize={[15 , 45]}
+                iconSize={["2xl" , "2xl" , "6xl"]}
+                symbolSize={[5 , 25]}
                 iconColor={fontColor?.secondary}
                 symbolColor={fontColor?.secondary}
                 indexOfSongs={songsIndex}

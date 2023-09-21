@@ -9,7 +9,7 @@ const Title = () => {
             <Text fontSize={["sm" , "sm" , "xl"]} textAlign={"center"} fontWeight={"light"} >
                 Your Playlists
             </Text>
-            <Button onClick={() => router.push("/collection/playlists/list")} size={"xs"}>see more</Button>
+            <Button onClick={() => router.push("/collection/Playlists/list")} size={"xs"}>see more</Button>
         </Stack>
     );
 };

@@ -1,24 +1,26 @@
+import React from "react";
 import CollectionProvider from "../../../provider/CollectionProvider/CollectionProvider";
+import ReceLike from "../../../components/Collection/ReceLike/ReceLike";
 import verifyToken from "../../../utils/verifyToken";
 import { SWRConfig } from "swr";
-import Playlists from "../../../components/Collection/Playlists/Playlists";
+import CreatePlaylist from "../../../components/CreatePlaylist/CreatePlaylist";
+import PlaylistsItems from "../../../components/Collection/PlaylistItems/PlaylistsItems";
 import Header from "../../../components/Collection/Common/Header/Header";
-import { Divider } from "@chakra-ui/react";
 import { NextApiRequest, NextApiResponse } from "next";
 
-const List = ({ fallback }: { fallback: {} }) => {
+const PlaylistId = ({ fallback } : {fallback : {}}) => {
   return (
     <SWRConfig value={{ fallback }}>
       <CollectionProvider>
         <Header />
-        <Divider my={5} rounded={"full"} />
-        <Playlists />
+        <PlaylistsItems />
+        <CreatePlaylist />
       </CollectionProvider>
     </SWRConfig>
   );
 };
 
-export default List;
+export default PlaylistId;
 
 export const getServerSideProps = async ({
   req,

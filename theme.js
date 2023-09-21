@@ -42,13 +42,13 @@ export const customTheme = extendTheme({
             },
 
             likes : {
-                primary : "#281414"
+                primary : "#0e0e0e" //"#281414"
             },
             recently: {
-                primary : "#131F0F"
+                primary : "#0e0e0e" //"#131F0F"
             },
             playlists: {
-                primary : "#181A33"
+                primary : "#0e0e0e" //"#211320"
             },
             artist : {
                 primary : "#000000",
@@ -77,13 +77,13 @@ export const customTheme = extendTheme({
                 },
                 playlists : {
                     primary : "#FFFFFF",
-                    secondary : "#7886FF",
+                    secondary : "#de85dc",
                     tertiary: "#6e6e6e",
                     title : "#181616"
                 },
                 "playlist-songs" : {
                     primary : "#FFFFFF",
-                    secondary : "#7886FF",
+                    secondary : "#de85dc",
                     tertiary: "#6e6e6e",
                     title : "#181616"
                 },

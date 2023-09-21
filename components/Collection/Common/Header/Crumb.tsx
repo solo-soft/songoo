@@ -15,25 +15,18 @@ import {
   AiFillHome,
   AiFillHeart,
   AiOutlineHistory,
-  AiOutlineUser,
   AiOutlineUnorderedList,
 } from "react-icons/ai";
-import { BsFillGridFill } from "react-icons/bs";
-import React, { useContext, useEffect } from "react";
+import { useContext} from "react";
 import _ from "lodash";
-import { CollectionContext } from "../../../../../provider/CollectionProvider";
 import { IconType } from "react-icons";
 import { BiSolidDashboard, BiSolidUser } from "react-icons/bi";
 import { useRouter } from "next/router";
-
-type TCollectionProperty =
-  | "likes"
-  | "recently"
-  | "playlists"
-  | "playlist-songs";
+import { CollectionContext } from "../../../../provider/CollectionProvider/CollectionProvider";
+import { TProperty } from "../../TCollection";
 
 type TIcons = {
-  [key in TCollectionProperty]: IconType;
+  [key in TProperty]: IconType;
 };
 
 const icons: TIcons = {
@@ -43,17 +36,17 @@ const icons: TIcons = {
   "playlist-songs": AiOutlineUnorderedList,
 };
 
-const RouteCrumb = () => {
+const Crumb = () => {
   const router = useRouter();
   const theme = useTheme();
 
-  const { property }: { collectionProperty: TCollectionProperty } =
+  const { property }: { property: TProperty | undefined } =
     useContext(CollectionContext);
 
   const fontColor = _.get(theme, `font.color.section.${property}`);
 
   return (
-    <Stack flex={0.5} align={"flex-end"}>
+    <Stack position={"absolute"} top={5} right={5}>
       <Breadcrumb spacing={1} separator={<ChevronRightIcon color="gray.500" />}>
         <BreadcrumbItem>
           <HStack>
@@ -92,7 +85,7 @@ const RouteCrumb = () => {
           <BreadcrumbItem>
             <Tooltip label="playlists">
               <IconButton
-                onClick={() => router.push("/collection/playlists/list")}
+                onClick={() => router.push("/collection/Playlists/list")}
                 size={"sm"}
                 aria-label="Call Segun"
                 icon={
@@ -108,16 +101,18 @@ const RouteCrumb = () => {
         )}
 
         <BreadcrumbItem isCurrentPage>
-          <BreadcrumbLink fontWeight={"bold"} >
+          <BreadcrumbLink fontWeight={"bold"}>
             <IconButton
               aria-label="dynamic"
               size={"sm"}
               icon={
-                <Icon
-                  as={icons[property]}
-                  color={fontColor?.secondary}
-                  fontSize={"xl"}
-                />
+                property && (
+                  <Icon
+                    as={icons[property]}
+                    color={fontColor?.secondary}
+                    fontSize={"xl"}
+                  />
+                )
               }
             />
           </BreadcrumbLink>
@@ -127,4 +122,4 @@ const RouteCrumb = () => {
   );
 };
 
-export default RouteCrumb;
+export default Crumb;

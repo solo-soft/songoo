@@ -19,7 +19,6 @@ const Auth = ({userInfo}) => {
     const [login, setLogin] = useState(false)
     const [status, setStatus] = useState(false)
 
-    console.log(userInfo)
 
     const zodSignup = z.object({
         email: z.string()
