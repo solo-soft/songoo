@@ -1,16 +1,20 @@
 import { SWRConfig } from "swr";
-import Collection from "../../components/Collection/Collection";
+import ReceLike from "../../components/Collection/ReceLike/ReceLike";
 import verifyToken from "../../utils/verifyToken";
-import CollectionProvider from "../../provider/CollectionProvider";
+import CollectionProvider from "../../provider/CollectionProvider/CollectionProvider";
 import PinnedProvider from "../../provider/PinnedProvider";
 import CreatePlaylist from "../../components/CreatePlaylist/CreatePlaylist";
+import Header from "../../components/Collection/Common/Header/Header";
+import { NextApiRequest, NextApiResponse } from "next";
+import { NextParsedUrlQuery } from "next/dist/server/request-meta";
 
-const Slug = ({ fallback }) => {
+const Slug = ({ fallback }: { fallback: {} }) => {
   return (
     <SWRConfig value={{ fallback }}>
       <CollectionProvider>
         <PinnedProvider>
-          <Collection />
+          <Header />
+          <ReceLike />
           <CreatePlaylist />
         </PinnedProvider>
       </CollectionProvider>
@@ -19,7 +23,15 @@ const Slug = ({ fallback }) => {
 };
 export default Slug;
 
-export const getServerSideProps = async ({ req, res , query : {slug} }) => {
+export const getServerSideProps = async ({
+  req,
+  res,
+  query: { slug },
+}: {
+  req: NextApiRequest;
+  res: NextApiResponse;
+  query: NextParsedUrlQuery;
+}) => {
   const session = verifyToken(req);
 
   if (!session?.user) {
@@ -28,14 +40,13 @@ export const getServerSideProps = async ({ req, res , query : {slug} }) => {
     return { props: {} };
   }
 
-  console.log(slug)
+  console.log(slug);
 
-  if (slug !== 'likes' && slug !== 'recently-played') {
+  if (slug !== "likes" && slug !== "recently-played") {
     return {
       notFound: true,
     };
   }
-
 
   return {
     props: {

@@ -14,7 +14,7 @@ type TController = {
   flex?: number | number[] | string | string[];
   iconSize?: number | number[] | string | string[];
   iconColor?: string;
-  symbolSize?: string | string[] | undefined;
+  symbolSize?: number | number[] | undefined;
   symbolColor?: string;
 };
 

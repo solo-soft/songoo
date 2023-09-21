@@ -1,6 +1,6 @@
 import {supabase} from "../createClient";
 
-export default async function getUserSongsPlaylist (Tabel , session , playlistsId) {
+export default async function getUserPlaylistItems (Tabel , session , playlistsId) {
     try {
         const {data, error} = await supabase
             .from(Tabel)
