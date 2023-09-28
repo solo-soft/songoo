@@ -12,9 +12,7 @@ import { RiSunFill } from "react-icons/ri";
 import useSWR from "swr";
 
 export const User = () => {
-  const {
-    data: { user: session },
-  } = useSWR("/api/getUserSession");
+  const {data: { user: session },} = useSWR("/api/getUserSession");
 
   const router = useRouter();
 
@@ -29,7 +27,7 @@ export const User = () => {
     <HStack
       order={[0, 0, 0 , 3]}
       flex={[0, 0, 0 , 1]}
-      justify={{sm : "space-between" , xl : "end"}}
+      justify={["space-between" , "space-between" , "space-between" , "flex-end"]}
       spacing={3}
     >
       {session ? (

@@ -1,6 +1,6 @@
 import {gql} from "@apollo/client";
 
-import {apolloClient} from "../../client/apolloClients";
+import {apolloClient} from "../../client/initializeClient";
 
 
 

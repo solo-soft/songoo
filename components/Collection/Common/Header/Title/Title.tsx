@@ -23,7 +23,7 @@ const Title = () => {
   return (
     <Stack spacing={0} align={["center", "center", "center"]}>
       <Text
-        fontSize={["4xl", "5xl" , "6xl", "8xl"]}
+        fontSize={["4xl", "5xl", "6xl", "8xl"]}
         fontWeight={"bold"}
         bgGradient={`linear(to-l, ${fontColor?.secondary}, #ffff)`}
         bgClip="text"

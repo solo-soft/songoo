@@ -1,7 +1,7 @@
-import { Box, HStack, Icon, Stack, Text, VStack } from "@chakra-ui/react";
+import {Box, HStack, Icon, Spinner, Stack, Text, VStack} from "@chakra-ui/react";
 import "react-h5-audio-player/lib/styles.css";
 import Image from "next/image";
-import { useEffect, useMemo, useRef, useState } from "react";
+import {useEffect, useLayoutEffect, useMemo, useRef, useState} from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import prettyMilliseconds from "pretty-ms";
 import {
@@ -11,17 +11,29 @@ import {
   BsSkipEndFill,
 } from "react-icons/bs";
 import { Range, getTrackBackground } from "react-range";
-import { PLAYBACK_INFORMATION } from "../../recoil/atoms/atoms";
+import { PLAYBACK_INFORMATION , PLAYBACK_LOADING } from "../../recoil/atoms/atoms";
 import { produce } from "immer";
 import { motion } from "framer-motion";
+import { useScraper } from "../../hooks/useScraper";
+import useFetchSwr from "../../hooks/useFetchSwr";
+import Timer from "./Timer/Timer";
+import Audio from "./Audio";
+import PrevButton from "./PrevButton";
+import NextButton from "./NextButton";
+import PlayPuse from "./PlayPuse";
+import Images from "./Images";
+import Name from "./Name";
+import Artists from "./Artists";
 
 export const Playback = () => {
   const [isMoved, setIsMoved] = useState(false);
 
-  const playbackRef = useRef<any>();
-  const [playbackInformation, setPlaybackInformation] = useRecoilState(
-    PLAYBACK_INFORMATION
-  );
+  const playbackRef = useRef<any>(null);
+
+  const [playbackInformation, setPlaybackInformation] =
+    useRecoilState(PLAYBACK_INFORMATION);
+
+  const playbackLoading = useRecoilValue(PLAYBACK_LOADING)
 
   const { indexOfSongs, arrayOfSongs, isPlaying } = playbackInformation;
 
@@ -34,20 +46,17 @@ export const Playback = () => {
     duration_ms,
   } = arrayOfSongs[indexOfSongs] ?? {};
 
-  useEffect(() => {
-    if (isPlaying) {
-      const interval = setInterval(
-        () =>
-          setPlaybackInformation((prev) =>
-            produce(prev, (draft) => {
-              draft.elapsedTime += 1;
-            })
-          ),
-        1000
-      );
-      return () => clearInterval(interval);
+  const { swrFetcher } = useFetchSwr();
+  const { spotifyScraper } = useScraper();
+
+  const { data: scraperInfos } = swrFetcher(
+    ["SpotifyScraper", id],
+    id ? async ([_, id]) => await spotifyScraper(id) : null,
+    {
+      keepPreviousData: false,
+      onFocus: false,
     }
-  }, [playbackInformation.elapsedTime, isPlaying]);
+  );
 
   useEffect(() => {
     setPlaybackInformation((prev) =>
@@ -65,53 +74,7 @@ export const Playback = () => {
     );
   }, [id]);
 
-  const handelNext = () => {
-    setPlaybackInformation((prev) =>
-      produce(prev, (draft) => {
-        draft.elapsedTime = 0;
-        draft.isPlaying = true;
-        draft.indexOfSongs = (prev.indexOfSongs + 1) % arrayOfSongs.length;
-      })
-    );
-  };
-  const handelPrev = () => {
-    setPlaybackInformation((prev) =>
-      produce(prev, (draft) => {
-        draft.elapsedTime = 0;
-        draft.isPlaying = true;
-        draft.indexOfSongs =
-          prev.indexOfSongs === 0
-            ? arrayOfSongs.length - 1 - prev.indexOfSongs
-            : prev.indexOfSongs - 1;
-      })
-    );
-  };
-
-  const handlePlayPause = () => {
-    setPlaybackInformation((prev) =>
-      produce(prev, (draft) => {
-        draft.isPlaying = !prev.isPlaying;
-      })
-    );
-
-    if (!playbackInformation.isPlaying) {
-      playbackRef.current.play();
-    } else {
-      playbackRef.current.pause();
-    }
-  };
-
-  const handleTimeChange = (e) => {
-    const time = e[0];
-    setPlaybackInformation((prev) =>
-      produce(prev, (draft) => {
-        draft.elapsedTime = time;
-      })
-    );
-    playbackRef.current.currentTime = time;
-  };
-
-  const handleClick = async () => {
+  const handleClick = () => {
     setIsMoved(!isMoved);
   };
 
@@ -137,7 +100,7 @@ export const Playback = () => {
       }}
       animate={{
         bottom: 0,
-        translateY: isMoved ? "-10px" : "65px",
+        translateY:  isMoved ? "-10px" : "65px",
       }}
     >
       <VStack position={"relative"} rounded={5} overflow={"hidden"} spacing={0}>
@@ -158,138 +121,46 @@ export const Playback = () => {
           spacing={0}
           p={2}
         >
-          <Box p={25} rounded={5} overflow={"hidden"} position={"relative"}>
-            <Image src={images?.[0]?.url} layout={"fill"} objectFit={"cover"} />
-          </Box>
+          <Images />
 
-          <Stack w={"full"}>
-            <HStack>
-              <Stack flex={1} spacing={1} px={3}>
-                <HStack w={"full"}>
-                  <Box flex={1}>
-                    <Text
-                      flex={1}
-                      fontWeight={"bold"}
-                      noOfLines={1}
-                      fontSize={"sm"}
-                    >
-                      {name}
-                    </Text>
-                    <Text noOfLines={1} fontSize={"2xs"}>
-                      {artists?.map((value) => value.name)}
-                    </Text>
-                  </Box>
+          <Stack flex={1} spacing={1} px={3}>
+            <HStack w={"full"}>
+              <Box flex={1}>
+                <Name />
+                <Artists />
+              </Box>
 
-                  <HStack flex={2} justify={"center"} p={0}>
-                    <Icon
-                      onClick={handelPrev}
-                      color={"#D9D9D9"}
-                      fontSize={23}
-                      as={BsFillSkipStartFill}
-                    />
+              <HStack flex={2} justify={"center"}>
+                <PrevButton playbackRef={playbackRef} />
+                <PlayPuse playbackRef={playbackRef} />
+                <NextButton playbackRef={playbackRef} />
+              </HStack>
 
-                    <motion.div
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                    >
-                      <VStack onClick={handlePlayPause}>
-                        {playbackInformation.isPlaying ? (
-                          <Icon
-                            color={"#D9D9D9"}
-                            fontSize={23}
-                            as={BsFillPauseFill}
-                          />
-                        ) : (
-                          <Icon
-                            color={"#D9D9D9"}
-                            fontSize={23}
-                            as={BsFillPlayFill}
-                          />
-                        )}
-                      </VStack>
-                    </motion.div>
-                    <Icon
-                      onClick={handelNext}
-                      color={"#D9D9D9"}
-                      fontSize={23}
-                      as={BsSkipEndFill}
-                    />
-                  </HStack>
-
-                  <HStack flex={1} justify={"flex-end"}></HStack>
-                </HStack>
-
-                <HStack w={"full"} justifyContent={"space-between"}></HStack>
-
-                <audio
-                  onEnded={handelNext}
-                  src={preview_url}
-                  autoPlay={true}
-                  ref={playbackRef}
-                />
-
-                <HStack>
-                  <Text fontSize={"2xs"} fontWeight={"bold"}>
-                    {prettyMilliseconds(
-                      playbackRef?.current?.duration * 1000 || 60000,
-                      {
-                        colonNotation: true,
-                        secondsDecimalDigits: 0,
-                      }
-                    )}
-                  </Text>
-                  <Range
-                    min={0}
-                    max={playbackRef.current && playbackRef.current.duration}
-                    values={[playbackInformation.elapsedTime]}
-                    onChange={handleTimeChange}
-                    renderTrack={({ props, children }) => (
-                      <div
-                        {...props}
-                        style={{
-                          ...props.style,
-                          height: "3px",
-                          width: "100%",
-                          background: getTrackBackground({
-                            values: [playbackInformation.elapsedTime],
-                            colors: ["#7885FF", "#292E5C"],
-                            min: 0,
-                            max:
-                              playbackRef.current &&
-                              playbackRef.current.duration,
-                          }),
-                        }}
-                      >
-                        {children}
-                      </div>
-                    )}
-                    renderThumb={({ props }) => (
-                      <div
-                        {...props}
-                        style={{
-                          ...props.style,
-                          display: "none",
-                        }}
+              <HStack flex={1} justify={"flex-end"}>
+                {
+                  !scraperInfos || playbackLoading ?
+                      <Spinner
+                          thickness='3px'
+                          emptyColor={"transparent"}
+                          color={"#7886FF"}
+                          size='sm'
                       />
-                    )}
-                  />
-                  <Text fontSize={"2xs"} fontWeight={"bold"}>
-                    {prettyMilliseconds(
-                      (playbackRef?.current?.duration -
-                        playbackInformation.elapsedTime) *
-                        1000 || 0,
-                      {
-                        colonNotation: true,
-                        secondsDecimalDigits: 0,
-                      }
-                    )}
-                  </Text>
-                </HStack>
-              </Stack>
+                      :
+                      null
+
+                }
+              </HStack>
             </HStack>
+
+            <Timer playbackRef={playbackRef} />
           </Stack>
         </HStack>
       </VStack>
+      <Audio
+        prev={preview_url}
+        scraperInfos={scraperInfos}
+        playbackRef={playbackRef}
+      />
     </motion.div>
   );
 };

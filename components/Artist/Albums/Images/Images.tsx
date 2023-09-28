@@ -6,13 +6,14 @@ import Title from "./Title";
 const Images = ({items}) => {
     return (
         <Box
-            w={[150 , 150 ,  195]}
-            h={[150 , 150 ,  195]}
+            w={"full"}
+            h={[110 , 150 ,  195]}
             rounded={15}
             position={"relative"}
             overflow={"hidden"}
         >
             <Image
+                style={{transition : ".5s"}}
                 layout={"fill"}
                 objectFit={"cover"}
                 src={items?.images[0].url}

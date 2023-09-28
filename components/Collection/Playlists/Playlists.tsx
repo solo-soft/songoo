@@ -1,4 +1,4 @@
-import {Box, Grid, GridItem, HStack, Stack, useTheme, VStack} from "@chakra-ui/react";
+import {Box, Grid , useTheme} from "@chakra-ui/react";
 import Title from "./Title/Title";
 import Images from "./Images/Images";
 import { useRouter } from "next/router";

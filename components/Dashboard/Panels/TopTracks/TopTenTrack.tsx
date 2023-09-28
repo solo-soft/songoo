@@ -31,6 +31,7 @@ const TopTenTrack = () => {
       }
     );
 
+  console.log(singerInfo)
 
   return (
     <>

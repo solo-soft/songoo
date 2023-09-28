@@ -19,7 +19,7 @@ const RecentlyProvider = ({ children } : {children  : ReactNode}) => {
 
 
   const {data: recentlyPlayed } : {data : TRecentlyPlayed[] | undefined | null} = swrFetcher<TRecentlyPlayed[] | undefined | null>(
-      "/supabase/reads/UserRecentlyPlayed", () => getUserDataOnSupabase("UserRecentlyPlayed", session),
+      "/supabase/reads/UserRecentlyPlayed", session.user ? () => getUserDataOnSupabase("UserRecentlyPlayed", session) : null,
           {
             keepPreviousData : true
           }

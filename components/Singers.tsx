@@ -2,31 +2,53 @@ import { Box, Button, Grid, HStack, Text, VStack } from "@chakra-ui/react";
 import Image from "next/image";
 import _ from "lodash";
 import useSWR from "swr";
-import { getSeveralArtistsForPickup } from "../graphQl/query/schema/getSeveralArtists";
 import { toast } from "react-toastify";
 import deleteUserSubscriptions from "../supabase/delete/deleteUserSubscriptions";
 import { v4 as uuidv4 } from "uuid";
 import getUserDataOnSupabase from "../supabase/reads/getUserDataOnSupabase";
+import getPublicDataOnSupabase from "../supabase/reads/getPublicDataOnSupabase";
 import setUserDataOnSupabase from "../supabase/inserts/setUserDataOnSupabase";
+import useFetchSwr from "../hooks/useFetchSwr";
 
 export const Singers = () => {
-  const {
-    data: {
-      GET_SEVERAL_ARTISTS_FOR_PICKUP: { artists },
-    },
-  } = useSWR("GET_SEVERAL_ARTISTS_FOR_PICKUP", () =>
-    getSeveralArtistsForPickup()
-  );
+
+
+  const {swrFetcher} = useFetchSwr()
+
+
+  // const {
+  //   data: {
+  //     GET_SEVERAL_ARTISTS_FOR_PICKUP: { artists },
+  //   },
+  // } = useSWR("GET_SEVERAL_ARTISTS_FOR_PICKUP", () =>
+  //   getSeveralArtistsForPickup()
+  // );
 
   const { data: session } = useSWR("/api/getUserSession");
 
-  const { data, error, mutate } = useSWR(
+
+  const { data, mutate } = swrFetcher(
     "/supabase/reads/getUserSubscriptions",
     () => getUserDataOnSupabase("UserSubscriptions" , session),
     {
       keepPreviousData: true,
+      runError : true
     }
   );
+
+
+  const { data : singerList } = swrFetcher(
+      "getSingerLists",
+      () => getPublicDataOnSupabase("SingersListGlobal"),
+      {
+        keepPreviousData: true,
+        runError : true
+      }
+  );
+
+  console.log(singerList?.length)
+
+
 
   const handlerClick = async (value) => {
     const subscribed = _.find(data, { singer: { id: value.id } });
@@ -83,54 +105,63 @@ export const Singers = () => {
       <title>singers</title>
 
       <VStack h={"32rem"} overflow={"auto"} spacing={5}>
-        <Grid gap={3} templateColumns={"repeat(4 , 1fr)"}>
-          {_.sortBy(artists, "name")?.map((artistsInfo) => {
-            const checkSubscriptions: Boolean = _.some(data, {
-              singer: { id: artistsInfo.id },
-            });
 
-            return (
-              <Box
-                key={artistsInfo.id}
-                w={250}
-                h={250}
-                position={"relative"}
-                rounded={20}
-                overflow={"hidden"}
-              >
-                <Image
-                  layout={"fill"}
-                  objectFit={"cover"}
-                  loading={"lazy"}
-                  placeholder={"blur"}
-                  blurDataURL={artistsInfo.images[2].url}
-                  src={artistsInfo.images[0].url}
-                />
+        {
+          singerList &&
+            <Grid gap={3} templateColumns={"repeat(4 , 1fr)"}>
 
-                <HStack
-                  w={"full"}
-                  justifyContent={"space-between"}
-                  bottom={0}
-                  position={"absolute"}
-                  bg={"blackAlpha.600"}
-                  p={3}
-                >
-                  <Text fontSize={"lg"} noOfLines={1} fontWeight={"bold"}>
-                    {artistsInfo.name}
-                  </Text>
-                  <Button
-                    variant={"solid"}
-                    colorScheme={checkSubscriptions ? "pink" : "gray"}
-                    onClick={() => handlerClick(artistsInfo)}
-                    size={"sm"}
-                  >
-                    {checkSubscriptions ? "Subscribed" : "Subscribe"}
-                  </Button>
-                </HStack>
-              </Box>
-            );
-          })}
-        </Grid>
+              {_.sortBy(singerList, "name")?.map(({singer_info}) => {
+
+                const checkSubscriptions: Boolean = _.some(data, {
+                  singer: { id: singer_info.id },
+
+                });
+
+
+                return (
+                    <Box
+                        key={singer_info.id}
+                        w={250}
+                        h={250}
+                        position={"relative"}
+                        rounded={20}
+                        overflow={"hidden"}
+                    >
+                      <Image
+                          layout={"fill"}
+                          objectFit={"cover"}
+                          loading={"lazy"}
+                          placeholder={"blur"}
+                          blurDataURL={singer_info?.images?.[2]?.url || "/"}
+                          src={singer_info?.images?.[0]?.url || "/"}
+                      />
+
+                      <HStack
+                          w={"full"}
+                          justifyContent={"space-between"}
+                          bottom={0}
+                          position={"absolute"}
+                          bg={"blackAlpha.600"}
+                          p={3}
+                      >
+                        <Text fontSize={"lg"} noOfLines={1} fontWeight={"bold"}>
+                          {singer_info.name}
+                        </Text>
+                        <Button
+                            variant={"solid"}
+                            colorScheme={checkSubscriptions ? "pink" : "gray"}
+                            onClick={() => handlerClick(singer_info)}
+                            size={"sm"}
+                        >
+                          {checkSubscriptions ? "Subscribed" : "Subscribe"}
+                        </Button>
+                      </HStack>
+                    </Box>
+                );
+              })}
+            </Grid>
+        }
+
       </VStack>
     </VStack>
   );

@@ -113,6 +113,23 @@ export const PLAYBACK_INFORMATION : RecoilState<TPlayback> = atom<TPlayback>({
     }
 })
 
+export const PLAYBACK_ELAPSED_TIME = atom({
+    key :  Math.random().toString(),
+    default : 0
+})
+
+export const PLAYBACK_DURATION = atom({
+    key :  Math.random().toString(),
+    default : 0
+})
+
+
+export const PLAYBACK_LOADING = atom({
+    key :  Math.random().toString(),
+    default : false
+})
+
+
 export const PLAYBACK_DYNAMIC_INDEX = atom({
     key : Math.random().toString(),
     default : 0

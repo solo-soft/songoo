@@ -25,7 +25,7 @@ import Header from "./Header/Header";
 import { Playback } from "./Playback/Playback";
 import CreatePlaylist from "./CreatePlaylist/CreatePlaylist";
 import _ from "lodash";
-import { RefObject, useEffect, useRef, useState } from "react";
+import { ReactNode, RefObject, useEffect, useRef, useState } from "react";
 import { produce } from "immer";
 import { Offline, Online, Detector } from "react-detect-offline";
 import { ToastTransition } from "react-toastify";
@@ -37,9 +37,9 @@ import { ERROR_INFO } from "../recoil/atoms/atoms";
 import { ArrowForwardIcon, RepeatIcon } from "@chakra-ui/icons";
 import { FocusableElement } from "@chakra-ui/utils";
 import useDetectConnection from "../hooks/useDetectConnection";
-import {ClipLoader} from "react-spinners";
+import { ClipLoader } from "react-spinners";
 
-export default function Layout({ children }) {
+export default function Layout({ children }: { children: ReactNode }) {
   const router = useRouter();
 
   const [bgColors, setBgColors] = useState("one");
@@ -125,19 +125,23 @@ export default function Layout({ children }) {
               <Playback />
             </Box>
 
-            {
-              errorHandler.retry ?
-                  <Alert status='warning' variant={"solid"} w={"xs"} position={"fixed"} bottom={4} left={45} rounded={25} zIndex={9999}>
-                    <ClipLoader size={25}/>
-                    <Text mx={2} fontWeight={"bold"}>
-                      Retrying please with...
-                    </Text>
-                  </Alert>
-                  :
-                  null
-
-            }
-
+            {errorHandler.retry ? (
+              <Alert
+                status="warning"
+                variant={"solid"}
+                w={"xs"}
+                position={"fixed"}
+                bottom={4}
+                left={45}
+                rounded={25}
+                zIndex={9999}
+              >
+                <ClipLoader size={25} />
+                <Text mx={2} fontWeight={"bold"}>
+                  Retrying please with...
+                </Text>
+              </Alert>
+            ) : null}
 
             <AlertDialog
               size={"3xl"}

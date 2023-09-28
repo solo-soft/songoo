@@ -5,12 +5,13 @@ import Image from "next/image";
 const Images = ({track}) => {
     return (
         <Stack
-            p={[25 , 25 ,  35]}
-            rounded={15}
+            p={[30 , 30 ,  35]}
+            rounded={5}
             position={"relative"}
             overflow={"hidden"}
         >
             <Image
+                style={{transition : ".5s"}}
                 layout={"fill"}
                 objectFit={"cover"}
                 src={track.album?.images?.[0]?.url}

@@ -6,11 +6,12 @@ import Image from "next/image";
 const Images = ({ video }) => {
 
   return (
-      <Box w={"full"} h={[170 , 170 , 200]} overflow={"hidden"} position={"relative"}>
+      <Box w={"full"} h={[85 , 130 , 200]} overflow={"hidden"} position={"relative"}>
           <Image
-              onError={(e) => {
+              onError={(e : any) => {
                   return (e.target.src = "/brokenImage.png");
               }}
+              style={{transition : ".5s"}}
               layout={"fill"}
               objectFit={"cover"}
               loading={"lazy"}

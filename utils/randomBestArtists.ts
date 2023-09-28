@@ -118,10 +118,116 @@ const worldSingerList = [
     "Norah Jones"
 ];
 
+const GlobalSingerIds = [
+    "0Ty63ceoRnnJKVEYP0VQpk",
+    "6vWDO969PvNqNYHIOW5v0m",
+    "6eUKZXaKkcviH0Ku9w2n3V",
+    "06HL4z0CvFAxyc27GXpf02",
+    "4dpARuHxo51G3z768sgnrY",
+    "1uNFoZAHBGtllmzznpCI3s",
+    "5pKCCKE2ajJHZ9KAiaK11H",
+    "66CXWjxzNUsdJxJ2JdwvnR",
+    "0du5cEVh5yTK9QJze8zA0C",
+    "1HY2Jd0NmPuamShAr6KMms",
+    "3TVXtAsR1Inumwj472S9r4",
+    "6jJ0s89eD6GaHleKKya26X",
+    "1Xyo4u8uXC1ZmMpatF05PJ",
+    "6qqNVTkY8uBg9cP3Jd7DAH",
+    "7n2wHs1TKAczGzO7Dd2rGr",
+    "6M2wZ9GZgrQXHCFfjv46we",
+    "5y2Xq6xcjJb2jVM54GHK3t",
+    "04gDigrS5kc9YWfZHwBETP",
+    "5WUlDfRSoLAfcVSX1WnrxN",
+    "4gzpq5DPGxSnKTe4SA8HAU",
+    "2wY79sveU1sp5g7SokKOiI",
+    "246dkjvS1zLTtiykXe5h60",
+    "0hCNtLu0JehylgoiP8L4Gh",
+    "7dGJo4pcD2V6oG8kP0tJRR",
+    "4dpARuHxo51G3z768sgnrY",
+    "3PhoLpVuITZKcymswpck5b",
+    "6XpaIBNiVzIetEPCWDvAFP",
+    "3fMbdgg4jU18AjLCKBhRSm",
+    "2QsynagSdAqZj3U9HgDzjD",
+    "6tbjWDEIzxoDsBA1FuhfPW",
+    "1dfeR4HaWDbWqFHLkxsg1d",
+    "43ZHCT0cAZBISjO8DG9PnE",
+    "4S9EykWXhStSc15wEx8QFK",
+    "1Mxqyy3pSjf8kZZL4QVxS0",
+    "5a2EaR3hamoenG9rDuVn8j",
+    "0oSGxfWSnnOXhD2fKuz2Gy",
+    "51Blml2LZPmy7TTiAg47vQ",
+    "6olE6TJLqED3rqDCT0FyPh",
+    "31TPClRtHm23RisEBtV3X7",
+    "1l7ZsJRRS8wlW3WfJfPfNS",
+    "0EmeFodog0BfCgMzAIvKQp",
+    "3eqjTLE0HfPfh78zjh6TqT",
+    "74ASZWbe4lXaubB36ztrGX",
+    "7guDJrEfX3qb6FEbdPA5qi",
+    "4dpARuHxo51G3z768sgnrY",
+    "1zuJe6b1roixEKMOtyrEak",
+    "7nwUJBm0HE4ZxD3f5cy5ok",
+    "6XpaIBNiVzIetEPCWDvAFP",
+    "19ra5tSw0tWufvUp8GotLo",
+    "5a2EaR3hamoenG9rDuVn8j",
+    "3PhoLpVuITZKcymswpck5b",
+    "3nFkdlSjzX9mRTtwJOzDYB",
+    "6vWDO969PvNqNYHIOW5v0m",
+    "0du5cEVh5yTK9QJze8zA0C",
+    "4kYSro6naA4h99UJvo89HB",
+    "5pKCCKE2ajJHZ9KAiaK11H",
+    "0C8ZW7ezQVs4URX5aX7Kqx",
+    "6LuN9FCkKOj5PcnpouEgny",
+    "31TPClRtHm23RisEBtV3X7",
+    "1HY2Jd0NmPuamShAr6KMms",
+    "5y2Xq6xcjJb2jVM54GHK3t",
+    "4dpARuHxo51G3z768sgnrY",
+    "2wY79sveU1sp5g7SokKOiI",
+    "6S2OmqARrzebs0tKUEyXyp",
+    "66CXWjxzNUsdJxJ2JdwvnR",
+    "06HL4z0CvFAxyc27GXpf02",
+    "4iHNK0tOyZPYnBU7nGAgpQ",
+    "3DiDSECUqqY1AuBP8qtaIa",
+    "23zg3TcAtWQy7J6upgbUnj",
+    "26dSoYclwsYLMAKD3tpOr4",
+    "4gzpq5DPGxSnKTe4SA8HAU",
+    "4x1nvY2FN8jxqAFA0DA02H",
+    "4M1FpEWs2PeYfJe7xxJfhH",
+    "6XpaIBNiVzIetEPCWDvAFP",
+    "5a2EaR3hamoenG9rDuVn8j",
+    "0oSGxfWSnnOXhD2fKuz2Gy",
+    "3PhoLpVuITZKcymswpck5b",
+    "6tbjWDEIzxoDsBA1FuhfPW",
+    "2QsynagSdAqZj3U9HgDzjD",
+    "3fMbdgg4jU18AjLCKBhRSm",
+    "1MrEurzLcL8ugfP1PrUPWG",
+    "6pAuTi6FXi6qFQJ1dzMXQs",
+    "6Q192DXotxtaysaqNPy5yR",
+    "74ASZWbe4lXaubB36ztrGX",
+    "7nwUJBm0HE4ZxD3f5cy5ok",
+    "1zuJe6b1roixEKMOtyrEak",
+    "1Mxqyy3pSjf8kZZL4QVxS0",
+    "6kACVPfCOnqzgfEF5ryl0x",
+    "3eqjTLE0HfPfh78zjh6TqT",
+    "19ra5tSw0tWufvUp8GotLo",
+    "7dGJo4pcD2V6oG8kP0tJRR",
+    "0EmeFodog0BfCgMzAIvKQp",
+    "1l7ZsJRRS8wlW3WfJfPfNS",
+    "4M1FpEWs2PeYfJe7xxJfhH",
+    "0hEurMDQu99nJRq8pTxO14",
+    "4dpARuHxo51G3z768sgnrY",
+    "7crPfGd2k81ekOoSqQKWWz",
+    "4CvTDPKA6W06DRfBnZKrau",
+    "6vWDO969PvNqNYHIOW5v0m",
+    "0Ty63ceoRnnJKVEYP0VQpk"
+]
+
 export const worldSinger: string[] = _.sortBy(worldSingerList);
 
 const shuffledSingersUS: string[] = _.shuffle(worldSingerList);
 export const randomSingerUS : String | undefined = _.sample(shuffledSingersUS);
+
+const shuffledSingersUSIds: string[] = _.shuffle(GlobalSingerIds);
+export const randomSingerUSIds : string | undefined = _.sample(shuffledSingersUSIds);
 
 
  const persianSingerList = [
@@ -214,6 +320,17 @@ export const randomSingerUS : String | undefined = _.sample(shuffledSingersUS);
     "Mohammad Bibak",
     "Shayan Eshraghi",
     "Behnam Safavi",]
+
+
+
+
+
+
+
+
+
+
+
 
 
 const shuffledSingersIR = _.shuffle(persianSingerList);

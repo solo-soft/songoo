@@ -8,9 +8,11 @@ import { ParallaxProvider } from "react-scroll-parallax";
 import { DevSupport } from "@react-buddy/ide-toolbox-next";
 import { ComponentPreviews, useInitial } from "../components/dev";
 
+
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
 
   const router = useRouter();
+
 
   return (
     <RecoilRoot>
@@ -41,7 +43,3 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
 
 
 export default MyApp
-
-
-
-

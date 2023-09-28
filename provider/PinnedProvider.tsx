@@ -13,9 +13,9 @@ const PinnedProvider = ({children} : {children : ReactNode}) => {
 
     const { data: session } = useSWR("/api/getUserSession");
 
-    const { data: pinnedSongs } : {data : Array<TPinned> | undefined  | null } = swrFetcher<TPinned>(
+    const { data: pinnedSongs } : {data : Array<TPinned> | undefined  | null } = swrFetcher<TPinned[]>(
         "/supabase/reads/UserPinned",
-        () => getUserDataOnSupabase("UserPinned", session),
+        session.user ? () => getUserDataOnSupabase("UserPinned", session) : null,
         {
             keepPreviousData : true
         }

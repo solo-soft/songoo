@@ -1,16 +1,14 @@
 import useSWR from "swr";
-import { toast } from "react-toastify";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import { STATUS } from "../recoil/atoms/atoms";
-import { useSetState } from "react-use";
 import { ERROR_INFO } from "../recoil/atoms/atoms";
-import {initializeClient} from "../graphQl/client/apolloClients";
-
 
 
 type TOptions = {
   keepPreviousData: boolean;
   runError?: boolean;
+  runSuspense? : boolean
+  onFocus? : boolean
 };
 
 
@@ -46,7 +44,8 @@ const useFetchSwr =  () : TUseFetchSwr => {
         refreshWhenHidden: true,
         refreshWhenOffline: true,
         revalidateOnReconnect: true,
-        revalidateOnFocus: options.runError ? undefined : true,
+        revalidateOnFocus: options.onFocus ,
+        suspense : options.runSuspense,
         onError: () => {
           setErrorHandler((prev) => ({
             ...prev,
@@ -56,8 +55,8 @@ const useFetchSwr =  () : TUseFetchSwr => {
         onErrorRetry: async (error, key, config, revalidate, { retryCount }) => {
           if (retryCount <= 3) {
             setTimeout(() => revalidate({ retryCount }), 4000);
-            return  await initializeClient()
           } else {
+
             return setErrorHandler({
               isError: true,
               retry: false,

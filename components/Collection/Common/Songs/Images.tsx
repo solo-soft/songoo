@@ -1,8 +1,5 @@
-import React, { useContext } from "react";
-import { Box, Stack } from "@chakra-ui/react";
+import {Stack } from "@chakra-ui/react";
 import Image from "next/image";
-import { TCollectionContext } from "../../TCollection";
-import { CollectionContext } from "../../../../provider/CollectionProvider/CollectionProvider";
 import { TSongs } from "./Songs";
 
 const Images = ({ songs }: TSongs) => {

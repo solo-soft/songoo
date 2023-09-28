@@ -1,8 +1,8 @@
 import { Box, Hide, Icon, VStack } from "@chakra-ui/react";
 import { BsFillPauseFill, BsFillPlayFill } from "react-icons/bs";
 import { ScaleLoader } from "react-spinners";
-import { useRecoilState } from "recoil";
-import { PLAYBACK_INFORMATION } from "../../recoil/atoms/atoms";
+import {useRecoilState, useSetRecoilState} from "recoil";
+import {PLAYBACK_DURATION, PLAYBACK_ELAPSED_TIME, PLAYBACK_INFORMATION} from "../../recoil/atoms/atoms";
 import { produce } from "immer";
 import useRecently from "../../hooks/useRecently";
 
@@ -14,7 +14,7 @@ type TController = {
   flex?: number | number[] | string | string[];
   iconSize?: number | number[] | string | string[];
   iconColor?: string;
-  symbolSize?: number | number[] | undefined;
+  symbolSize?: number | Array<number> | undefined;
   symbolColor?: string;
 };
 
@@ -29,20 +29,36 @@ const Controller = ({
   symbolSize = undefined,
   symbolColor = undefined,
 }: TController) => {
+
+
   const [playbackInformation, setPlaybackInformation] =
     useRecoilState(PLAYBACK_INFORMATION);
+
+  const [elapsedTime, setElapsedTime] = useRecoilState(PLAYBACK_ELAPSED_TIME);
+  const setDuration = useSetRecoilState(PLAYBACK_DURATION);
 
   const { addToRecentlyPlayed } = useRecently();
 
   const handelPlay = () => {
+
+    playbackInformation.idsOfSongs !== idsOfSongs &&  playbackInformation.audioRef?.pause();
+
+
     playbackInformation.audioRef?.play();
+
+    // setElapsedTime(prev => playbackInformation.idsOfSongs === idsOfSongs ? playbackInformation.audioRef?.currentTime : 0)
+
+    const quantity = playbackInformation.idsOfSongs === idsOfSongs ? playbackInformation.audioRef?.currentTime : 0
+
+    setDuration(quantity)
+    setElapsedTime( quantity)
+
     setPlaybackInformation((prev) =>
       produce(prev, (draft) => {
         draft.arrayOfSongs = arrayOfSongs;
         draft.indexOfSongs = indexOfSongs;
         draft.idsOfSongs = idsOfSongs;
-        draft.elapsedTime =
-          prev.idsOfSongs === idsOfSongs ? prev.audioRef?.currentTime : 0;
+        // draft.elapsedTime = prev.idsOfSongs === idsOfSongs ? prev.audioRef?.currentTime : 0;
         draft.isPlaying = true;
       })
     );
