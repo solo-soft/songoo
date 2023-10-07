@@ -1,9 +1,10 @@
-import {supabase} from "../createClient";
+import {supabase} from "../SupabaseCreateClient";
 
-export default async function setUserDataOnSupabase(Tabel, Information) {
+
+export default async function setUserDataOnSupabase(Table : string, Information : {}) {
     try {
         const {data, error} = await supabase
-            .from(Tabel)
+            .from(Table)
             .insert(Information)
             .select()
 

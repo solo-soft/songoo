@@ -1,37 +1,41 @@
-import React from "react";
+
 import useSWR from "swr";
-import { Box, HStack, Stack, Text } from "@chakra-ui/react";
+import {Box, HStack, Stack, Text, VStack} from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { FastAverageColor } from "fast-average-color";
 import Description from "../Description/Description";
+import {TSpecificAlbums} from "../../TAlbum";
 
-const Title = () => {
-  const { data, error } = useSWR("query/schema/getAlbumsInfoById", null);
+const Title = ({albumInfo} : { albumInfo: TSpecificAlbums | undefined }) => {
+
   const router = useRouter();
   const fac = new FastAverageColor();
 
   const { data: dynamicColor } = useSWR(["/color", router], () =>
-    fac.getColorAsync(data.albums.images[0].url)
+    fac.getColorAsync(albumInfo?.albums?.images?.[0]?.url || "/")
   );
 
   return (
-    <Stack justify={"center"} align={["center" , "center" , "flex-start"]} >
+    <VStack position={"absolute"} bottom={10} w={620}>
+
       <Text
         noOfLines={1}
-        fontSize={["2xl" , "2xl" , "5xl"]}
+        fontSize={["2xl" , "2xl" , "4xl"]}
         as={"b"}
         bgGradient={dynamicColor ? `linear(to-l, #FFFF ,${dynamicColor?.rgba})` : "linear(to-l, #FFFF , #FFFF)" }
         bgClip={"text"}
       >
-        {data.albums.name}
+        {albumInfo?.albums?.name}
       </Text>
 
       <Text noOfLines={1} fontSize={["2xs" , "2xs" , "sm"]} as={"b"}>
-          Contains {data.albums.total_tracks} songs from{" "}
-        {data.albums.artists[0].name}
+          Contains {albumInfo?.albums?.total_tracks} songs from{" "}
+        {albumInfo?.albums?.artists?.[0].name}
       </Text>
-      <Description />
-    </Stack>
+
+      <Description albumInfo={albumInfo} />
+
+    </VStack>
   );
 };
 

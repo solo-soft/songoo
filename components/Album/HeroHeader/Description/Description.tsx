@@ -1,20 +1,19 @@
-import React from 'react';
-import {Box, HStack, Stack, Text} from "@chakra-ui/react";
-import useSWR from "swr";
 
-const Description = () => {
+import {Text} from "@chakra-ui/react";
+import {TSpecificAlbums} from "../../TAlbum";
 
-    const {data , error} = useSWR("query/schema/getAlbumsInfoById" , null)
+const Description = ({albumInfo} : { albumInfo: TSpecificAlbums | undefined }) => {
+
 
     return (
-        <Box>
+        <>
             <Text fontSize={"2xs"} opacity={"30%"} >
-                Copyrights {data.albums.copyrights[0].text}
+                Copyrights {albumInfo?.albums?.copyrights[0]?.text}
             </Text>
             <Text fontSize={"2xs"} opacity={"30%"} >
-                Release at {data.albums.release_date}
+                Release at {albumInfo?.albums?.release_date}
             </Text>
-        </Box>
+        </>
     );
 };
 

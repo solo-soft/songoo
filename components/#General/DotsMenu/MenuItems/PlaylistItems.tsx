@@ -7,7 +7,7 @@ import { TSongs } from "../../../TMainData";
 import CreatePlaylist from "./CreatePlaylist";
 import {useId} from "react";
 
-const PlaylistItems = ({ songs }: { songs: Partial<TSongs["tracks"][0]> }) => {
+const PlaylistItems = ({ songs }: { songs: Partial<TSongs["tracks"][0]> | any}) => {
   const { data: session } = useSWR("/api/getUserSession");
 
   const id : string = useId()
@@ -16,7 +16,7 @@ const PlaylistItems = ({ songs }: { songs: Partial<TSongs["tracks"][0]> }) => {
     data: userPlaylists,
   }: { data: Array<TUserPlaylists> | undefined | null } = useSWR(
     "/supabase/reads/UserPlaylists",
-    () => getUserDataOnSupabase("UserPlaylists", session)
+    session.user ? () => getUserDataOnSupabase("UserPlaylists", session) : null
   );
 
   const { playlistAction } = usePlaylistAction();
@@ -25,12 +25,12 @@ const PlaylistItems = ({ songs }: { songs: Partial<TSongs["tracks"][0]> }) => {
     playlistAction(playlists, songs);
 
   return (
-    <SubMenu overflow={"visible"} arrow={true} label="Add to playlist">
+    <SubMenu disabled={!session.user}  overflow={"visible"} arrow={true} label="Add to playlist">
       <CreatePlaylist songs={songs} />
       <MenuDivider />
       {userPlaylists?.map((playlists) => {
         return (
-          <MenuItem key={id} onClick={() => handelAddToPlaylist(playlists)}>
+          <MenuItem key={id} onClick={() => session.user ? handelAddToPlaylist(playlists) : null}>
             {playlists.title}
           </MenuItem>
         );

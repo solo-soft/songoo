@@ -1,9 +1,9 @@
 import {Stack, Text} from "@chakra-ui/react";
 import {Hide} from "@chakra-ui/react";
 import Link from "next/link";
-import {TAlbums} from "../../../../../TMainData";
+import {TAlbums, TSongs} from "../../../../../TMainData";
 
-const Albums = ({album} : {album : Pick<TAlbums , "id" | "images" | "name"> | undefined}) => {
+const Albums = ({album} : {album : Partial<TSongs["tracks"][0]> | undefined}) => {
 
     return (
         <Hide below={"sm"}>

@@ -1,5 +1,6 @@
 import { FreeMode } from "swiper";
 import { Swiper } from "swiper/react";
+import {ReactElement} from "react";
 
 const Slider = ({ children }: { children?: JSX.Element[] }) => {
   return (

@@ -10,15 +10,18 @@ import { NextParsedUrlQuery } from "next/dist/server/request-meta";
 
 const Slug = ({ fallback }: { fallback: {} }) => {
   return (
-    <SWRConfig value={{ fallback }}>
-      <CollectionProvider>
-        <PinnedProvider>
-          <Header />
-          <ReceLike />
-          <CreatePlaylist />
-        </PinnedProvider>
-      </CollectionProvider>
-    </SWRConfig>
+    <>
+      <title>Collection</title>
+      <SWRConfig value={{ fallback }}>
+        <CollectionProvider>
+          <PinnedProvider>
+            <Header />
+            <ReceLike />
+            <CreatePlaylist />
+          </PinnedProvider>
+        </CollectionProvider>
+      </SWRConfig>
+    </>
   );
 };
 export default Slug;

@@ -12,11 +12,13 @@ import { motion } from "framer-motion";
 import Controller from "../../#General/Controller";
 import { TImages, TSongs } from "../../TMainData";
 import _ from "lodash";
+import useSWR from "swr";
 
 const Songs = ({ songs }: { songs: TSongs | undefined}) => {
   const theme = useTheme();
+    const { data: session } = useSWR("/api/getUserSession");
   const { primary, tertiary } = _.get(theme, "background.section.suggest");
-  const render: JSX.Element[] | undefined = songs?.tracks.map(
+  const render: JSX.Element[] | undefined = songs?.tracks?.map(
     (song, index: number) => {
       return (
         <motion.div key={song.id} initial={{ scale: 0 }} animate={{ scale: 1 }}>
@@ -30,6 +32,7 @@ const Songs = ({ songs }: { songs: TSongs | undefined}) => {
             bg={primary}
           >
             <Image
+               style={{transition : ".5s"}}
               layout={"fill"}
               sizes={"(max-width: 450px)"}
               objectFit={"cover"}
@@ -56,6 +59,7 @@ const Songs = ({ songs }: { songs: TSongs | undefined}) => {
               </Hide>
 
               <Controller
+                session={session}
                 toRecently={true}
                 arrayOfSongs={songs.tracks}
                 indexOfSongs={index}

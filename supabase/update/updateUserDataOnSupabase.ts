@@ -1,13 +1,9 @@
-import {supabase} from "../createClient";
+import {supabase} from "../SupabaseCreateClient";
 
-export default async function updateUserDataOnSupabase(Tabel, Information , id) {
-
-    console.log(Tabel)
-    console.log(Information)
-
+export default async function updateUserDataOnSupabase(Table : string, Information : {}, id : string) {
     try {
         const {data, error} = await supabase
-            .from(Tabel)
+            .from(Table)
             .update({"song_info" : Information})
             .eq("id" , id)
             .select()

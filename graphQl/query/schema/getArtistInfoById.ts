@@ -1,6 +1,5 @@
 import { DocumentNode, gql } from "@apollo/client";
-import { apolloClient } from "../../client/apolloClients";
-import wretch from "wretch";
+import { apolloClient } from "../../client/SpotifyClient(AccessToken)";
 import httpStatus from "http-status";
 
 export const SCHEMA_ARTISTS_INFO: DocumentNode = gql`
@@ -66,25 +65,4 @@ export const SCHEMA_ARTISTS_INFO: DocumentNode = gql`
   }
 `;
 
-export default async function getArtistInfoById(artistId: string | undefined) {
 
-  const apollo = await apolloClient;
-
-
-  try {
-    const { data } = await apollo.client.query({
-      query: SCHEMA_ARTISTS_INFO,
-      variables: { artistId : artistId},
-    });
-
-    return data;
-  }
-  catch (e) {
-    throw {
-      code: 403,
-      reason:  httpStatus[403],
-      message:"Your client does not have permission in this location",
-      status: 403,
-    };
-  }
-}

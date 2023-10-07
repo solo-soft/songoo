@@ -8,13 +8,18 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 const List = ({ fallback }: { fallback: {} }) => {
   return (
-    <SWRConfig value={{ fallback }}>
-      <CollectionProvider>
-        <Header />
-        <Divider my={5} rounded={"full"} />
-        <Playlists />
-      </CollectionProvider>
-    </SWRConfig>
+      <>
+        <title>
+          Playlists
+        </title>
+        <SWRConfig value={{ fallback }}>
+          <CollectionProvider>
+            <Header />
+            <Divider my={5} rounded={"full"} />
+            <Playlists />
+          </CollectionProvider>
+        </SWRConfig>
+      </>
   );
 };
 

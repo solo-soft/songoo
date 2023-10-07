@@ -1,61 +1,98 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
 import useSWR from "swr";
-import { Box, Button, HStack, Stack, Text, VStack } from "@chakra-ui/react";
+import { Button, Stack, Text } from "@chakra-ui/react";
 import { FastAverageColor } from "fast-average-color";
-import { extractColors } from "extract-colors";
-import { motion } from "framer-motion";
+import { TArtist } from "./TArist";
+import useSubscribeAction from "../../hooks/useSubscribeAction";
 
-const HeroHeader = ({ artist }) => {
-  // console.log(artist)
+const HeroHeader = ({ artist }: { artist: TArtist | undefined }) => {
+  const { data: session } = useSWR("/api/getUserSession");
 
   const router = useRouter();
 
   const fac = new FastAverageColor();
 
   const { data: dynamicColor } = useSWR(["/color", router], () =>
-    fac.getColorAsync(artist?.images[0]?.url)
+    fac.getColorAsync(artist?.images[0]?.url || "/")
   );
+
+  const { subscribeAction, checkSubscription } = useSubscribeAction();
 
   return (
     <>
-      <Stack direction={["column" , "column" , "row"]} w={"full"} justify={"center"} align={"center"} h={320}  spacing={[2 , 2 , 5]}>
+      <Stack
+        direction={["column", "column", "row"]}
+        w={"full"}
+        justify={"center"}
+        align={"center"}
+        h={320}
+        spacing={[2, 2, 5]}
+      >
         <Stack
-          w={[210 , 210 , 280]}
-          h={[210 , 210 , 280]}
+          w={[210, 210, 280]}
+          h={[210, 210, 280]}
           position={"relative"}
           overflow={"hidden"}
-          rounded={[25 , 25 , "full"]}
+          rounded={[25, 25, "full"]}
           opacity={"65%"}
         >
           <Image
+            style={{ transition: ".5s" }}
             layout={"fill"}
             objectFit={"cover"}
-            objectPosition={"100% 30%"}
-            src={artist?.images[0]?.url}
+            src={artist?.images[0]?.url || "/"}
             placeholder={"blur"}
-            blurDataURL={artist?.images[2]?.url}
+            blurDataURL={artist?.images[2]?.url || "/"}
+            priority
           />
         </Stack>
 
         <Stack>
           <Text
-              noOfLines={1}
-              bgGradient={
-                dynamicColor
-                    ? `linear-gradient(to-r, ${dynamicColor?.rgba} ,  ${dynamicColor?.rgba} , #ffff )`
-                    : "linear-gradient(to-r, #ffff , #ffff )"
-              }
-              bgClip={"text"}
-              fontSize={["3xl" , "3xl" , "8xl"]}
-              fontWeight={"bold"}
+            noOfLines={1}
+            bgGradient={
+              dynamicColor
+                ? `linear-gradient(to-r, ${dynamicColor?.rgba} ,  ${dynamicColor?.rgba} , #ffff )`
+                : "linear-gradient(to-r, #ffff , #ffff )"
+            }
+            bgClip={"text"}
+            fontSize={["3xl", "3xl", "8xl"]}
+            fontWeight={"bold"}
           >
-            {artist.name}
+            {artist?.name}
           </Text>
-          <Button>Subscribe</Button>
+
+          <>
+            {artist && checkSubscription(artist) ? (
+              <Button
+                onClick={() => subscribeAction(artist)}
+                colorScheme={"purple"}
+              >
+                Subscribed
+              </Button>
+            ) : (
+              artist && session.user &&  (
+                <Button
+                  onClick={() => subscribeAction(artist)}
+                  colorScheme={"gray"}
+                >
+                  Subscribe
+                </Button>
+              )
+            )}
+            {
+              !session.user && (
+                    <Button
+                        onClick={()=> router.push("/login")}
+                        colorScheme={"gray"}
+                    >
+                      Log in to subscribe
+                    </Button>
+                )
+            }
+          </>
         </Stack>
-
-
       </Stack>
     </>
   );

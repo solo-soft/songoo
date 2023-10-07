@@ -1,27 +1,32 @@
 import React from "react";
 import useSWR from "swr";
-import { Box, HStack, Stack } from "@chakra-ui/react";
+import {Box, HStack, Stack, VStack} from "@chakra-ui/react";
 import Title from "./Title/Title";
 import Images from "./Images/Images";
+import { TSpecificAlbums } from "../TAlbum";
 
-const HeroHeader = () => {
-  const { data, error } = useSWR("query/schema/getAlbumsInfoById", null);
+const HeroHeader = ({ albumInfo }: { albumInfo: TSpecificAlbums | undefined }) => {
+  const props = {
+    albumInfo,
+  };
 
   return (
     <HStack
       w={"full"}
-      h={["auto" , "auto" , "auto"]}
+      h={["auto", "auto", "auto"]}
       py={5}
       rounded={15}
-      overflow={"hidden"}
       justifyContent={"space-between"}
-      position={"relative"}
     >
-
-      <Stack w={"full"} direction={["column" , "column" , "row"]} align={"center"} spacing={[ 2, 2 , 2]} >
-        <Images />
-        <Title />
-      </Stack>
+      <VStack
+        w={"full"}
+        spacing={[2, 2, 5]}
+        position={"relative"}
+        overflow={"hidden"}
+      >
+        <Images {...props} />
+        <Title {...props} />
+      </VStack>
     </HStack>
   );
 };

@@ -1,4 +1,4 @@
-import {Box, Grid, GridItem, HStack, Stack, useTheme, VStack} from "@chakra-ui/react";
+import {Box, Grid , useTheme} from "@chakra-ui/react";
 import Title from "./Title/Title";
 import Images from "./Images/Images";
 import { useRouter } from "next/router";
@@ -35,6 +35,7 @@ const Playlists = () => {
       {collectionInfo?.map((collection: TCollection) => {
         return (
           <Box
+            key={collection.id}
             cursor={"pointer"}
             bg={"#111111"}
             position={"relative"}

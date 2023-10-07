@@ -1,26 +1,28 @@
-import React from 'react';
-import {Box, Stack} from "@chakra-ui/react";
+import {Box} from "@chakra-ui/react";
 import Image from "next/image";
 import Title from "./Title";
+import {TAlbums} from "../../TArist";
 
-const Images = ({items}) => {
+
+const Images = ({items} : {items : Pick<Partial<TAlbums["items"][0]> , "images" | "name" > | undefined}) => {
     return (
         <Box
-            w={[150 , 150 ,  195]}
-            h={[150 , 150 ,  195]}
+            w={"full"}
+            h={[110 , 150 ,  195]}
             rounded={15}
             position={"relative"}
             overflow={"hidden"}
         >
             <Image
+                style={{transition : ".5s"}}
                 layout={"fill"}
                 objectFit={"cover"}
-                src={items?.images[0].url}
+                src={items?.images?.[0].url || "/"}
                 placeholder={"blur"}
-                blurDataURL={items?.images[2].url}
+                blurDataURL={items?.images?.[2].url || "/"}
             />
 
-            <Title name={items.name} />
+            <Title name={items?.name} />
         </Box>
     );
 };

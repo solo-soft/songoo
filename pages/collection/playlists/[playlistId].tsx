@@ -1,6 +1,5 @@
 import React from "react";
 import CollectionProvider from "../../../provider/CollectionProvider/CollectionProvider";
-import ReceLike from "../../../components/Collection/ReceLike/ReceLike";
 import verifyToken from "../../../utils/verifyToken";
 import { SWRConfig } from "swr";
 import CreatePlaylist from "../../../components/CreatePlaylist/CreatePlaylist";
@@ -8,7 +7,7 @@ import PlaylistsItems from "../../../components/Collection/PlaylistItems/Playlis
 import Header from "../../../components/Collection/Common/Header/Header";
 import { NextApiRequest, NextApiResponse } from "next";
 
-const PlaylistId = ({ fallback } : {fallback : {}}) => {
+const PlaylistId = ({ fallback }: { fallback: {} }) => {
   return (
     <SWRConfig value={{ fallback }}>
       <CollectionProvider>

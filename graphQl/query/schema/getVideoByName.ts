@@ -1,28 +1,11 @@
 import {gql} from "@apollo/client";
-import {youtubeApolloClient} from "../../client/client";
-import {apolloClient} from "../../client/apolloClients";
+import {youtubeApolloClient} from "../../client/YoutubeClient";
+import {apolloClient} from "../../client/SpotifyClient(AccessToken)";
 
 
-const GET_VIDEO = gql`
-
+export const SCHEMA_YOUTUBE_VIDEO = gql`
     query YOUTUBE_VIDEO($name : String) {
         information(name : $name) @rest(type: "GET", path: "/search/?q={args.name}") {
-            #            contents {
-            #                type 
-            #                video {
-            #                    title 
-            #                    videoId
-            #                    publishedTimeText
-            #                    thumbnails {
-            #                        url
-            #                    }
-            #                    movingThumbnails {
-            #                        url
-            #                    }
-            #                }
-            #            }
-            #        }
-
             type
             title
             videoId
@@ -39,7 +22,6 @@ const GET_VIDEO = gql`
             liveNow
             paid
             premium
-
         }
     }
 `
@@ -47,18 +29,14 @@ const GET_VIDEO = gql`
 
 
 export default async function getVideoByName(singerName : string | undefined) {
-
-    console.log(singerName)
-
     try {
 
-        const {data , error} = await youtubeApolloClient.query({query : GET_VIDEO, variables: {name: singerName}})
+        const {data , error} = await youtubeApolloClient.query({query : SCHEMA_YOUTUBE_VIDEO, variables: {name: singerName}})
         return data
 
     }
     catch (e) {
-        console.log("query / get artists id by name have issue!")
-        throw new Error("query / get artists id by name have issue!")
+        throw new Error()
     }
 
 }

@@ -1,14 +1,10 @@
 import { Stack } from "@chakra-ui/react";
 import Image from "next/image";
+import {TSongs} from "../../../../../TMainData";
 
-type TImages = {
-  id: string;
-  images: Array<{
-    url: string;
-  }>;
-  name: string;
-};
-const Images = ({ picture }: { picture: TImages | undefined }) => {
+const Images = ({ picture }: { picture: Partial<TSongs["tracks"][0]> | undefined }) => {
+
+
   return (
     <Stack
       position={"relative"}
@@ -18,9 +14,9 @@ const Images = ({ picture }: { picture: TImages | undefined }) => {
       bg={"#252525"}
     >
       <Image
-        src={picture?.images[0].url || "/"}
+        src={picture?.images?.[0].url || "/"}
         placeholder={"blur"}
-        blurDataURL={picture?.images[2].url || "/"}
+        blurDataURL={picture?.images?.[2].url || "/"}
         objectFit={"cover"}
         layout={"fill"}
       />

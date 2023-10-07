@@ -1,5 +1,4 @@
 import {gql} from "@apollo/client";
-import {apolloClient} from "../../client/apolloClients";
 
 export const SCHEMA_ARTISTS_ID = gql`
     query GetArtistsIds( $name : String) {
@@ -7,6 +6,10 @@ export const SCHEMA_ARTISTS_ID = gql`
             artists {
                 items {
                     id
+                    images
+                    name
+                    popularity
+                    genres
                 }
             }
         }

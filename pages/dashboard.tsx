@@ -6,13 +6,30 @@ import PinnedProvider from "../provider/PinnedProvider";
 import Dashboard from "../components/Dashboard/Dashboard";
 import CreatePlaylist from "../components/CreatePlaylist/CreatePlaylist";
 import { NextApiRequest, NextApiResponse } from "next";
+import { AbsoluteCenter } from "@chakra-ui/react";
+import { Error } from "../components/Error";
 
-const Index = ({ fallback }: { fallback: {} }) => {
-  const router = useRouter();
+const Index = ({
+  fallback,
+  error,
+}: {
+  fallback: {};
+  error: {
+    status: number;
+    log: { message: string };
+  };
+}) => {
+  if (error) {
+    return (
+      <AbsoluteCenter>
+        <Error code={error.status} log={error.log} />
+      </AbsoluteCenter>
+    );
+  }
 
   return (
     <>
-      <title>Songoo/Dashboard</title>
+      <title>Dashboard</title>
       <SWRConfig value={{ fallback }}>
         <RecentlyProvider>
           <PinnedProvider>
@@ -41,6 +58,7 @@ export const getServerSideProps = async ({
     res.end();
     return { props: {} };
   }
+
   return {
     props: {
       fallback: {

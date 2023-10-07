@@ -1,10 +1,11 @@
-import {supabase} from "../../../supabase/createClient";
+import {supabase} from "../../../supabase/SupabaseCreateClient";
 import {sign} from "jsonwebtoken"
 import {serialize , parse} from "cookie"
+import {NextApiRequest, NextApiResponse} from "next";
 
 
 
-export default async function handler(req, res) {
+export default async function handler(req : NextApiRequest, res : NextApiResponse) {
 
     if (req.method !== "POST") return
 
@@ -33,13 +34,12 @@ export default async function handler(req, res) {
 
 
         try {
-            const token = sign({email : data.user.email , id : data.user.id } , process.env.SECRET_KEY , {expiresIn : 10800000})
+            const token = sign({email : data?.user?.email , id : data?.user?.id } , process.env.SECRET_KEY || "", {expiresIn : 10800000})
 
             const cookie = serialize("appToken" , token , {
                 maxAge : 10800000, // 3 hours
                 httpOnly : true,
                 path : "/",
-                static : true
             })
             res.setHeader("Set-Cookie" , cookie)
         }
@@ -48,7 +48,7 @@ export default async function handler(req, res) {
             return res.status(400).json({message : "Login process have some issue!"})
         }
 
-        return res.status(200).json({message : `Welcome back ${data.user.email}`})
+        return res.status(200).json({message : `Welcome back ${data?.user?.email}`})
 
     } catch (e) {
         console.log(e)

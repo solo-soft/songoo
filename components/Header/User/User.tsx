@@ -27,19 +27,21 @@ export const User = () => {
   };
   return (
     <HStack
-      order={[0, 0, 0 , 3]}
-      flex={[0, 0, 0 , 1]}
-      justify={{sm : "space-between" , xl : "end"}}
+      order={[0, 0, 0, 3]}
+      flex={[0, 0, 0, 1]}
+      justify={["space-between", "space-between", "space-between", "flex-end"]}
       spacing={3}
     >
       {session ? (
-        <Button size={["xs", "sm", "sm"]} onClick={handelSignOut}>
-          Sign out
-        </Button>
+        <>
+          <Button size={["xs", "sm", "sm"]} onClick={handelSignOut}>
+            Sign out
+          </Button>
+          <Avatar src={"/"} name={session?.email} size={["sm", "md", "md"]} />
+        </>
       ) : (
-        <Button onClick={() => router.push("/auth")}>Login</Button>
+        <Button onClick={() => router.push("/login")}>Login</Button>
       )}
-      <Avatar src={"/"} name={session?.email} size={["sm", "md", "md"]} />
     </HStack>
   );
 };

@@ -2,35 +2,39 @@ import { SWRConfig, unstable_serialize } from "swr";
 import Head from "next/head";
 import { SCHEMA_ARTISTS_ID } from "../graphQl/query/schema/getIdArtistByName";
 import { SCHEMA_ARTISTS_INFO } from "../graphQl/query/schema/getArtistInfoById";
-import { randomSingerIR, randomSingerUS } from "../utils/randomBestArtists";
-import { useLayoutEffect } from "react";
+import { randomSingerIR, randomSingerUS , randomSingerUSIds } from "../utils/randomBestArtists";
 import verifyToken from "../utils/verifyToken";
-import { useRouter } from "next/router";
 import { Main } from "../components/main";
 import RecentlyProvider from "../provider/RecentlyProvider";
 import PinnedProvider from "../provider/PinnedProvider";
 import CreatePlaylist from "../components/CreatePlaylist/CreatePlaylist";
 import fetcherQuery from "../graphQl/query/fetcher/fetcherQuery";
-import { NextRequest, NextResponse } from "next/server";
-import {NextApiRequest, NextApiResponse} from "next";
+import { NextApiRequest, NextApiResponse } from "next";
+import {Error} from "../components/Error";
+import { AbsoluteCenter, Text } from "@chakra-ui/react";
+import {useEffect, useState} from "react";
+import {supabase} from "../supabase/SupabaseCreateClient";
+
+
 
 export default function Home({
   fallback,
-  ActionErrors,
+  error,
 }: {
   fallback: {};
-  ActionErrors: { message: string };
+  error : {
+    status : number
+    log : {message : string}
+  }
 }): null | JSX.Element {
-  const router = useRouter();
 
-  useLayoutEffect(function (): (() => Promise<boolean>) | (() => null) | any {
-    if (ActionErrors) {
-      return () => router.push("/error");
-    }
-    return () => null;
-  }, []);
-
-  if (ActionErrors) return null;
+  if (error) {
+    return (
+      <AbsoluteCenter>
+        <Error code={error.status} log={error.log}/>
+      </AbsoluteCenter>
+    );
+  }
 
   return (
     <>
@@ -50,51 +54,55 @@ export default function Home({
 }
 
 export const getServerSideProps = async ({
-  res,
   req,
 }: {
-  res: NextApiResponse;
   req: NextApiRequest;
 }) => {
 
-  try {
-    //?Get user valid session
-    const session = verifyToken(req);
-    const findArtistsId = await fetcherQuery(SCHEMA_ARTISTS_ID, {
-      name: randomSingerUS,
-    });
+  // const accessToken = await fetch(
+  //   `${process.env.NEXT_PUBLIC_BASE_URL}/api/accessToken`,
+  //   {
+  //     method: "GET",
+  //   }
+  // );
+  // const status = accessToken.status
+  // const res = await accessToken.json()
+  //
+  // console.log(status)
+  //
+  // if (status === 500) {
+  //   return {
+  //     props: {
+  //       error: {
+  //         status : status,
+  //         log : res
+  //       },
+  //     },
+  //   };
+  // }
 
-    if (!findArtistsId) throw new Error("find id have issue");
 
-    const {
-      find: {
-        artists: { items },
+
+
+  const session = verifyToken(req);
+  //
+  // const findArtistsId = await fetcherQuery(SCHEMA_ARTISTS_ID, {
+  //   name: randomSingerUS,
+  // });
+  //
+  // console.log(findArtistsId?.find?.result?.artists?.items[0].id)
+  //
+  // const getArtist = await fetcherQuery(SCHEMA_ARTISTS_INFO, {
+  //   artistId: randomSingerUSIds
+  // });
+  //
+
+  return {
+    props: {
+      fallback: {
+        "/api/getUserSession": session,
+        // [unstable_serialize(["/graphql/query/schema/getArtistById", undefined,])]: getArtist,
       },
-    } = findArtistsId;
-
-    const artistsIds = items[0].id;
-
-    const getArtist = await fetcherQuery(SCHEMA_ARTISTS_INFO, {
-      artistId: artistsIds,
-    });
-    if (!getArtist) throw new Error("find artists have issue");
-
-    return {
-      props: {
-        fallback: {
-          "/api/getUserSession": session,
-          [unstable_serialize([
-            "/graphql/query/schema/getArtistById",
-            undefined,
-          ])]: getArtist,
-        },
-      },
-    };
-  } catch (e) {
-    return {
-      props: {
-        ActionErrors: { message: "Internet maybe have errors!" },
-      },
-    };
-  }
+    },
+  };
 };

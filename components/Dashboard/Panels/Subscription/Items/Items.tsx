@@ -13,7 +13,7 @@ const Items = ({ subscription }: { subscription: TSubscription }) => {
     <Box
       key={subscription.id}
       w={"full"}
-      h={[115, 150, 175, 195]}
+      h={[115, 150, 175, 190]}
       flex={"0 0 auto"}
       rounded={10}
       overflow={"hidden"}

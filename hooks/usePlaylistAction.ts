@@ -20,7 +20,7 @@ const usePlaylistAction = () => {
         );
 
     return {
-        playlistAction : (playlists : TUserPlaylists , songs : Partial<TSongs["tracks"][0]>) => {
+        playlistAction : (playlists : any , songs : Partial<TSongs["tracks"][0]>) => {
 
             const foundItems = _.find(userPlaylists, ["id", playlists.id]);
 
@@ -33,7 +33,7 @@ const usePlaylistAction = () => {
                 );
             } else {
                 const updatePlaylist = [
-                    ...playlists.song_info,
+                    ...playlists?.song_info,
                     {
                         album: songs.album,
                         artists: songs.artists,

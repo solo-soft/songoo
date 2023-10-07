@@ -13,20 +13,20 @@ const Likes = ({ songs }: { songs: Partial<TSongs["tracks"][0]> }) => {
 
   const { data: userLikedSong, mutate } = useSWR(
     "/supabase/reads/UserLikedSong",
-    () => getUserDataOnSupabase("UserLikedSong", session)
+    session.user ? () => getUserDataOnSupabase("UserLikedSong", session) : null
   );
 
   const likedSong = _.find(userLikedSong, { song_info: { id: songs?.id } });
-  const handelAddToLiked = () => likeAction(songs);
+  const handelAddToLiked = () => (session.user ? likeAction(songs) : null);
 
-  return (
+  return session.user ? (
     <Icon
       onClick={handelAddToLiked}
-      fontSize={["xs", "sm", "lg" , "xs" , "sm"]}
+      fontSize={["xs", "sm", "lg", "xs", "sm"]}
       color={"#7885FF"}
       as={likedSong ? BsHeartFill : BsHeart}
     />
-  );
+  ) : null;
 };
 
 export default Likes;
