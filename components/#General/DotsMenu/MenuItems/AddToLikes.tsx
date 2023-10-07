@@ -1,7 +1,7 @@
 import { MenuItem } from "@szhsin/react-menu";
 import { useRouter } from "next/router";
 import useLikesAction from "../../../../hooks/useLikesAction";
-import { TSongs } from "../../../TMainData";
+import {TSongs} from "../TDotsMenu";
 import useSWR from "swr";
 
 const AddToLikes = ({ songs }: { songs: Partial<TSongs["tracks"][0]> }) => {

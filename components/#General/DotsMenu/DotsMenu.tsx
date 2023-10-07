@@ -7,7 +7,7 @@ import {
 import "@szhsin/react-menu/dist/index.css";
 import "@szhsin/react-menu/dist/transitions/slide.css";
 import { Icon } from "@chakra-ui/react";
-import { TSongs } from "../../TMainData";
+import {TSongs} from "./TDotsMenu";
 import { menuStyle } from "./menuStyle";
 import PlaylistItems from "./MenuItems/PlaylistItems";
 import AddToPinned from "./MenuItems/AddToPinned";

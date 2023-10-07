@@ -3,7 +3,7 @@ import useSWR from "swr";
 import { TUserPlaylists } from "../../../Dashboard/TDashboard";
 import getUserDataOnSupabase from "../../../../supabase/reads/getUserDataOnSupabase";
 import usePlaylistAction from "../../../../hooks/usePlaylistAction";
-import { TSongs } from "../../../TMainData";
+import {TSongs} from "../TDotsMenu";
 import CreatePlaylist from "./CreatePlaylist";
 import {useId} from "react";
 

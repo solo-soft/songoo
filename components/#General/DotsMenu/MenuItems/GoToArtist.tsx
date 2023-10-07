@@ -1,4 +1,4 @@
-import {TSongs} from "../../../TMainData";
+import {TSongs} from "../TDotsMenu";
 import {MenuItem, SubMenu} from "@szhsin/react-menu";
 import {useRouter} from "next/router";
 import {useId} from "react";

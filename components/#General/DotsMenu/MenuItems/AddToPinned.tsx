@@ -1,6 +1,6 @@
 import {MenuItem} from "@szhsin/react-menu";
 import usePinedAction from "../../../../hooks/usePinedAction";
-import {TSongs} from "../../../TMainData";
+import {TSongs} from "../TDotsMenu";
 import useSWR from "swr";
 
 const AddToPinned = ({songs} : { songs: Partial<TSongs["tracks"][0]> } ) => {
