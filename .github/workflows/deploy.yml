@@ -34,6 +34,7 @@ jobs:
           git commit -m "Deploy to GitHub Pages"
           git push origin gh-pages --force
         env:
+          NEXT_PUBLIC_BASE_URL : ${{secrets.NEXT_PUBLIC_BASE_URL}}
           NEXT_PUBLIC_SPOTIFY_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_SPOTIFY_CLIENT_ID }}
           NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET: ${{ secrets.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET }}
           NEXT_PUBLIC_SPOTIFY_REFRESH_TOKEN : ${{ secrets.NEXT_PUBLIC_SPOTIFY_REFRESH_TOKEN }}
