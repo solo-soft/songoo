@@ -6,22 +6,38 @@ on:
       - main # Change this to your main branch name
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
 
-      - name: Build
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Next.js app
         run: npm run build
 
       - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@releases/v3
-        with:
-          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }} # Create a personal access token with repo scope in GitHub and add it as a secret in your repository settings
-          BRANCH: gh-pages # Change this to your desired branch name for deployment
-          FOLDER: build # Change this to the folder where Next.js builds your app
+        run: |
+          git config --global user.email "rezaeiism@yahoo.com"
+          git config --global user.name "isrezaei"
+          git checkout --orphan gh-pages
+          cp -r ./out/* .
+          git add .
+          git commit -m "Deploy to GitHub Pages"
+          git push origin gh-pages --force
+        env:
+          NEXT_PUBLIC_SPOTIFY_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_SPOTIFY_CLIENT_ID }}
+          NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET: ${{ secrets.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET }}
+          NEXT_PUBLIC_SPOTIFY_REFRESH_TOKEN : ${{ secrets.NEXT_PUBLIC_SPOTIFY_REFRESH_TOKEN }}
+          NEXT_PUBLIC_SPOTIFY_SCRAPER_KEY : ${{ secrets.NEXT_PUBLIC_SPOTIFY_SCRAPER_KEY }}
+          NEXT_PUBLIC_SUPABASE_KEY : ${{ secrets.NEXT_PUBLIC_SUPABASE_KEY }}
+          NEXT_PUBLIC_SUPABASE_URL : ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          SECRET_KEY : ${{ secrets.SECRET_KEY }}
