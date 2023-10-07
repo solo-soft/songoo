@@ -13,7 +13,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import {Error} from "../components/Error";
 import { AbsoluteCenter, Text } from "@chakra-ui/react";
 import {useEffect, useState} from "react";
-import {supabase} from "../supabase/createClient";
+import {supabase} from "../supabase/SupabaseCreateClient";
 
 
 

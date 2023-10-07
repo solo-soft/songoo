@@ -35,6 +35,7 @@ const Playlists = () => {
       {collectionInfo?.map((collection: TCollection) => {
         return (
           <Box
+            key={collection.id}
             cursor={"pointer"}
             bg={"#111111"}
             position={"relative"}

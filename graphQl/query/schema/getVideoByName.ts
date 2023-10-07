@@ -1,6 +1,6 @@
 import {gql} from "@apollo/client";
-import {youtubeApolloClient} from "../../client/client";
-import {apolloClient} from "../../client/initializeClient";
+import {youtubeApolloClient} from "../../client/YoutubeClient";
+import {apolloClient} from "../../client/SpotifyClient(AccessToken)";
 
 
 export const SCHEMA_YOUTUBE_VIDEO = gql`
@@ -22,7 +22,6 @@ export const SCHEMA_YOUTUBE_VIDEO = gql`
             liveNow
             paid
             premium
-
         }
     }
 `
@@ -30,9 +29,6 @@ export const SCHEMA_YOUTUBE_VIDEO = gql`
 
 
 export default async function getVideoByName(singerName : string | undefined) {
-
-    console.log(singerName)
-
     try {
 
         const {data , error} = await youtubeApolloClient.query({query : SCHEMA_YOUTUBE_VIDEO, variables: {name: singerName}})

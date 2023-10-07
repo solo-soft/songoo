@@ -29,7 +29,7 @@ const Index = ({
 
   return (
     <>
-      <title>Songoo/Dashboard</title>
+      <title>Dashboard</title>
       <SWRConfig value={{ fallback }}>
         <RecentlyProvider>
           <PinnedProvider>

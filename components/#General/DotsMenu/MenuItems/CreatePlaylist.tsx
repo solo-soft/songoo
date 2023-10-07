@@ -1,9 +1,9 @@
 import {useSetRecoilState} from "recoil";
 import {IS_OPEN_MODAL_CREATE_PLAYLIST, SELECTED_THE_SONG_BY_USER} from "../../../../recoil/atoms/atoms";
 import {MenuItem} from "@szhsin/react-menu";
-import {TSongs} from "../../../TMainData";
+import {TUserPlaylists} from "../../../Dashboard/TDashboard";
 
-const CreatePlaylist = ({songs}: { songs: Partial<TSongs["tracks"][0]> } ) => {
+const CreatePlaylist = ({songs}: { songs: TUserPlaylists | null } ) => {
     //?Specify open or closed state of the modal
     const setIsModalCreatePlaylist = useSetRecoilState(
         IS_OPEN_MODAL_CREATE_PLAYLIST

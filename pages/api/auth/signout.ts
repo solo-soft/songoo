@@ -1,8 +1,9 @@
 import { NextResponse, NextRequest } from "next/server";
-import { supabase } from "../../../supabase/createClient";
+import { supabase } from "../../../supabase/SupabaseCreateClient";
 import { serialize } from "cookie";
+import {NextApiResponse} from "next";
 
-export default async function handler(req , res ) {
+export default async function handler(req : NextRequest , res : NextApiResponse ) {
   if (req.method !== "POST") return;
 
   if (!supabase) {
@@ -14,11 +15,10 @@ export default async function handler(req , res ) {
   try {
     const { error } = await supabase.auth.signOut();
     if (error) throw new Error();
-    const cookie = serialize("appToken", null, {
+    const cookie = serialize("appToken", "", {
       maxAge: 0,
       httpOnly: true,
       path: "/",
-      static: true,
     });
     res.setHeader("Set-Cookie", cookie);
     return res.status(200).json({

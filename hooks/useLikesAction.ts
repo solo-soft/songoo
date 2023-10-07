@@ -6,6 +6,7 @@ import useSWR from "swr";
 import getUserDataOnSupabase from "../supabase/reads/getUserDataOnSupabase";
 import { TSongs } from "../components/TMainData";
 import useFetchSwr from "./useFetchSwr";
+import {useToast} from "@chakra-ui/react";
 
 type TLikeAction = {
   id: string;
@@ -17,8 +18,9 @@ type TLikeAction = {
 
 const useLikesAction = () => {
   const { swrFetcher } = useFetchSwr();
-
+  const toast = useToast()
   const { data: session } = useSWR("/api/getUserSession");
+
   const {
     data: userLikedSong,
     mutate,
@@ -26,7 +28,7 @@ const useLikesAction = () => {
     TLikeAction[] | undefined | null
   >(
     "/supabase/reads/UserLikedSong",
-    () => getUserDataOnSupabase("UserLikedSong", session),
+    session.user ? () => getUserDataOnSupabase("UserLikedSong", session) : null,
     {
       keepPreviousData: true,
     }
@@ -39,8 +41,8 @@ const useLikesAction = () => {
 
       const songInfo = {
         id: uuidv4(),
-        userId: session?.user.id,
-        create_by: session?.user.email,
+        userId: session?.user?.id,
+        create_by: session?.user?.email,
         song_info: songs,
         created_at: new Date(),
       };
@@ -51,7 +53,11 @@ const useLikesAction = () => {
           userLikedSong,
           (value) => value.id !== likedSong.id
         );
-
+        toast({
+          title : "Remove from liked",
+          status : "info",
+          position : "bottom-left"
+        })
         return mutate(deleteUserSubscriptions("UserLikedSong", likedSong.id), {
           optimisticData: [...unLikedSong],
           revalidate: true,
@@ -59,6 +65,11 @@ const useLikesAction = () => {
           populateCache: false,
         });
       } else {
+        toast({
+          title : "Add to liked",
+          status : "info",
+          position : "bottom-left"
+        })
         return mutate(setUserDataOnSupabase("UserLikedSong", songInfo), {
           optimisticData: userLikedSong && [...userLikedSong, songInfo],
           revalidate: true,

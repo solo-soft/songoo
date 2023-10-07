@@ -6,16 +6,18 @@ import Likes from "../../../../#General/Likes";
 import Duration from "../../../../#General/Duration";
 import Name from "./Name/Name";
 import Controller from "../../../../#General/Controller";
-import {TArtistInfo, TSongs} from "../../../../TMainData";
+import { TArtistInfo, TSongs } from "../../../../TMainData";
+import useSWR from "swr";
 
 type TTopTracks = {
   songs: Partial<TSongs["tracks"][0]>;
   songIndex: number;
-  singerInfo : TArtistInfo
-}
+  singerInfo: TArtistInfo;
+};
 
 const Tracks = ({ songs, songIndex, singerInfo }: TTopTracks) => {
   const listOfSongsInfo = singerInfo?.songs?.tracks;
+  const { data: session } = useSWR("/api/getUserSession");
 
   return (
     <HStack
@@ -26,6 +28,7 @@ const Tracks = ({ songs, songIndex, singerInfo }: TTopTracks) => {
       justifyContent={"space-between"}
     >
       <Controller
+        session={session}
         idsOfSongs={songs?.id}
         indexOfSongs={songIndex}
         arrayOfSongs={listOfSongsInfo}
@@ -37,14 +40,11 @@ const Tracks = ({ songs, songIndex, singerInfo }: TTopTracks) => {
       <Name value={songs} />
       <Albums album={songs?.album} />
 
-
       <HStack flex={[3, 3, 2, 3]} justify={"space-between"} align={"center"}>
         <Likes songs={songs} />
         <Duration songs={songs} />
         <DotsMenu songs={songs} />
       </HStack>
-
-
     </HStack>
   );
 };

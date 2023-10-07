@@ -64,9 +64,24 @@ export type TSubscriptions = TCommonTypes &{
 }
 
 export type TUserPlaylists = TActionsTypes & {
-    image_uploaded : string | null
-    description : string
-    title : string | null
+    image_uploaded? : string | null
+    description? : string
+    title? : string | null
+    id : string
+    duration_ms : number
+    name : string
+    preview_url : string | null
+    album :{
+        id : string
+        name : string
+        images : Array<{
+            url : string
+        }> | []
+    }
+    artists : Array<{
+        id : string
+        name : string
+    }>
 }
 
 export type TPinned = TActionsTypes

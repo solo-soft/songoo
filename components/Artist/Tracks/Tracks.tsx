@@ -20,11 +20,16 @@ import Controller from "../../#General/Controller";
 import Likes from "../../#General/Likes";
 import DotsMenu from "../../#General/DotsMenu/DotsMenu";
 import React from "react";
+import {TSongs} from "../TArist";
+import useSWR from "swr";
 
-const Tracks = ({ songs }) => {
+const Tracks = ({ songs } : {songs : TSongs | undefined}) => {
+
   const theme = useTheme();
 
   const { primary, secondary } = _.get(theme, "background.section.artist");
+  const { data: session } = useSWR("/api/getUserSession");
+
 
   return (
     <>
@@ -48,6 +53,7 @@ const Tracks = ({ songs }) => {
                 <Divider borderWidth={2} rounded={50} orientation="vertical" />
               </Center>
               <Controller
+                session={session}
                 flex={[.2 , .5 , .2 , .15 ]}
                 iconSize={[25 , 25 ,35]}
                 toRecently={true}

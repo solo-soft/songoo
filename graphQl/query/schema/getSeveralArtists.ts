@@ -1,5 +1,5 @@
 import {gql} from "@apollo/client";
-import {apolloClient} from "../../client/initializeClient";
+import {apolloClient} from "../../client/SpotifyClient(AccessToken)";
 
 
 export const SCHEMA_SEVERAL_ARTISTS = gql`

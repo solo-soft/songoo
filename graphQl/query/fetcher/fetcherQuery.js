@@ -1,8 +1,9 @@
-import { apolloClient } from "../../client/initializeClient";
+import { apolloClient } from "../../client/SpotifyClient(AccessToken)";
 import httpStatus from "http-status";
 
-const fetcherQuery = async (query: any, variables?: {}) => {
-  const {client , status} = await apolloClient
+
+const fetcherQuery = async (query, variables) => {
+  const { client, status } = await apolloClient;
 
   if (status === 200) {
     const { data } = await client?.query({
@@ -10,13 +11,13 @@ const fetcherQuery = async (query: any, variables?: {}) => {
       variables,
     });
 
-
     return data;
   }
   if (status === 500) {
     throw {
       reason: httpStatus[status],
-      message: "Oops, something went wrong, please make sure you're connection, then refresh the page",
+      message:
+        "Oops, something went wrong, please make sure you're connection, then refresh the page",
       status,
     };
   }

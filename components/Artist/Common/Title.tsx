@@ -1,7 +1,7 @@
 import {Divider, Stack, Text, useTheme} from "@chakra-ui/react";
 import _ from "lodash";
 
-const Title = ({cause}) => {
+const Title = ({cause} : {cause : string}) => {
 
     const theme = useTheme();
     const { primary , secondary } = _.get(theme, "font.color.section.artist");

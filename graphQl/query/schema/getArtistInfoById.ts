@@ -1,5 +1,5 @@
 import { DocumentNode, gql } from "@apollo/client";
-import { apolloClient } from "../../client/initializeClient";
+import { apolloClient } from "../../client/SpotifyClient(AccessToken)";
 import httpStatus from "http-status";
 
 export const SCHEMA_ARTISTS_INFO: DocumentNode = gql`

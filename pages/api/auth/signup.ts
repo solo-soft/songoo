@@ -1,14 +1,15 @@
 import {NextResponse} from "next/server";
 
 import {createClient} from "@supabase/supabase-js";
+import {NextApiRequest, NextApiResponse} from "next";
 
 
-export default async function handler(req, res) {
+export default async function handler(req : NextApiRequest, res : NextApiResponse) {
     if (req.method !== 'POST') {
         return null
     }
 
-    const db = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.SERVICE_ROLE)
+    const db = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL || "", process.env.SERVICE_ROLE || "")
 
 
     if (!db) {
@@ -19,7 +20,7 @@ export default async function handler(req, res) {
 
     const {password, email} = await req.body
 
-    if (!password , !email) return NextResponse.json({message: "Something is wrong in check password!"}, {status: 400 })
+    if (!password || !email) return NextResponse.json({message: "Something is wrong in check password!"}, {status: 400 })
 
 
     //*no needed to hash password , Supabase do this process for use !

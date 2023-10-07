@@ -1,4 +1,4 @@
-import {supabase} from "../createClient";
+import {supabase} from "../SupabaseCreateClient";
 import httpStatus from "http-status";
 
 export default async function getPublicDataOnSupabase(Table : string) {

@@ -6,13 +6,14 @@ import useSWR from "swr";
 import {TSongs} from "../components/TMainData";
 import {PinnedContext} from "../provider/PinnedProvider";
 import {TPinned} from "../components/Dashboard/TDashboard";
+import {useToast} from "@chakra-ui/react";
 
 const usePinedAction = () => {
-
+    const toast = useToast()
     const { data: session } = useSWR(
         "/api/getUserSession"
     );
-    const pinnedSongs = useContext<TPinned[] | undefined>(PinnedContext);
+    const pinnedSongs = useContext<TPinned[] | undefined | null>(PinnedContext);
 
     return {
         pinnedAction : (songs :  Partial<TSongs["tracks"][0]>) => {
@@ -30,10 +31,14 @@ const usePinedAction = () => {
                     artists: songs.artists,
                 },
             };
-
+            toast({
+                title : "Add to Pinned",
+                status : "info",
+                position : "bottom-left"
+            })
             return globalMutate(
                 "/supabase/reads/UserPinned",
-                setUserDataOnSupabase("UserPinned", songInfo),
+                session.user ? setUserDataOnSupabase("UserPinned", songInfo) : null,
                 {
                     optimisticData: pinnedSongs && [...pinnedSongs, songInfo],
                     revalidate: true,

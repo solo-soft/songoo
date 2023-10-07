@@ -38,7 +38,6 @@ const CollectionProvider = ({ children }: { children: ReactNode }) => {
         : getUserDataOnSupabase(dbTables, session),
     {
       keepPreviousData: false,
-      runError: true,
     }
   );
 

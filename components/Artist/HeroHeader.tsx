@@ -1,21 +1,23 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
 import useSWR from "swr";
-import { Box, Button, HStack, Stack, Text, VStack } from "@chakra-ui/react";
+import { Button, Stack, Text } from "@chakra-ui/react";
 import { FastAverageColor } from "fast-average-color";
-import { extractColors } from "extract-colors";
-import { motion } from "framer-motion";
+import { TArtist } from "./TArist";
+import useSubscribeAction from "../../hooks/useSubscribeAction";
 
-const HeroHeader = ({ artist }) => {
-  // console.log(artist)
+const HeroHeader = ({ artist }: { artist: TArtist | undefined }) => {
+  const { data: session } = useSWR("/api/getUserSession");
 
   const router = useRouter();
 
   const fac = new FastAverageColor();
 
   const { data: dynamicColor } = useSWR(["/color", router], () =>
-    fac.getColorAsync(artist?.images[0]?.url)
+    fac.getColorAsync(artist?.images[0]?.url || "/")
   );
+
+  const { subscribeAction, checkSubscription } = useSubscribeAction();
 
   return (
     <>
@@ -39,9 +41,9 @@ const HeroHeader = ({ artist }) => {
             style={{ transition: ".5s" }}
             layout={"fill"}
             objectFit={"cover"}
-            src={artist?.images[0]?.url}
+            src={artist?.images[0]?.url || "/"}
             placeholder={"blur"}
-            blurDataURL={artist?.images[2]?.url}
+            blurDataURL={artist?.images[2]?.url || "/"}
             priority
           />
         </Stack>
@@ -60,7 +62,36 @@ const HeroHeader = ({ artist }) => {
           >
             {artist?.name}
           </Text>
-          <Button>Subscribe</Button>
+
+          <>
+            {artist && checkSubscription(artist) ? (
+              <Button
+                onClick={() => subscribeAction(artist)}
+                colorScheme={"purple"}
+              >
+                Subscribed
+              </Button>
+            ) : (
+              artist && session.user &&  (
+                <Button
+                  onClick={() => subscribeAction(artist)}
+                  colorScheme={"gray"}
+                >
+                  Subscribe
+                </Button>
+              )
+            )}
+            {
+              !session.user && (
+                    <Button
+                        onClick={()=> router.push("/login")}
+                        colorScheme={"gray"}
+                    >
+                      Log in to subscribe
+                    </Button>
+                )
+            }
+          </>
         </Stack>
       </Stack>
     </>

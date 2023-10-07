@@ -1,17 +1,10 @@
-import {Box, HStack, Icon, Spinner, Stack, Text, VStack} from "@chakra-ui/react";
-import "react-h5-audio-player/lib/styles.css";
-import Image from "next/image";
-import {useEffect, useLayoutEffect, useMemo, useRef, useState} from "react";
+import { Box, HStack, Spinner, Stack, VStack } from "@chakra-ui/react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import prettyMilliseconds from "pretty-ms";
 import {
-  BsFillPlayFill,
-  BsFillPauseFill,
-  BsFillSkipStartFill,
-  BsSkipEndFill,
-} from "react-icons/bs";
-import { Range, getTrackBackground } from "react-range";
-import { PLAYBACK_INFORMATION , PLAYBACK_LOADING } from "../../recoil/atoms/atoms";
+  PLAYBACK_INFORMATION,
+  PLAYBACK_LOADING,
+} from "../../recoil/atoms/atoms";
 import { produce } from "immer";
 import { motion } from "framer-motion";
 import { useScraper } from "../../hooks/useScraper";
@@ -28,36 +21,31 @@ import Artists from "./Artists";
 export const Playback = () => {
   const [isMoved, setIsMoved] = useState(false);
 
-  const playbackRef = useRef<any>(null);
+  const playbackRef = useRef(null);
 
   const [playbackInformation, setPlaybackInformation] =
     useRecoilState(PLAYBACK_INFORMATION);
 
-  const playbackLoading = useRecoilValue(PLAYBACK_LOADING)
+  const playbackLoading = useRecoilValue(PLAYBACK_LOADING);
 
-  const { indexOfSongs, arrayOfSongs, isPlaying } = playbackInformation;
+  const { indexOfSongs, arrayOfSongs, isPlaying, session } =
+    playbackInformation;
 
-  const {
-    id,
-    name,
-    album: { id: albumId, name: albumName, images } = {},
-    artists,
-    preview_url,
-    duration_ms,
-  } = arrayOfSongs[indexOfSongs] ?? {};
+  const { id, preview_url, name } = arrayOfSongs[indexOfSongs] ?? {};
 
   const { swrFetcher } = useFetchSwr();
   const { spotifyScraper } = useScraper();
 
   const { data: scraperInfos } = swrFetcher(
-    ["SpotifyScraper", id],
-    id ? async ([_, id]) => await spotifyScraper(id) : null,
+    ["SpotifyScraper", name],
+    name && session.user
+      ? async ([_, name]) => await spotifyScraper(name)
+      : null,
     {
       keepPreviousData: false,
       onFocus: false,
     }
   );
-
   useEffect(() => {
     setPlaybackInformation((prev) =>
       produce(prev, (draft) => {
@@ -100,7 +88,7 @@ export const Playback = () => {
       }}
       animate={{
         bottom: 0,
-        translateY:  isMoved ? "-10px" : "65px",
+        translateY: isMoved ? "-10px" : "65px",
       }}
     >
       <VStack position={"relative"} rounded={5} overflow={"hidden"} spacing={0}>
@@ -137,18 +125,14 @@ export const Playback = () => {
               </HStack>
 
               <HStack flex={1} justify={"flex-end"}>
-                {
-                  !scraperInfos || playbackLoading ?
-                      <Spinner
-                          thickness='3px'
-                          emptyColor={"transparent"}
-                          color={"#7886FF"}
-                          size='sm'
-                      />
-                      :
-                      null
-
-                }
+                {(!scraperInfos && session.user) || playbackLoading ? (
+                  <Spinner
+                    thickness="3px"
+                    emptyColor={"transparent"}
+                    color={"#7886FF"}
+                    size="sm"
+                  />
+                ) : null}
               </HStack>
             </HStack>
 
@@ -158,7 +142,7 @@ export const Playback = () => {
       </VStack>
       <Audio
         prev={preview_url}
-        scraperInfos={scraperInfos}
+        scraperUrlLink={scraperInfos?.[0]?.url}
         playbackRef={playbackRef}
       />
     </motion.div>

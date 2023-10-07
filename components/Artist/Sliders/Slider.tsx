@@ -1,13 +1,18 @@
 import {Swiper, SwiperSlide} from "swiper/react";
 import {FreeMode} from "swiper";
 import {Box, Button, HStack} from "@chakra-ui/react";
-import Images from "../../Dashboard/Panels/Subscription/Items/Images/Images";
-import Name from "../../Dashboard/Panels/Subscription/Items/Name/Name";
+import {ReactNode} from "react";
 
+type TSlider = {
+    children : ReactNode
+    height? : number | string,
+    breakpoint? : {}
+    preview ?: number
+}
 
-const Slider = ({children , height , preview , breakpoint = {}}) => {
+const Slider = ({children , height , preview , breakpoint} : TSlider ) => {
     return (
-        <Box h={height} zIndex={1000}>
+        <Box zIndex={1000}>
             <Swiper
                 breakpoints={breakpoint}
                 slidesPerView={preview}

@@ -1,11 +1,12 @@
 import { Text } from "@chakra-ui/react";
 import useMilliseconds from "../../hooks/useMilliseconds";
 import { useRouter } from "next/router";
-import {TSongs} from "../Collection/Common/Songs/Songs";
+import {TCollection} from "../Collection/TCollection";
 
-const Duration = ({ songs } : TSongs) => {
+const Duration = ({ songs } : Partial<TCollection["song_info"]> ) => {
   const router = useRouter();
   const { milliseconds } = useMilliseconds();
+
 
   let fontSize;
 

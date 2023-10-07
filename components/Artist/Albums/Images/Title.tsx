@@ -1,7 +1,7 @@
 import {Box, Stack, Text, useTheme} from "@chakra-ui/react";
 import _ from "lodash";
 
-const Title = ({ name }) => {
+const Title = ({ name } : {name : string | undefined}) => {
 
   const theme = useTheme()
   const bg = _.get(theme, "background.section.artist");

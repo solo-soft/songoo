@@ -1,21 +1,22 @@
-import React from "react";
-import { toast } from "react-toastify";
-import {useRecoilState, useSetRecoilState} from "recoil";
+import React, { useEffect } from "react";
+import { useToast } from "@chakra-ui/react";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import {
   PLAYBACK_ELAPSED_TIME,
   PLAYBACK_DURATION,
   PLAYBACK_INFORMATION,
-  PLAYBACK_LOADING
+  PLAYBACK_LOADING,
 } from "../../recoil/atoms/atoms";
 import { produce } from "immer";
+import useSWR from "swr";
 
-const Audio = ({ playbackRef, prev, scraperInfos }) => {
-
+const Audio = ({ playbackRef, prev, scraperUrlLink }) => {
+  const toast = useToast();
 
   const [playbackInformation, setPlaybackInformation] =
     useRecoilState(PLAYBACK_INFORMATION);
 
-  const { indexOfSongs, arrayOfSongs, isPlaying } = playbackInformation;
+  const { arrayOfSongs, session } = playbackInformation;
 
   const setElapsedTime = useSetRecoilState(PLAYBACK_ELAPSED_TIME);
   const setDuration = useSetRecoilState(PLAYBACK_DURATION);
@@ -42,25 +43,43 @@ const Audio = ({ playbackRef, prev, scraperInfos }) => {
     clearInterval(elapsedTime());
   };
 
-
   const onLoadedStart = () => {
-    setLoading(true)
-  }
+    setLoading(true);
+  };
   const onLoaded = () => {
-    setLoading(false)
+    setLoading(false);
     setDuration(playbackRef?.current?.duration * 1000);
     elapsedTime();
   };
+
+  useEffect(() => {
+    if (prev === null && !session.user) {
+      toast({
+        title: "Preview unavailable. please join to enjoy the full music",
+        status: "error",
+        position: "bottom-left",
+      });
+    }
+
+    if (prev && !session.user) {
+      toast({
+        title:
+          "This is the preview of the song, please join to enjoy the full music",
+        status: "info",
+        position: "bottom-left",
+      });
+    }
+  }, [prev]);
 
   return (
     <audio
       onEnded={handelNext}
       onLoadedData={onLoaded}
-      src={scraperInfos?.Downloadurl}
+      src={session.user ? scraperUrlLink : prev}
       autoPlay={true}
       ref={playbackRef}
       onLoadStart={onLoadedStart}
-      preload={scraperInfos?.Downloadurl}
+      preload={"auto"}
     />
   );
 };

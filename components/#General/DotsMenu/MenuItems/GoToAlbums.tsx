@@ -1,6 +1,7 @@
 import {TSongs} from "../../../TMainData";
 import {MenuItem} from "@szhsin/react-menu";
 import {useRouter} from "next/router";
+import {TUserPlaylists} from "../../../Dashboard/TDashboard";
 
 const GoToAlbums = ({songs} : { songs: Partial<TSongs["tracks"][0]> } ) => {
     const router = useRouter();

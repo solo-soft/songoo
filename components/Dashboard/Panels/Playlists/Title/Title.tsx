@@ -6,10 +6,10 @@ const Title = () => {
     const router = useRouter()
     return (
         <Stack direction={["column" , "column" , "row"]} justify={"space-between"}>
-            <Text fontSize={["sm" , "sm" , "xl"]} textAlign={"center"} fontWeight={"light"} >
+            <Text textAlign={"center"} fontWeight={"light"} fontSize={["sm" , "sm" , "sm" , "md" , "2xl"]}>
                 Your Playlists
             </Text>
-            <Button onClick={() => router.push("/collection/Playlists/list")} size={"xs"}>see more</Button>
+            <Button onClick={() => router.push("/collection/playlists/list")} size={"xs"}>see more</Button>
         </Stack>
     );
 };

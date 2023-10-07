@@ -1,10 +1,7 @@
-import { useRef } from "react";
-import { Box, HStack, Stack, Text, useTheme, VStack } from "@chakra-ui/react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Grid, Navigation } from "swiper";
+import { Stack, Text, useTheme } from "@chakra-ui/react";
+import { SwiperSlide } from "swiper/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import MySwiperControls from "./MySwiperControls";
 import "swiper/css";
 import "swiper/css/grid";
 import "swiper/css/pagination";
@@ -13,15 +10,16 @@ import _ from "lodash";
 import Title from "./Common/Title";
 import Slider from "./Sliders/Slider";
 import { swiperMostRelatedBreakPoint } from "./swiperResponsive";
+import { TRelated } from "./TArist";
 
-const Related = ({ related }) => {
+const Related = ({ related }: { related: TRelated | undefined }) => {
   const router = useRouter();
   const theme = useTheme();
   const { primary, secondary } = _.get(theme, "background.section.artist");
   return (
     <Stack py={[1, 1, 5]}>
       <Title cause={"Most Related"} />
-      <Slider height={"auto"} breakpoint={swiperMostRelatedBreakPoint}>
+      <Slider breakpoint={swiperMostRelatedBreakPoint}>
         {related?.artists?.map((related) => {
           return (
             <SwiperSlide key={related.id}>
@@ -41,10 +39,10 @@ const Related = ({ related }) => {
               >
                 <Image
                   style={{ transition: ".5s" }}
-                  src={related?.images[0]?.url}
+                  src={related?.images[0]?.url || "/"}
                   loading={"lazy"}
                   placeholder={"blur"}
-                  blurDataURL={related?.images[1]?.url}
+                  blurDataURL={related?.images[1]?.url || "/"}
                   layout={"fill"}
                   objectFit={"cover"}
                 />

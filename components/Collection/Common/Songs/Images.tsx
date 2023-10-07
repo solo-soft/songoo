@@ -14,7 +14,8 @@ const Images = ({ songs }: TSongs) => {
       opacity={["100%", "100%", "60%"]}
     >
       <Image
-        src={songs?.album?.images[0].url}
+        style={{transition : ".5s"}}
+        src={songs?.album?.images[0].url || "/"}
         layout={"fill"}
         objectFit={"contain"}
       />

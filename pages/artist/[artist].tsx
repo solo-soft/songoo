@@ -3,24 +3,19 @@ import { SWRConfig, unstable_serialize } from "swr";
 import Header from "../../components/Header/Header";
 import Head from "next/head";
 import verifyToken from "../../utils/verifyToken";
-import { Stack } from "@chakra-ui/react";
-import { Suspense, useEffect } from "react";
-import { useRef } from "react";
-import { useRouter } from "next/router";
 import { NextApiRequest } from "next";
+import CreatePlaylist from "../../components/CreatePlaylist/CreatePlaylist";
 
 export default function artist({ fallback }: { fallback: {} }) {
-
   return (
     <>
       <Head>
         <title>Artists</title>
       </Head>
       <SWRConfig value={{ fallback }}>
-
-          <Header position={"relative"} />
-          <Artist />
-
+        <Header position={"relative"} />
+        <Artist />
+        <CreatePlaylist />
       </SWRConfig>
     </>
   );

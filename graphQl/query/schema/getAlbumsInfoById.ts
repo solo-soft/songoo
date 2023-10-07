@@ -1,6 +1,6 @@
-import {supabase} from "../../../supabase/createClient";
+import {supabase} from "../../../supabase/SupabaseCreateClient";
 import {gql} from "@apollo/client";
-import {apolloClient} from "../../client/initializeClient";
+import {apolloClient} from "../../client/SpotifyClient(AccessToken)";
 
 
 const GET_ALBUMS = gql`
@@ -36,7 +36,7 @@ const GET_ALBUMS = gql`
 
 export default async function getAlbumsInfoById(albumsId : string | undefined){
     try {
-        const {client} = await apolloClient
+        const {client} : any = await apolloClient
         const {data} = await client.query({query : GET_ALBUMS, variables: {albumsId}})
         return data
     }

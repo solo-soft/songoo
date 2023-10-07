@@ -14,6 +14,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Stack,
   Switch,
   Text,
   Textarea,
@@ -29,26 +30,24 @@ import setUserDataOnSupabase from "../../supabase/inserts/setUserDataOnSupabase"
 import useSWR from "swr";
 import { v4 as uuidv4 } from "uuid";
 import { useRef, useState } from "react";
-import { TSession } from "../TSession";
 import { mutate } from "swr";
-import { TUserPlaylists } from "../Dashboard/TDashboard";
 import getUserDataOnSupabase from "../../supabase/reads/getUserDataOnSupabase";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
+import useFetchSwr from "../../hooks/useFetchSwr";
+import { TUserPlaylists } from "../Dashboard/TDashboard";
 
 const CreatePlaylist = () => {
   //*Ref of input type file
-  const inputRef = useRef();
+  const inputRef: any = useRef();
 
-  const { data: session }: { data: TSession | undefined } = useSWR(
-    "/api/getUserSession"
-  );
+  const { data: session } = useSWR("/api/getUserSession");
 
-  const {
-    data: userPlaylists,
-  } : {
-    data: Array<TUserPlaylists> | undefined ;
-  } = useSWR("/supabase/reads/UserPlaylists", () =>
-    getUserDataOnSupabase("UserPlaylists", session)
+  const { swrFetcher } = useFetchSwr();
+
+  const { data: userPlaylists } = swrFetcher(
+    "/supabase/reads/UserPlaylists",
+    () => getUserDataOnSupabase("UserPlaylists", session),
+    { keepPreviousData: false }
   );
 
   const [title, setTitle] = useState("");
@@ -57,9 +56,10 @@ const CreatePlaylist = () => {
   const [isOpenModal, setIsOpenModal] = useRecoilState(
     IS_OPEN_MODAL_CREATE_PLAYLIST
   );
-  const selectedTheSongByUser = useRecoilValue(SELECTED_THE_SONG_BY_USER);
+  const selectedTheSongByUser: TUserPlaylists | null =
+    useRecoilValue<TUserPlaylists | null>(SELECTED_THE_SONG_BY_USER);
 
-  const handelUploadImage = (e) => {
+  const handelUploadImage = (e: any) => {
     const selectedFile = e.target.files[0];
     setUploadImage(selectedFile);
   };
@@ -77,27 +77,26 @@ const CreatePlaylist = () => {
     };
     try {
       mutate(
-          "/supabase/reads/UserPlaylists",
-          setUserDataOnSupabase("UserPlaylists", newPlaylist),
-          {
-            optimisticData: userPlaylists && [...userPlaylists , newPlaylist],
-            populateCache : false,
-            revalidate: true,
-            rollbackOnError: true,
-          }
+        "/supabase/reads/UserPlaylists",
+        setUserDataOnSupabase("UserPlaylists", newPlaylist),
+        {
+          optimisticData: userPlaylists && [...userPlaylists, newPlaylist],
+          populateCache: false,
+          revalidate: true,
+          rollbackOnError: true,
+        }
       );
-      toast.success("The playlist was created successfully")
+      toast.success("The playlist was created successfully");
       setIsOpenModal(false);
       setUploadImage(null);
-    }
-    catch (e) {
-      toast.error("Something went wrong in create playlist")
+    } catch (e) {
+      toast.error("Something went wrong in create playlist");
     }
   };
 
   return (
     <Modal
-      size={"xl"}
+      size={["xs", "sm", "lg", "xl"]}
       isCentered={true}
       isOpen={isOpenModal}
       onClose={() => setIsOpenModal((prevState) => !prevState)}
@@ -111,7 +110,7 @@ const CreatePlaylist = () => {
         </ModalHeader>
 
         <ModalBody bg={"#252525"}>
-          <HStack>
+          <Stack direction={["column", "column", "row"]}>
             <VStack flex={1}>
               <Box
                 w={210}
@@ -121,7 +120,7 @@ const CreatePlaylist = () => {
                 overflow={"hidden"}
               >
                 <Image
-                  src={selectedTheSongByUser?.album?.images[0].url}
+                  src={selectedTheSongByUser?.album?.images[0].url || "/"}
                   layout={"fill"}
                   objectFit={"cover"}
                 />
@@ -135,7 +134,7 @@ const CreatePlaylist = () => {
                   bg={"blackAlpha.800"}
                 >
                   <Button
-                    onClick={() => inputRef.current.click()}
+                    onClick={() => inputRef?.current?.click()}
                     size={"sm"}
                     leftIcon={<Icon as={BiSolidEdit} />}
                   >
@@ -194,7 +193,7 @@ const CreatePlaylist = () => {
                 onChange={(e) => setDescription(e.target.value)}
               />
             </VStack>
-          </HStack>
+          </Stack>
         </ModalBody>
 
         <ModalFooter bg={"#252525"}>

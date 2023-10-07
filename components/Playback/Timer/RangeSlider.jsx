@@ -4,7 +4,7 @@ import {useRecoilState} from "recoil";
 import {PLAYBACK_ELAPSED_TIME} from "../../../recoil/atoms/atoms";
 import useMilliseconds from "../../../hooks/useMilliseconds";
 
-export const RangeSlider = React.forwardRef((props, ref : any) => {
+export const RangeSlider = React.forwardRef((props, ref ) => {
 
     const [elapsedTime, setElapsedTime] = useRecoilState(PLAYBACK_ELAPSED_TIME);
 

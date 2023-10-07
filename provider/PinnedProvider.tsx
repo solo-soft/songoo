@@ -1,11 +1,10 @@
-import {TSession} from "../components/TSession";
 import useSWR from "swr";
 import getUserDataOnSupabase from "../supabase/reads/getUserDataOnSupabase";
 import {createContext, ReactNode} from "react";
 import useFetchSwr from "../hooks/useFetchSwr";
 import {TPinned} from "../components/Dashboard/TDashboard";
 
-export const PinnedContext = createContext<TPinned[] | undefined>(undefined);
+export const PinnedContext = createContext<TPinned[] | undefined | null>(undefined);
 
 const PinnedProvider = ({children} : {children : ReactNode}) => {
 
@@ -13,11 +12,11 @@ const PinnedProvider = ({children} : {children : ReactNode}) => {
 
     const { data: session } = useSWR("/api/getUserSession");
 
-    const { data: pinnedSongs } : {data : Array<TPinned> | undefined  | null } = swrFetcher<TPinned[]>(
+    const { data: pinnedSongs } : {data : Array<TPinned> | undefined  | null } = swrFetcher<TPinned[] | undefined  | null>(
         "/supabase/reads/UserPinned",
         session.user ? () => getUserDataOnSupabase("UserPinned", session) : null,
         {
-            keepPreviousData : true
+            keepPreviousData : false
         }
     );
     return (

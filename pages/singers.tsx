@@ -14,20 +14,14 @@ export default function singers({fallback} : {fallback : {}}) {
 }
 
 export const getServerSideProps = async ({req} : {req : NextApiRequest}) => {
-
     const session =  verifyToken(req)
-
-    const GET_SEVERAL_ARTISTS_FOR_PICKUP = await fetcherQuery(SCHEMA_SEVERAL_ARTISTS)
-
     return {
         props: {
             fallback: {
                 "/api/getUserSession" : session ,
-                "GET_SEVERAL_ARTISTS_FOR_PICKUP": GET_SEVERAL_ARTISTS_FOR_PICKUP
             }
         }
     }
-
 }
 
 

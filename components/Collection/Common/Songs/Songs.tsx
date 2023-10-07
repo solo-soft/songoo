@@ -5,11 +5,8 @@ import Images from "./Images";
 import Playback from "./Playback";
 import Menu from "./Menu";
 import Duration from "../../../#General/Duration";
-import Likes from "../../../#General/Likes";
 import Albums from "./Albums";
-import _ from "lodash";
-import { TCollection, TCollectionContext } from "../../TCollection";
-import { CollectionContext } from "../../../../provider/CollectionProvider/CollectionProvider";
+import { TCollection } from "../../TCollection";
 
 export type TSongs = {
   songs: Partial<TCollection["song_info"]>;

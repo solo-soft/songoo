@@ -1,6 +1,5 @@
 import {gql} from "@apollo/client";
-import {client} from "../../client/client";
-import {apolloClient} from "../../client/initializeClient";
+import {apolloClient} from "../../client/SpotifyClient(AccessToken)";
 
 
 
@@ -52,10 +51,10 @@ const query = gql`
 `
 
 
-export const getSearchResult = async (value) => {
+export const getSearchResult = async (value : any) => {
 
 
-    const {client} = await apolloClient
+    const {client} : any = await apolloClient
 
     try {
         const {data, error} = await client.query({query, variables: {value}})

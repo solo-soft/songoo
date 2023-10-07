@@ -4,6 +4,7 @@ import Controller from "../../../../#General/Controller";
 import { useRecoilValue } from "recoil";
 import { PLAYBACK_INFORMATION } from "../../../../../recoil/atoms/atoms";
 import {TRecentlyPlayed} from "../TRecentlyPlayed";
+import useSWR from "swr";
 
 type TImage = {
   song_info: Partial<TRecentlyPlayed["song_info"]>;
@@ -12,15 +13,16 @@ type TImage = {
 };
 
 const Images = ({ song_info, songsIndex, listOfSongs } : TImage) => {
-
+  const { data: session } = useSWR("/api/getUserSession");
   const playbackInformation = useRecoilValue(PLAYBACK_INFORMATION);
 
   const check = playbackInformation.idsOfSongs === song_info.id;
 
+
   return (
     <Box
-      w={["full", "full", "full", 50, 50, 55]}
-      h={[85, 120, 165, 50, 50, 55]}
+      w={["full", "full", "full", 65, 65, 65]}
+      h={[85, 120, 165, 65, 65, 65]}
       bg={"#693672"}
       position={"relative"}
     >
@@ -34,6 +36,7 @@ const Images = ({ song_info, songsIndex, listOfSongs } : TImage) => {
       />
       <AbsoluteCenter>
         <Controller
+          session={session}
           toRecently={false}
           idsOfSongs={song_info.id}
           indexOfSongs={songsIndex}

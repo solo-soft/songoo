@@ -7,6 +7,7 @@ import Duration from "../../../../#General/Duration";
 import { TActionsTypes } from "../../../TDashboard";
 import { TSongs } from "../../../../TMainData";
 import Albums from "../../TopTracks/Tracks/Albums/Albums";
+import useSWR from "swr";
 
 export type TPinnedTracks = {
   songs: TActionsTypes;
@@ -14,10 +15,12 @@ export type TPinnedTracks = {
   listOfSongs: Partial<TSongs["tracks"]>;
 };
 const Tracks = ({ songs, songIndex, listOfSongs }: TPinnedTracks) => {
+  const { data: session } = useSWR("/api/getUserSession");
   return (
     <HStack role={"group"} w={"full"} rounded={10}>
       <HStack flex={3}>
         <Controller
+          session={session}
           idsOfSongs={songs?.song_info.id}
           indexOfSongs={songIndex}
           arrayOfSongs={listOfSongs}
