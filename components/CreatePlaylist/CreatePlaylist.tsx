@@ -46,7 +46,7 @@ const CreatePlaylist = () => {
 
   const { data: userPlaylists } = swrFetcher(
     "/supabase/reads/UserPlaylists",
-    () => getUserDataOnSupabase("UserPlaylists", session),
+    session.user ? () => getUserDataOnSupabase("UserPlaylists", session) : null,
     { keepPreviousData: false }
   );
 

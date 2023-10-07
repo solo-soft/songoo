@@ -5,14 +5,15 @@ import _ from "lodash";
 import { useTheme } from "@chakra-ui/react";
 import { TArtist } from "../../../TMainData";
 import useSubscribeAction from "../../../../hooks/useSubscribeAction";
+import useSWR from "swr";
 
 const Images = ({ artist }: { artist: TArtist | undefined }) => {
   const theme = useTheme();
   const router = useRouter();
-
+  const { data: session } = useSWR("/api/getUserSession");
   const { subscribeAction, checkSubscription } = useSubscribeAction();
 
-  const { secondary, tertiary } = _.get(theme, "background.section.suggest");
+  const {tertiary} = _.get(theme, "background.section.suggest");
 
   return (
     <Stack
@@ -49,7 +50,7 @@ const Images = ({ artist }: { artist: TArtist | undefined }) => {
         >
           See more
         </Button>
-        {artist ? (
+        {artist && session.user ? (
           checkSubscription(artist) ? (
             <Button
               onClick={() => subscribeAction(artist)}

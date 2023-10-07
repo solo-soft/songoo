@@ -45,7 +45,6 @@ export default function Home({
         <RecentlyProvider>
           <PinnedProvider>
             <Main />
-            <CreatePlaylist />
           </PinnedProvider>
         </RecentlyProvider>
       </SWRConfig>
