@@ -9,21 +9,23 @@ import ErrorAlert from "./Modals/ErrorAlert";
 import RetryToast from "./Modals/RetryToast";
 import NetworkAlert from "./Modals/NetworkAlert";
 import "react-toastify/dist/ReactToastify.min.css";
+import {useRouter} from "next/router";
 
 export default function Layout({ children }: { children: ReactNode }) {
-
+  const router = useRouter()
   const { detectConnection } = useDetectConnection();
   const errorHandler = useRecoilValue(ERROR_INFO);
-
+  const persistRender = ["/login" , "/signup"]
   return (
-    <Box bg={"#181616"}>
+
       <Box
         position={"relative"}
         overflowX={"hidden"}
         maxW={1920}
         px={5}
-        h={"100vh"}
+        h={"100svh"}
         m={"auto"}
+        bg={"#181616"}
       >
         <ToastContainer
           position={"bottom-center"}
@@ -44,13 +46,13 @@ export default function Layout({ children }: { children: ReactNode }) {
             <ErrorAlert />
             <Box pointerEvents={errorHandler.retry ? "none" : "auto"}>
               {children}
-              <Playback />
+                {persistRender.every(value => value !== router.pathname) ? <Playback /> : null}
             </Box>
           </>
         ) : (
           <NetworkAlert />
         )}
       </Box>
-    </Box>
+
   );
 }

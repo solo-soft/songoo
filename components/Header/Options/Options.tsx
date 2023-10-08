@@ -2,6 +2,7 @@ import { HStack } from "@chakra-ui/react";
 import { Searchbar } from "./Search/Searchbar/Searchbar";
 import ThemeColor from "./ThemeControl/ThemeColor";
 import Direction from "./Directions/Direction";
+import Home from "./Directions/Home/Home";
 
 const Options = () => {
   return (
@@ -14,9 +15,7 @@ const Options = () => {
       justify={"center"}
     >
       <Searchbar />
-
       <Direction />
-
       <ThemeColor />
     </HStack>
   );

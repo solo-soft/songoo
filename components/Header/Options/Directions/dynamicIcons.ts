@@ -1,8 +1,7 @@
 import {AiFillHeart, AiFillHome, AiOutlineHistory} from "react-icons/ai";
 import {BiSolidDashboard, BiSolidPlaylist} from "react-icons/bi";
 
-export const dynamicIcons = (pathname: string) => {
-    const check = pathname === "/dashboard";
+export const dynamicIcons = () => {
     return [
         {
             name: "likes",
@@ -23,10 +22,10 @@ export const dynamicIcons = (pathname: string) => {
             direction: "/collection/playlists/list",
         },
         {
-            name: check ? "home" : "dashboard",
-            icon: check ? AiFillHome : BiSolidDashboard,
-            identity: check ? "home" : "dashboard",
-            direction: check ? "/" : "/dashboard",
+            name: "dashboard",
+            icon:  BiSolidDashboard,
+            identity: "dashboard",
+            direction:"/dashboard",
         },
     ];
 };

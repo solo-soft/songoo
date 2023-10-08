@@ -4,6 +4,7 @@ import useSWR from "swr";
 import { useRouter } from "next/router";
 import { dynamicIcons } from "./dynamicIcons";
 import { IconType } from "react-icons";
+import Home from "./Home/Home";
 
 type TDynamicIcons = {
   name: string;
@@ -21,7 +22,7 @@ const Direction = () => {
 
   const router = useRouter();
 
-  const renderIcons: JSX.Element[] = dynamicIcons(router.pathname).map(
+  const renderIcons: JSX.Element[] = dynamicIcons().map(
     ({ name, icon, identity, direction }: TDynamicIcons) => {
       const optionColors = _.get(theme, `icons.color.${[identity]}`);
       return (
@@ -42,7 +43,12 @@ const Direction = () => {
     }
   );
 
-  return <>{renderIcons}</>;
+  return (
+    <>
+      {renderIcons}
+      <Home />
+    </>
+  );
 };
 
 export default Direction;

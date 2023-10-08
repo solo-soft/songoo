@@ -1,4 +1,4 @@
-import {Show, Stack, VStack} from "@chakra-ui/react";
+import { Show, Stack, VStack } from "@chakra-ui/react";
 import { useEffect } from "react";
 import Artist from "~/Artist";
 import Songs from "~/Songs";
@@ -13,7 +13,11 @@ import { SCHEMA_ARTISTS_ID } from "../../graphQl/query/schema/getIdArtistByName"
 import { SCHEMA_ARTISTS_INFO } from "../../graphQl/query/schema/getArtistInfoById";
 import { TArtistInfo } from "../TMainData";
 import { randomSingerUSIds } from "../../utils/randomBestArtists";
-import {ScaleLoader} from "react-spinners";
+import { ScaleLoader } from "react-spinners";
+
+type TArtistsIdsByName = {
+  find:{ __typename: string; artists: { items: Array<{ id: string }> }} | undefined;
+};
 
 const Suggest = () => {
   const artistsNames = useRecoilValue<undefined | string>(ARTISTS_NAME);
@@ -23,61 +27,39 @@ const Suggest = () => {
 
   const { swrFetcher } = useFetchSwr();
 
-  const {
-    data: { find } = { find: undefined },
-  }: {
-    data:
-      | {
-          find:
-            | { __typename: string; artists: { items: Array<{ id: string }> } }
-            | undefined;
-        }
-      | undefined;
-  } = swrFetcher<TArtistId | undefined>(
-    ["/graphql/query/schema/getArtistsByName", artistsNames],
-    artistsNames
-      ? ([_, singerName]) =>
-          fetcherQuery(SCHEMA_ARTISTS_ID, {
-            name: singerName || randomSingerUS,
-          })
-      : null,
-    {
-      keepPreviousData: false,
-      onFocus: true,
-    }
-  );
+  const { data: getArtistsIds }: { data: TArtistsIdsByName | undefined } =
+    swrFetcher<TArtistId | undefined>(
+      ["/graphql/query/schema/getArtistsByName", artistsNames],
+      artistsNames
+        ? ([_, singerName]) =>
+            fetcherQuery(SCHEMA_ARTISTS_ID, {
+              name: singerName || randomSingerUS,
+            })
+        : null,
+      {
+        keepPreviousData: false,
+        onFocus: true,
+      }
+    );
 
-  const {
-    data: { artist, songs, related } = {
-      artist: undefined,
-      songs: undefined,
-      related: undefined,
-    },
-  }: {
-    data:
-      | {
-          artist: TArtist | undefined;
-          songs: TSongs | undefined;
-          related: TRelated | undefined;
-        }
-      | undefined;
-  } = swrFetcher<TArtistInfo | undefined>(
-    ["/graphql/query/schema/getArtistById", artistsIds],
-    artistsIds
-      ? ([_, artistsIds]) =>
-          fetcherQuery(SCHEMA_ARTISTS_INFO, { artistId: artistsIds })
-      : null,
-    {
-      keepPreviousData: true,
-      onFocus: true,
-    }
-  );
+  const { data: artistsInformation }: { data: TArtistInfo | undefined } =
+    swrFetcher<TArtistInfo | undefined>(
+      ["/graphql/query/schema/getArtistById", artistsIds],
+      artistsIds
+        ? ([_, artistsIds]) =>
+            fetcherQuery(SCHEMA_ARTISTS_INFO, { artistId: artistsIds })
+        : null,
+      {
+        keepPreviousData: true,
+        onFocus: true,
+      }
+    );
 
   useEffect(() => {
     setArtistsIds(randomSingerUSIds);
   }, []);
 
-  const artistPickId = find?.artists?.items[0]?.id;
+  const artistPickId = getArtistsIds?.find?.artists?.items[0]?.id;
 
   useEffect(() => {
     if (artistPickId) {
@@ -93,24 +75,22 @@ const Suggest = () => {
       h={["auto", "auto", "auto", "100vh"]}
       pb={[8, 8, 0]}
     >
-        {
-            artist && songs && related ?
-                <Stack direction={["column", "column", "column", "row"]}>
-                    <Related related={related} />
-                    <Artist artist={artist} />
-                    <Songs songs={songs} />
-                </Stack>
-                :
-            <>
-                <Show above={"lg"}>
-                    <ScaleLoader width={25} height={80} color="#7886FF" />
-                </Show>
-                <Show below={"lg"}>
-                    <ScaleLoader width={5} height={25} color="#7886FF" />
-                </Show>
-            </>
-
-        }
+      {artistsInformation ? (
+        <Stack direction={["column", "column", "column", "row"]}>
+          <Related related={artistsInformation?.related} />
+          <Artist artist={artistsInformation?.artist} />
+          <Songs songs={artistsInformation?.songs} />
+        </Stack>
+      ) : (
+        <>
+          <Show above={"lg"}>
+            <ScaleLoader width={25} height={80} color="#7886FF" />
+          </Show>
+          <Show below={"lg"}>
+            <ScaleLoader width={5} height={25} color="#7886FF" />
+          </Show>
+        </>
+      )}
     </VStack>
   );
 };

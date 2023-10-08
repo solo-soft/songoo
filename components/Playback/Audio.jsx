@@ -57,7 +57,7 @@ const Audio = ({ playbackRef, prev, scraperUrlLink }) => {
       toast({
         title: "Preview unavailable. please join to enjoy the full music",
         status: "error",
-        position: "bottom-left",
+        position: "top-left",
       });
     }
 
@@ -65,8 +65,8 @@ const Audio = ({ playbackRef, prev, scraperUrlLink }) => {
       toast({
         title:
           "This is the preview of the song, please join to enjoy the full music",
-        status: "info",
-        position: "bottom-left",
+        status: "warning",
+        position: "top-left",
       });
     }
   }, [prev]);

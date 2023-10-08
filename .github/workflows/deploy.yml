@@ -24,21 +24,12 @@ jobs:
       - name: Build Next.js app
         run: npm run build
 
-      - name: Deploy to GitHub Pages
-        run: |
-          git config --global user.email "rezaeiism@yahoo.com"
-          git config --global user.name "isrezaei"
-          git checkout --orphan gh-pages
-          cp -r ./out/* .
-          git add .
-          git commit -m "Deploy to GitHub Pages"
-          git push origin gh-pages --force
         env:
-          NEXT_PUBLIC_BASE_URL : http://localhost:3000
-          NEXT_PUBLIC_SPOTIFY_CLIENT_ID: d6ff4227223a46c0aacc733d61205aee
-          NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET: 778165ea9962412f8d60f5f570c5c410
-          NEXT_PUBLIC_SPOTIFY_REFRESH_TOKEN : AQAx-H2CwsOheHZy4tB-fAONbV6crOAGRKmI39JZPRfjie7Po41D8cuo4BageAG0Md85YaCVhFfv1PTilDjFstpWxsCxzsJ2bJVfAikeUpkqrFNfyC7QcjIBfZbMXvDOLtpjEvnZ06kXDC_3lZrUcIccYc8q0-cX640gSeRyP3AqoPkdKoXLj0Uc-j43RQ
-          NEXT_PUBLIC_SPOTIFY_SCRAPER_KEY : 3cec8d8c46msha90ce5b12fd7ab4p168338jsn8fdd68f47d24
-          NEXT_PUBLIC_SUPABASE_KEY : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndhbWl6d3BhcXBrYnp1cWV2YWhuIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzY0NjUwNTMsImV4cCI6MTk5MjA0MTA1M30.c0lOyaX3u0-otvKzIZOES7Wm7NWJ1xfMnpNYNWyMMDY
-          NEXT_PUBLIC_SUPABASE_URL : https://wamizwpaqpkbzuqevahn.supabase.co
-          SECRET_KEY : 19LCJ1c2VyX21ldGFkYXRhIjp7fSwicm9sZSI6ImF1dGhlbn
+          NEXT_PUBLIC_BASE_URL : ${{secrets.NEXT_PUBLIC_BASE_URL}}
+          NEXT_PUBLIC_SPOTIFY_CLIENT_ID: ${{secrets.NEXT_PUBLIC_SPOTIFY_CLIENT_ID}}
+          NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET: ${{secrets.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET}}
+          NEXT_PUBLIC_SPOTIFY_REFRESH_TOKEN : ${{secrets.NEXT_PUBLIC_SPOTIFY_REFRESH_TOKEN}}
+          NEXT_PUBLIC_SPOTIFY_SCRAPER_KEY : ${{secrets.NEXT_PUBLIC_SPOTIFY_SCRAPER_KEY}}
+          NEXT_PUBLIC_SUPABASE_KEY : ${{secrets.NEXT_PUBLIC_SUPABASE_KEY}}
+          NEXT_PUBLIC_SUPABASE_URL : ${{secrets.NEXT_PUBLIC_SUPABASE_URL}}
+          SECRET_KEY : ${{secrets.SECRET_KEY}}

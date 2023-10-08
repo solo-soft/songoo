@@ -6,7 +6,7 @@ const Video = () => {
     const router = useRouter()
 
   return (
-    <AbsoluteCenter w={"full"} h={"100vh"}  zIndex={1000}>
+    <AbsoluteCenter w={"full"} h={"100vh"} zIndex={1000}>
       <motion.div
           initial={{opacity : 0}}
           animate={{opacity : "30%"}}
@@ -17,7 +17,7 @@ const Video = () => {
             height: "100vh",
             width : "100%"
           }}
-          src={router.pathname === "/signup" ? "/dance2.mp4" : "/dance1.mp4"}
+          src={router.pathname === "/signup" ? "/dance2.mp4" : "/dance3.mp4"}
           loop
           muted
           autoPlay
