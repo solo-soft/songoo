@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { dynamicIcons } from "./dynamicIcons";
 import { IconType } from "react-icons";
 import Home from "./Home/Home";
+import Singers from "./Singers/Singers";
 
 type TDynamicIcons = {
   name: string;
@@ -47,6 +48,7 @@ const Direction = () => {
     <>
       {renderIcons}
       <Home />
+      <Singers/>
     </>
   );
 };

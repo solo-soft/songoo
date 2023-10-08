@@ -7,9 +7,14 @@ import {NextApiRequest} from "next";
 
 export default function singers({fallback} : {fallback : {}}) {
     return (
-        <SWRConfig value={{fallback}}>
-            <Singers/>
-        </SWRConfig>
+        <>
+            <title>
+                Singers
+            </title>
+            <SWRConfig value={{fallback}}>
+                <Singers/>
+            </SWRConfig>
+        </>
     )
 }
 

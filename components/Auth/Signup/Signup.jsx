@@ -13,8 +13,10 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import notification from "../../../lib/notification";
 import RouteButton from "../Common/RouteButton";
+import { useRouter } from "next/router";
 
-const Signup = ({ login }) => {
+const Signup = () => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -45,10 +47,13 @@ const Signup = ({ login }) => {
       const status = await res.status;
 
       setStatus(false);
-      if (status === 200)
-        return notification(signupToast, info.message, "success");
-      if (status === 400)
+      if (status === 200) {
+        notification(signupToast, info.message, "success");
+        return router.push("/");
+      }
+      if (status === 400) {
         return notification(signupToast, info.message, "error");
+      }
     } catch (e) {
       notification(signupToast, e, "error");
       console.log(e);

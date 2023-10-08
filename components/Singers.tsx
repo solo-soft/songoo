@@ -24,13 +24,13 @@ export const Singers = () => {
   return (
     <>
       <title>singers</title>
+      <Header position={"relative"} />
       <VStack
         justifyContent={"center"}
         h={"100vh"}
         m={"auto"}
         position={"relative"}
       >
-        <Header position={"relative"} />
         <VStack p={5} overflow={"auto"} spacing={5}>
           {singerList && (
             <Grid
@@ -46,7 +46,7 @@ export const Singers = () => {
               {_.sortBy(singerList, "name")?.map(({ singer_info }) => {
                 return (
                   <Box
-                    key={singer_info.id}
+                    key={Math.random()}
                     w={[150, 180, 195, 220]}
                     h={[150, 180, 195, 220]}
                     position={"relative"}

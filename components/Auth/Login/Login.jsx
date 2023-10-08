@@ -21,8 +21,6 @@ const Login = ({ login }) => {
 
   const router = useRouter();
 
-  console.log(login);
-
   const {
     register,
     handleSubmit,

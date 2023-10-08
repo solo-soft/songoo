@@ -9,13 +9,16 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 const PlaylistId = ({ fallback }: { fallback: {} }) => {
   return (
-    <SWRConfig value={{ fallback }}>
-      <CollectionProvider>
-        <Header />
-        <PlaylistsItems />
-        <CreatePlaylist />
-      </CollectionProvider>
-    </SWRConfig>
+      <>
+        <title>Playlist</title>
+        <SWRConfig value={{ fallback }}>
+          <CollectionProvider>
+            <Header />
+            <PlaylistsItems />
+            <CreatePlaylist />
+          </CollectionProvider>
+        </SWRConfig>
+      </>
   );
 };
 
