@@ -22,6 +22,7 @@ const Video = () => {
           muted
           autoPlay
           controls={false}
+          playsInline={true}
         />
       </motion.div>
     </AbsoluteCenter>
