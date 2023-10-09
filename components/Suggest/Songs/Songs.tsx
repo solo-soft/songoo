@@ -53,7 +53,7 @@ const Songs = ({ songs }: { songs: TSongs | undefined}) => {
               bottom={0}
             >
               <Hide below={"sm"}>
-                <Text flex={[0 , 1 , 3 , 3]} fontSize={"xs"} noOfLines={1}>
+                <Text flex={[0 , 1 , 3 , 2]} fontSize={"xs"} noOfLines={1}>
                   {song.name}
                 </Text>
               </Hide>

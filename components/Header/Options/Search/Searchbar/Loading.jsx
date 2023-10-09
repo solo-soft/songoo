@@ -3,8 +3,8 @@ import {Text, VStack} from "@chakra-ui/react";
 
 const Loading = () => {
     return (
-        <VStack>
-            <Text fontSize={25} fontWeight={'bold'}>Wait for result</Text>
+        <VStack h={[550, 450]}>
+            <Text fontSize={"sm"} >Searching...</Text>
         </VStack>
     );
 };

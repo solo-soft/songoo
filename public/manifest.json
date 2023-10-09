@@ -1,12 +1,12 @@
 {
-    "theme_color": "#000",
-    "background_color": "#000",
+    "theme_color": "#7886FF",
+    "background_color": "#7886FF",
     "display": "fullscreen",
     "scope": "/",
     "start_url": "/",
-    "name": "solo area music",
-    "short_name": "solo area",
-    "description": "Listen together",
+    "name": "Songoo",
+    "short_name": "Songoo",
+    "description": "Simple music player",
     "icons": [
         {
             "src": "/icon-192x192.png",

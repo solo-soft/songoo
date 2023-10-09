@@ -17,7 +17,7 @@ const Name = ({songs} : TSongs) => {
     const singersName = _.map(songs?.artists , value => _.capitalize(value.name))
     return (
         <Stack spacing={0} flex={[1 , 1 , 2]}>
-            <Text noOfLines={1} color={fontColor?.secondary} fontSize={["xl" , "xl" , "xl"]} fontWeight={"bold"}>{songs?.name}</Text>
+            <Text noOfLines={1} color={fontColor?.secondary} fontSize={["sm" , "xl" , "xl"]} fontWeight={"bold"}>{songs?.name}</Text>
             <Text noOfLines={1} color={fontColor?.tertiary}  fontSize={["xs" , "xs" , "sm"]}>{singersName.join(" , ")}</Text>
         </Stack>
     );

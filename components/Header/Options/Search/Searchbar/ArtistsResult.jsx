@@ -18,9 +18,9 @@ const ArtistsResult = ({ artists }) => {
 
     <GridItem
       key={artist?.id}
-      p={1}
-      rounded={index === 0 ? 25 : 30}
-      colSpan={{sm : index === 0 ? 1 : "auto" , md : index === 0 ? 2 : "auto"}}
+      p={2}
+      colSpan={{base : index === 0 ? 1 : "auto" , md : index === 0 ? 2 : "auto"}}
+      bg={"#252525"}
     >
       <Stack
         justify={"flex-start"}
@@ -29,14 +29,15 @@ const ArtistsResult = ({ artists }) => {
       >
         <Link href={`/artist/${artist.id}`}>
           <Box
-            w={{sm : index === 0 ? 150 : 50 , md : index === 0 ? 200 : 50}}
-            h={{sm : index === 0 ? 150 : 50 , md : index === 0 ? 200 : 50}}
-
+            w={{base : index === 0 ? 150 : 50 , md : index === 0 ? 200 : 50}}
+            h={{base : index === 0 ? 150 : 50 , md : index === 0 ? 200 : 50}}
             overflow="hidden"
             position="relative"
             cursor="pointer"
+            rounded={5}
           >
             <Image
+              style={{transition : ".5s"}}
               layout="fill"
               objectFit="cover"
               src={
@@ -52,7 +53,7 @@ const ArtistsResult = ({ artists }) => {
         </Link>
         <Text
           zIndex={1}
-          fontSize={{sm : index === 0 ? 15 : 12 , md : index === 0 ? 30 : 13}}
+          fontSize={{base : index === 0 ? 15 : 12 , md : index === 0 ? 30 : 13}}
           fontWeight={index === 0 ? "bold" : "normal"}
           color="whiteAlpha.800"
           noOfLines={1}
@@ -63,11 +64,12 @@ const ArtistsResult = ({ artists }) => {
     </GridItem>
   );
 
+
   return (
-    <VStack flex={1} h={500} align="center">
+    <VStack flex={1}  align="center">
       <Text
         w={"full"}
-        fontSize={{sm : 20 , md :30}}
+        fontSize={{base : 20 , md :30}}
         fontWeight={"bold"}
         color={"whiteAlpha.700"}
       >
@@ -76,7 +78,7 @@ const ArtistsResult = ({ artists }) => {
       <Grid
         w="full"
         overflowY="scroll"
-        templateColumns={{sm : "repeat(1, 1fr)" , md : "repeat(2, 1fr)"}}
+        templateColumns={{base : "repeat(1, 1fr)" , md : "repeat(2, 1fr)"}}
         gap={3}
         sx={{
           "&::-webkit-scrollbar": {

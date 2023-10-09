@@ -11,7 +11,7 @@ const Artists = () => {
 
     return (
         <Text noOfLines={1} fontSize={"2xs"}>
-            {artists?.map((value ) => (<Text onClick={()=> router.push(`/artist/${value.id}`)}>{value.name}</Text>))}
+            {artists?.map((value ) => (<Text key={value.id} onClick={()=> router.push(`/artist/${value.id}`)}>{value.name}</Text>))}
         </Text>
     );
 };

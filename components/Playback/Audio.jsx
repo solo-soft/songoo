@@ -8,7 +8,6 @@ import {
   PLAYBACK_LOADING,
 } from "../../recoil/atoms/atoms";
 import { produce } from "immer";
-import useSWR from "swr";
 
 const Audio = ({ playbackRef, prev, scraperUrlLink }) => {
   const toast = useToast();
@@ -72,15 +71,17 @@ const Audio = ({ playbackRef, prev, scraperUrlLink }) => {
   }, [prev]);
 
   return (
-    <audio
-      onEnded={handelNext}
-      onLoadedData={onLoaded}
-      src={session.user ? scraperUrlLink : prev}
-      autoPlay={true}
-      ref={playbackRef}
-      onLoadStart={onLoadedStart}
-      preload={"auto"}
-    />
+      <>
+        <audio
+            onEnded={handelNext}
+            onLoadedData={onLoaded}
+            src={session.user ? scraperUrlLink : prev}
+            autoPlay={true}
+            ref={playbackRef}
+            onLoadStart={onLoadedStart}
+            preload={"auto"}
+        />
+      </>
   );
 };
 

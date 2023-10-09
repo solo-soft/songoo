@@ -7,7 +7,7 @@ const Albums = ({ songs }: TSongs) => {
   const router = useRouter();
   return (
     <Text
-      fontSize={"sm"}
+      fontSize={["xs" , "xs" , "sm"]}
       onClick={() => router.push(`/album/${songs.album.id}`)}
       noOfLines={1}
       as={"u"}

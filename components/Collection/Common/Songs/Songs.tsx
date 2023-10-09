@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Center, Divider, HStack, Text, useTheme } from "@chakra-ui/react";
+import {Center, Divider, Hide, HStack, Text, useTheme} from "@chakra-ui/react";
 import Name from "./Name";
 import Images from "./Images";
 import Playback from "./Playback";
@@ -27,7 +27,9 @@ const Songs = ({ songs, songsIndex }: TSongs) => {
       <Playback {...props} />
       <Name {...props} />
       <Duration {...props} />
-      <Albums {...props} />
+        <Hide below={"md"}>
+            <Albums {...props} />
+        </Hide>
       <Menu {...props} />
     </HStack>
   );

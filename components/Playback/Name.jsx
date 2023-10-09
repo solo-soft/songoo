@@ -10,7 +10,7 @@ const Name = () => {
             flex={1}
             fontWeight={"bold"}
             noOfLines={1}
-            fontSize={"sm"}
+            fontSize={["xs" , "sm"]}
         >
             {name}
         </Text>

@@ -1,4 +1,12 @@
-import { Box, HStack, Spinner, Stack, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  HStack,
+  IconButton,
+  Spinner,
+  Stack,
+  VStack,
+} from "@chakra-ui/react";
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
@@ -17,6 +25,7 @@ import PlayPuse from "./PlayPuse";
 import Images from "./Images";
 import Name from "./Name";
 import Artists from "./Artists";
+import { BiDownload } from "react-icons/bi";
 
 export const Playback = () => {
   const [isMoved, setIsMoved] = useState(false);
@@ -37,15 +46,14 @@ export const Playback = () => {
   const { spotifyScraper } = useScraper();
 
   const { data: scraperInfos } = swrFetcher(
-    ["SpotifyScraper", name],
-    name && session.user
-      ? async ([_, name]) => await spotifyScraper(name)
-      : null,
+    ["SpotifyScraper", id],
+    id && session.user ? async ([_, id]) => await spotifyScraper(id) : null,
     {
       keepPreviousData: false,
       onFocus: false,
     }
   );
+
   useEffect(() => {
     setPlaybackInformation((prev) =>
       produce(prev, (draft) => {
@@ -75,7 +83,7 @@ export const Playback = () => {
   return (
     <motion.div
       initial={{
-        translateY: "0px",
+        translateY: "63px",
         bottom: 0,
         left: 0,
         right: 0,
@@ -88,7 +96,7 @@ export const Playback = () => {
       }}
       animate={{
         bottom: 0,
-        translateY: isMoved ? "-10px" : "65px",
+        translateY: isMoved ? "-10px" : "63px",
       }}
     >
       <VStack position={"relative"} rounded={5} overflow={"hidden"} spacing={0}>
@@ -96,13 +104,13 @@ export const Playback = () => {
           pointerEvents={!!arrayOfSongs.length ? "auto" : "none"}
           w={"full"}
           cursor={"pointer"}
-          h={2}
+          h={3}
           bg={!!arrayOfSongs.length ? "#7886FF" : "#414141"}
           onClick={handleClick}
         />
 
         <HStack
-          w={["xs", "xs", "lg"]}
+          w={["sm", "sm", "lg"]}
           h={65}
           bg={"#252525"}
           align={"center"}
@@ -132,7 +140,19 @@ export const Playback = () => {
                     color={"#7886FF"}
                     size="sm"
                   />
-                ) : null}
+                ) : (
+                  <a
+                    href={scraperInfos?.Downloadurl}
+                    download={scraperInfos?.SongTitle}
+                  >
+                    <IconButton
+                      size={"xs"}
+                      variant={"outline"}
+                      aria-label="Download"
+                      icon={<BiDownload size={15} />}
+                    />
+                  </a>
+                )}
               </HStack>
             </HStack>
 
@@ -142,7 +162,7 @@ export const Playback = () => {
       </VStack>
       <Audio
         prev={preview_url}
-        scraperUrlLink={scraperInfos?.[0]?.url}
+        scraperUrlLink={scraperInfos?.Downloadurl}
         playbackRef={playbackRef}
       />
     </motion.div>

@@ -5,63 +5,46 @@ import useSWR from "swr";
 import { getSeveralCategories } from "../../../../../graphQl/query/schema/getSeveralCategories";
 
 const BrowseAll = () => {
-
-  const { data} = useSWR("/graphql/query/schema/getSeveralCategories", () => getSeveralCategories());
-
-console.log(data)
+  const { data } = useSWR("/graphql/query/schema/getSeveralCategories", () =>
+    getSeveralCategories()
+  );
 
   return (
-    <VStack>
-      <Text
-        fontSize={{sm : 20 , md : 35}}
-        fontWeight={"bold"}
-        color={"whiteAlpha.700"}
-      >
-        Browse all
-      </Text>
-      <Grid
-        h={450}
-        overflowY={"scroll"}
-        templateColumns={{sm : "repeat(2 , 1fr)" , md : "repeat(6 , 1fr)"}}
-        gap={3}
-        sx={{
-            "&::-webkit-scrollbar": {
-                width: "0",
-                height: "0",
-            },
-            scrollbarWidth: "none",
-            "-ms-overflow-style": "none",
-        }}
-      >
-        {data?.browser?.categories?.items.map((data) => {
-          return (
-            <VStack key={data.id}>
-              <VStack
-                w={{sm : 120 , md : 150}}
-                h={{sm : 85 , md : 95}}
-                position={"relative"}
-                rounded={5}
-                overflow={"hidden"}
-              >
-                <Image
-                  layout={"fill"}
-                  objectFit={"cover"}
-                  src={data.icons[0].url}
-                />
-                <Text
-                  position={"absolute"}
-                  bottom={1}
-                  fontSize={13}
-                  fontWeight={"bold"}
-                >
-                  {data.name}
-                </Text>
-              </VStack>
-            </VStack>
-          );
-        })}
-      </Grid>
-    </VStack>
+    <Grid
+        overflow={"auto"}
+        h={[550, 450]}
+      templateColumns={["repeat(2 , 1fr)" , "repeat(3 , 1fr)" , "repeat(5 , 1fr)" , "repeat(6 , 1fr)"]}
+      gap={3}
+    >
+      {data?.browser?.categories?.items.map((data) => {
+        return (
+          <VStack
+            key={data.id}
+            w={"full"}
+            h={[120 , 135 , 95]}
+            position={"relative"}
+            rounded={5}
+          >
+            <Image
+              style={{transition : ".5s"}}
+              layout={"fill"}
+              objectFit={"cover"}
+              src={data.icons[0].url || "/"}
+              placeholder={"blur"}
+              blurDataURL={data?.icons[0]?.url || "/"}
+            />
+            <Text
+              position={"absolute"}
+              bottom={1}
+              fontSize={13}
+              fontWeight={"bold"}
+            >
+              {data.name}
+            </Text>
+          </VStack>
+        );
+      })}
+    </Grid>
   );
 };
 

@@ -21,6 +21,7 @@ const Video = () => {
           loop
           muted
           autoPlay
+          controls={false}
         />
       </motion.div>
     </AbsoluteCenter>

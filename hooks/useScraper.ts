@@ -1,47 +1,23 @@
-import axios from "axios";
+export const useScraper = () => {
+  return {
+    spotifyScraper: async (id: string) => {
+      const url = `https://spotify-downloader-api.p.rapidapi.com/Home/Download?Tracklink=https://open.spotify.com/track/${id}?si=dae3f80f86934437`;
+      const options = {
+        method: "GET",
+        headers: {
+          "X-RapidAPI-Key":
+            "269926aecemsh263311c0955020ep18fd21jsnd518d7a7071a",
+          "X-RapidAPI-Host": "spotify-downloader-api.p.rapidapi.com",
+        },
+      };
 
-export const  useScraper = () => {
-
-
-
-    return {
-        spotifyScraper : async (name : string) => {
-            // const url = `https://spotify-downloader-api.p.rapidapi.com/Home/Download?Tracklink=https://open.spotify.com/track/${id}?si=dae3f80f86934437`;
-            // const options = {
-            //     method: 'GET',
-            //     headers: {
-            //         'X-RapidAPI-Key': '269926aecemsh263311c0955020ep18fd21jsnd518d7a7071a',
-            //         'X-RapidAPI-Host': 'spotify-downloader-api.p.rapidapi.com'
-            //     }
-            // };
-            //
-            // try {
-            //     const response = await fetch(url, options);
-            //     const result = await response.json();
-            //     return result
-            // } catch (error) {
-            //     console.error(error);
-            // }
-
-            const options = {
-                method: 'GET',
-                url: 'https://spotify-scraper.p.rapidapi.com/v1/track/download/soundcloud',
-                params: {
-                    track: name,
-                    quality: 'hq'
-                },
-                headers: {
-                    'X-RapidAPI-Key': '3cec8d8c46msha90ce5b12fd7ab4p168338jsn8fdd68f47d24',
-                    'X-RapidAPI-Host': 'spotify-scraper.p.rapidapi.com'
-                }
-            };
-
-            try {
-                const response = await axios.request(options);
-                return response?.data?.soundcloudTrack?.audio
-            } catch (error) {
-                console.error(error);
-            }
-        }
-    }
-}
+      try {
+        const response = await fetch(url, options);
+        const result = await response.json();
+        return result;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+  };
+};

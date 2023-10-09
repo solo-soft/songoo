@@ -16,7 +16,7 @@ const Playback = ({songs , songsIndex} : TSongs) => {
 
     return (
 
-        <Stack flex={[.3 , .3 , .2]} role={"group"}>
+        <Stack flex={[.4 , .3 , .3]} role={"group"}>
             <Controller
                 session={session}
                 flex={"auto"}
