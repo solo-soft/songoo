@@ -54,7 +54,7 @@ const Tracks = ({ songs } : {songs : TSongs | undefined}) => {
               </Center>
               <Controller
                 session={session}
-                flex={[.2 , .5 , .2 , .15 ]}
+                flex={[1 , .5 , .2 , .15 ]}
                 iconSize={[25 , 25 ,35]}
                 toRecently={true}
                 indexOfSongs={songsIndex}
@@ -62,7 +62,7 @@ const Tracks = ({ songs } : {songs : TSongs | undefined}) => {
                 idsOfSongs={track.id}
               />
 
-              <HStack spacing={5} flex={3}>
+              <HStack spacing={5} flex={[2 , 3]}>
                 <Duration {...props} />
                 <Likes songs={track} />
                 <DotsMenu songs={track} />

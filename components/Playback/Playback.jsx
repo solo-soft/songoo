@@ -108,9 +108,9 @@ export const Playback = () => {
           bg={!!arrayOfSongs.length ? "#7886FF" : "#414141"}
           onClick={handleClick}
         />
-
+        {/*Playback parent*/}
         <HStack
-          w={["sm", "sm", "lg"]}
+          w={["xs", "sm", "lg"]}
           h={65}
           bg={"#252525"}
           align={"center"}

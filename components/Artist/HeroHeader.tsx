@@ -30,8 +30,8 @@ const HeroHeader = ({ artist }: { artist: TArtist | undefined }) => {
         spacing={[2, 2, 5]}
       >
         <Stack
-          w={[210, 210, 280]}
-          h={[210, 210, 280]}
+          w={[210, 210, 250 , 280]}
+          h={[210, 210, 250 , 280]}
           position={"relative"}
           overflow={"hidden"}
           rounded={[25, 25, "full"]}
@@ -57,7 +57,7 @@ const HeroHeader = ({ artist }: { artist: TArtist | undefined }) => {
                 : "linear-gradient(to-r, #ffff , #ffff )"
             }
             bgClip={"text"}
-            fontSize={["3xl", "3xl", "8xl"]}
+            fontSize={["3xl", "3xl", "4xl" , "8xl"]}
             fontWeight={"bold"}
           >
             {artist?.name}
