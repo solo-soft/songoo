@@ -61,11 +61,9 @@ SECRET_KEY:--
 yarn dev
 ```
 
-<h4>Iranian friends should note that they must use vpn, unfortunately 😒</h4>
+<h4>#<b>Iranian friends</b> should note that they must use vpn, unfortunately 😒</h4>
 
 
-  
-  
 <h2>💻 Built with</h2>
 
 Technologies used in the project:
