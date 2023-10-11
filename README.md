@@ -18,7 +18,7 @@ Here're some of the project's best features:
 
 *   Access to music previews in guest mode.
 *   Creating an account and accessing more features.
-*   Subscribing to your favorite readers and artists.
+*   Subscribing to your favorite singers and artists.
 *   Creating custom playlists.
 *   Access to thousands of artists and singers.
 *   The ability to pin your favorite music.
