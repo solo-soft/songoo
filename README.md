@@ -61,6 +61,8 @@ SECRET_KEY:--
 yarn dev
 ```
 
+<h4>Iranian friends should note that they must use vpn, unfortunately 😒</h4>
+
 
   
   
@@ -77,3 +79,5 @@ Technologies used in the project:
 <h2>💖Like my work?</h2>
 
 If you liked this project I would be happy give it a star and if you'd like contribute to making it better :)
+
+
