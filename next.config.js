@@ -15,7 +15,8 @@ module.exports = {
             "daily-mix.scdn.co",
             "i.ytimg.com",
             "inv.bp.projectsegfau.lt"
-        ]
+        ],
+        unoptimized: true,
     },
     eslint: {
         ignoreDuringBuilds: true
